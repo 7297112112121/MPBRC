@@ -1,6 +1,6 @@
-package util.other;
+package util.config;
 
-public interface PasswordForm {
+public interface PasswordConfig {
     /**
      * 用户密码格式--强
      * 密码必须包含大写、小写、数字和特殊字符，且长度是8-32位

@@ -9,7 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
-import user.View.jframe.UserRouter;
+import user.Service.UserRouter;
 import user.Service.register.CreateYangZhengMa;
 import util.time.PhoneCountdown;
 import util.tset.UserPhoneMessage;
@@ -19,7 +19,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static util.other.PasswordForm.PHONE_NUM;
+import static util.config.PasswordConfig.PHONE_NUM;
 
 public class Phone extends MyJPanel implements ActionListener {
     private final static Logger logger = LogManager.getLogger(Phone.class);

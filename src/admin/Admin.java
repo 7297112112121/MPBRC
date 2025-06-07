@@ -2,12 +2,16 @@ package admin;
 
 public class Admin {
     /**
+     * 在线管理员id
+     *
     * 该条信息id
      * 管理员名称
      * 管理员密码
      * 管理员手机号码
      * 管理员工作id
     * */
+    private static int loginID = -1;
+
     private int ID;
     private String name;
     private String password;
@@ -22,6 +26,13 @@ public class Admin {
         this.password = password;
     }
 
+    public Admin(String name, String password, String phone, String workID) {
+        this.name = name;
+        this.password = password;
+        this.phone = phone;
+        this.workID = workID;
+    }
+
     public Admin(int ID, String name, String password, String phone, String workID) {
         this.ID = ID;
         this.name = name;
@@ -29,6 +40,7 @@ public class Admin {
         this.phone = phone;
         this.workID = workID;
     }
+
 
 
 
@@ -71,5 +83,12 @@ public class Admin {
 
     public void setWorkID(String workID) {
         this.workID = workID;
+    }
+
+    public static int getLoginID() {
+        return loginID;
+    }
+    public static void setLoginID(int loginID) {
+        Admin.loginID = loginID;
     }
 }

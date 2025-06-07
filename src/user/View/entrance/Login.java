@@ -9,7 +9,7 @@ import org.apache.logging.log4j.MarkerManager;
 import user.User;
 import user.Service.Loginer;
 import util.erro.SetPasswordExcetion;
-import user.View.jframe.UserRouter;
+import user.Service.UserRouter;
 
 import javax.swing.*;
 import java.awt.*;

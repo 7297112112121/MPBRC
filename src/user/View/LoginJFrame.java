@@ -1,4 +1,4 @@
-package user.View.jframe;
+package user.View;
 
 import user.View.entrance.Login;
 import util.view_tool.MyJFrame;

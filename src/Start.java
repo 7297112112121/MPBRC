@@ -1,12 +1,16 @@
 
+import admin.Serve.AdminRouterServe;
+import data.AdminForm;
 import data.UserForm;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import user.View.jframe.UserRouteMessage;
-import user.View.jframe.UserRouter;
+import user.Service.UserRouteMessage;
+import user.Service.UserRouter;
 import util.db.DataBase;
 import util.log.LogExportMessage;
 import util.tset.UserPhoneMessage;
+
+import static admin.Serve.AdminRouterMessage.AdminJFrame;
 
 /**
 * 程序入口
@@ -23,8 +27,14 @@ public class Start implements UserRouteMessage, LogExportMessage {
         //加载用户数据
         UserForm.loadUsers();
 
+        //加载管理员数据
+        AdminForm.loadAdmins();
+
         //启动用户登录界面
         UserRouter.getRouter().newJFrame(UserJFrame);
+
+        //启动管理员登录界面
+        AdminRouterServe.getRouter().newJFrame(AdminJFrame);
 
         //实时日志监控
 //        try{

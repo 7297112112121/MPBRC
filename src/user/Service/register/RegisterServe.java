@@ -15,7 +15,7 @@ import util.tset.UserPhoneMessage;
 import javax.swing.*;
 
 import static data.UserForm.loadNewUsers;
-import static util.other.PasswordForm.*;
+import static util.config.PasswordConfig.*;
 
 public class RegisterServe {
     private static Logger logger = LogManager.getLogger(RegisterServe.class);

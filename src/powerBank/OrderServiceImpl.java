@@ -1,4 +1,7 @@
-package powerbank;
+package powerBank;
+
+import powerBank.Order;
+import powerBank.OrderService;
 
 import java.sql.*;
 import java.util.List;

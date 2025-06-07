@@ -4,20 +4,20 @@ import user.Service.Loginer;
 import user.Service.register.RegisterServe;
 import user.User;
 import util.erro.*;
-import util.other.PasswordForm;
+import util.config.PasswordConfig;
 import util.view_tool.MyJPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
-import user.View.jframe.UserRouter;
+import user.Service.UserRouter;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Register extends MyJPanel implements ActionListener, PasswordForm {
+public class Register extends MyJPanel implements ActionListener, PasswordConfig {
     private final static Logger logger = LogManager.getLogger(Register.class);
     private static final Marker USER = MarkerManager.getMarker("USER");
     private final JTextField phone;                     //手机号码输入框

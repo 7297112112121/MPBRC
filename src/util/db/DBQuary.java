@@ -21,7 +21,7 @@ public class DBQuary extends DataBase {
             resultSet=statement.executeQuery(sql);
             return resultSet;
         } catch (SQLException e) {
-            logger.warn("数据库服务没有开启，或数据库配置错误，检查DBConfig");
+            logger.warn("数据库服务没有开启，或数据库配置错误，检查DBConfig,若以上都不行，则定位逻辑错误");
             return null;
         }
     }

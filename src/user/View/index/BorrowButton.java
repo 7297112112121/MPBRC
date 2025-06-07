@@ -1,7 +1,7 @@
 package user.View.index;
 
 import util.view_tool.MyJPanel;
-import user.View.jframe.UserRouter;
+import user.Service.UserRouter;
 import user.View.pay.PayMain;
 
 import javax.swing.*;

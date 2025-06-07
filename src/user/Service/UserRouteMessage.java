@@ -1,4 +1,4 @@
-package user.View.jframe;
+package user.Service;
 
 public interface UserRouteMessage {
     /**

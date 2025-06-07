@@ -1,4 +1,4 @@
-package powerbank;
+package powerBank;
 
 import java.util.List;
 

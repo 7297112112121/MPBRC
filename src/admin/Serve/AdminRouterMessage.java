@@ -1,4 +1,4 @@
-package admin.View;
+package admin.Serve;
 
 public interface AdminRouterMessage {
     int AdminMainJFrame = 1;

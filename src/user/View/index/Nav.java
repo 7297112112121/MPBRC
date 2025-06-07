@@ -7,7 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
-import user.View.jframe.UserRouter;
+import user.Service.UserRouter;
 import user.View.message.MessageMain;
 
 import javax.swing.*;

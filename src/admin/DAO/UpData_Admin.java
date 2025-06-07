@@ -1,7 +1,7 @@
 package admin.DAO;
 
 import admin.Admin;
-import data.AdminLogin;
+import admin.Serve.GetServe;
 import util.db.DBUpData;
 import java.util.HashMap;
 /**
@@ -22,7 +22,7 @@ public class UpData_Admin implements AdminSQL {
          * */
         public static boolean upData(Admin frontAdmin) {//参数一：原登录管理员对象,参数二：现需要修改的管理员对象
             boolean fals = false;
-            Admin loginadmin = AdminLogin.getAdmin(); //获得登录管理员对象
+            Admin loginadmin = GetServe.getLoginAdmin(); //获得登录管理员对象
             //修改位置
             updata.put(1, frontAdmin.getName());
             updata.put(2, frontAdmin.getPassword());
@@ -32,7 +32,6 @@ public class UpData_Admin implements AdminSQL {
             updata.put(5, String.valueOf(loginadmin.getID()));
             fals = DBUpData.update(SQL_UPDATE_Admin,updata) > 0;//更新数据库用户信息
             if (fals) {                                     //若更新成功
-                AdminLogin.setAdmin(frontAdmin);                 //更新用户登陆状态表
             }
             updata.clear();           //清空HashMap，防止sql语句冲突
             return fals;

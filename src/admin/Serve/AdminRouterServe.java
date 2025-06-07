@@ -1,8 +1,9 @@
-package admin.View;
+package admin.Serve;
 
-import user.View.jframe.UserRouter;
+import admin.View.AdminMainJFrame;
+import user.Service.UserRouter;
 import util.view_tool.MyJFrame;
-import admin.View.entrance.AdminJFrame;
+import admin.View.AdminJFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
@@ -13,11 +14,11 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class AdminRouter implements AdminRouterMessage {
+public class AdminRouterServe implements AdminRouterMessage {
     private static final Logger logger = LogManager.getLogger(UserRouter.class);
     private static final Marker ADMIN = MarkerManager.getMarker("ADMIN");
     //单例封装——不直接调用本类方法,也利于继承与当作对象使用
-    private static AdminRouter router = new AdminRouter();
+    private static AdminRouterServe router = new AdminRouterServe();
     private  MyJFrame adminMainJFrame ;
     private  MyJFrame adminJFrame     ;
 
@@ -97,7 +98,7 @@ public class AdminRouter implements AdminRouterMessage {
     }
 
     /**
-     * 检查窗口引用
+     * 检查窗口引用，若存在自动显示最前面
      * */
     public void checkJFrame(MyJFrame obj) {
         if (!(obj == null)) {
@@ -110,9 +111,9 @@ public class AdminRouter implements AdminRouterMessage {
     }
 
     /**
-     * 获取窗口引用
+     * 获得窗口
      * */
-    public static AdminRouter getRouter() {
+    public static AdminRouterServe getRouter() {
         return router;
     }
 

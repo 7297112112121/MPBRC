@@ -1,7 +1,7 @@
 package user.View.set;
 
 import util.view_tool.MyJPanel;
-import admin.View.AdminRouter;
+import admin.Serve.AdminRouterServe;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -26,7 +26,7 @@ public class OpenAdminJPanel extends MyJPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
         if (source == openAdmin) {
-            AdminRouter.getRouter().newJFrame(AdminJFrame);
+            AdminRouterServe.getRouter().newJFrame(AdminJFrame);
         }
     }
 

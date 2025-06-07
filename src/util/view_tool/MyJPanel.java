@@ -1,7 +1,7 @@
 package util.view_tool;
 
-import admin.View.AdminRouterMessage;
-import user.View.jframe.UserRouteMessage;
+import admin.Serve.AdminRouterMessage;
+import user.Service.UserRouteMessage;
 
 import javax.swing.*;
 

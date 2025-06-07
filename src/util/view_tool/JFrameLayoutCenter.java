@@ -1,5 +1,8 @@
 package util.view_tool;
 
+/**
+ * 窗口居中
+ * */
 public class JFrameLayoutCenter implements CreateLayout {
     /**
      * 在主窗口位置居中

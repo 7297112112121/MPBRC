@@ -3,7 +3,7 @@ package user.View.index;
 import data.UserForm;
 import user.User;
 import util.view_tool.MyJPanel;
-import user.View.jframe.UserRouter;
+import user.Service.UserRouter;
 
 import javax.swing.*;
 import java.awt.*;

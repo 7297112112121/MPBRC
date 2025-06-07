@@ -1,6 +1,8 @@
-package user.View.jframe;
+package user.Service;
 
 import user.User;
+import user.View.LoginJFrame;
+import user.View.UserMainJFrame;
 import util.view_tool.MyJFrame;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;

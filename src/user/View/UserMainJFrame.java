@@ -1,4 +1,4 @@
-package user.View.jframe;
+package user.View;
 
 import util.view_tool.CreateLayout;
 import util.view_tool.MyJFrame;

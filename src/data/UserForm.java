@@ -19,22 +19,6 @@ public class UserForm {
     private static Multimap<Integer, User> userMap = HashMultimap.create();
     private static final Logger logger = LogManager.getLogger(PaymentTransaction.class);
 
-
-    //根据nameid查找该条用户信息
-    public static User getUser(int nameID) {
-        return userMap.get(nameID).iterator().next();
-    }
-
-    //根据name，password查找用户信息，返回id
-    public static int getUserID(String name, String password) {
-        for (User user : userMap.values()) {
-            if (user.getName().equals(name) && user.getPassword().equals(password)) {
-                return user.getNameID();
-            }
-        }
-        return -1; // 如果没有找到匹配的用户，返回-1
-    }
-
     /**
      * 从数据库加载所有用户
      */
@@ -91,4 +75,23 @@ public class UserForm {
             return null;
         }
     }
+
+
+
+
+    //根据nameid查找该条用户信息
+    public static User getUser(int nameID) {
+        return userMap.get(nameID).iterator().next();
+    }
+
+    //根据name，password查找用户信息，返回id
+    public static int getUserID(String name, String password) {
+        for (User user : userMap.values()) {
+            if (user.getName().equals(name) && user.getPassword().equals(password)) {
+                return user.getNameID();
+            }
+        }
+        return -1; // 如果没有找到匹配的用户，返回-1
+    }
+
 }
