@@ -26,7 +26,7 @@ public class UserPhoneMessage extends MyJFrame {
     /**
      * 验证码消息
      * */
-    public void addYangZhengMa(String mes) {
+    public void getYangZhengMa(String mes) {
         this.message.append("【验证码】您的验证码是："+ mes + "\n"
                 +"，请勿泄露给他人，如非本人操作，请忽略本短信。" + "\n");
     }

@@ -59,6 +59,20 @@ public class UserForm {
     }
 
     /**
+     * 加载数据库最新用户数据
+     * */
+    public static void loadNewUsers() {
+        String sql = "SELECT * FROM user ORDER BY nameID DESC LIMIT 1";
+        ResultSet res = DBQuary.query(sql);
+        try {
+            res.next();
+            User user = createUserFromResultSet(res);
+            userMap.put(user.getNameID(), user);
+        } catch (SQLException e) {
+            logger.warn("查询最新用户失败", e);
+        }
+    }
+    /**
      * 从结果集创建单个用户对象
      */
     private static User createUserFromResultSet(ResultSet res) {

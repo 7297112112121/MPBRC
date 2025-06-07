@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 
-public class Text extends MyJPanel implements user.View.jframe.Text {
+public class Text extends MyJPanel implements user.Service.Text {
     private final JLabel nameLabel;
 
     public Text() {

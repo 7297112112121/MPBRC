@@ -2,21 +2,21 @@ package user.View.message;
 
 import user.User;
 import util.view_tool.MyJPanel;
-import user.View.jframe.Form;
+import util.other.PasswordForm;
 import util.view_tool.JFrameLayoutCenter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import user.View.jframe.UserRouter;
-import user.DAO.UpData_User;
+import user.DAO.UpMessageData_User;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Password extends MyJPanel implements ActionListener, Form {
+public class Password extends MyJPanel implements ActionListener, PasswordForm {
     private static final Logger logger = LogManager.getLogger(Password.class);
     private static final Marker USER = MarkerManager.getMarker("USER");
 
@@ -192,7 +192,7 @@ public class Password extends MyJPanel implements ActionListener, Form {
             if (isPassword(or, nw, re)) {
                 //密码是否符合强度
                 if (isPasswordStrength(nw)) {
-                    if (UpData_User.upDataPassword(nw)) {            //更新成功
+                    if (UpMessageData_User.upDataPassword(nw)) {            //更新成功
                         JOptionPane.showMessageDialog(null, "修改成功", "提示", JOptionPane.INFORMATION_MESSAGE);//退出窗口
                     } else {
                         reText.setText("程序遇到一点小问题，请重新确认，谢谢亲！");//数据库返回错误

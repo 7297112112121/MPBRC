@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import admin.View.AdminRouter;
-import util.erro.FormExcetion;
+import util.erro.SetPasswordExcetion;
 
 import javax.swing.*;
 import java.awt.*;
@@ -74,9 +74,9 @@ public class Admin_Login extends MyJPanel implements ActionListener {
             try{
                 if (Loginer.login(obj)){                                //执行登录
                 }else {
-                    throw new FormExcetion("请检查用户名或密码是否输入正确");
+                    throw new SetPasswordExcetion("请检查用户名或密码是否输入正确");
                 }
-            }catch (FormExcetion e2){
+            }catch (SetPasswordExcetion e2){
                 e2.show();
             }catch (Exception e1){
                 e1.printStackTrace();
@@ -99,14 +99,14 @@ public class Admin_Login extends MyJPanel implements ActionListener {
         try {
             if (getName().isEmpty()) {
                 fals = false;
-                throw new FormExcetion("用户名不能为空");
+                throw new SetPasswordExcetion("用户名不能为空");
             }else if (getPassWord().isEmpty()) {
                 fals = false;
-                throw new FormExcetion("密码不能为空");
+                throw new SetPasswordExcetion("密码不能为空");
             }else {
                 fals = true;
             }
-        } catch (FormExcetion e) {
+        } catch (SetPasswordExcetion e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "提示", JOptionPane.INFORMATION_MESSAGE);
         }
         return fals;

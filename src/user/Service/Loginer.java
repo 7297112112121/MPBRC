@@ -1,4 +1,4 @@
-package user.Service.pay;
+package user.Service;
 
 import admin.DAO.AdminSQL;
 import data.UserForm;
@@ -17,7 +17,7 @@ public class Loginer implements  AdminSQL {
     private static final Logger logger = LogManager.getLogger(Loginer.class);
     private static final Marker USER = MarkerManager.getMarker("USER");
 
-    public static boolean login(Object identity) throws SQLException {
+    public static boolean login(Object identity)  {
         //转为用户对象
         User ViewUser = (User) identity;
         int nameid = UserForm.getUserID(ViewUser.getName(), ViewUser.getPassword());

@@ -1,18 +1,18 @@
 package admin.View.entrance.panel;
 
-import user.View.jframe.Form;
+import util.other.PasswordForm;
 import util.view_tool.MyJPanel;
 import admin.Admin;
 import admin.Serve.Register;
 import admin.View.AdminRouter;
-import util.erro.FormExcetion;
+import util.erro.SetPasswordExcetion;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Admin_Register extends MyJPanel implements Form, ActionListener {
+public class Admin_Register extends MyJPanel implements PasswordForm, ActionListener {
     private final JTextField phone;                     //手机号码输入框
     private final JButton register, login;              //用户注册按钮
     private final JTextField username;                  //用户名输入框
@@ -107,27 +107,27 @@ public class Admin_Register extends MyJPanel implements Form, ActionListener {
         try{
             if (getName().isEmpty()) {
                 fals = false;
-                throw new FormExcetion("用户名不能为空");
+                throw new SetPasswordExcetion("用户名不能为空");
             }else if (getPassWord().isEmpty()) {
                 fals = false;
-                throw new FormExcetion("密码不能为空");
+                throw new SetPasswordExcetion("密码不能为空");
             } else if (getPhoneText().isEmpty()) {
                 fals = false;
-                throw new FormExcetion("手机号码不能为空");
+                throw new SetPasswordExcetion("手机号码不能为空");
             } else if (!isPassword()) {                     //密码格式
                 fals = false;
-                throw new FormExcetion(PWD_B_TEXT);
+                throw new SetPasswordExcetion(PWD_B_TEXT);
             }else if (!isPhoneForm()) {                     //手机号码格式
                 fals = false;
-                throw new FormExcetion(PHONE_TEXT);
+                throw new SetPasswordExcetion(PHONE_TEXT);
             }else if (getWorkID().isEmpty()) {
                 fals = false;
-                throw new FormExcetion("工号不能为空");
+                throw new SetPasswordExcetion("工号不能为空");
             } else if (isWorkID()) {
                 fals = false;
-                throw new FormExcetion(WORK_ID_TEXT);       //工号格式
+                throw new SetPasswordExcetion(WORK_ID_TEXT);       //工号格式
             }
-        }catch (FormExcetion e) {
+        }catch (SetPasswordExcetion e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
         }
         return fals;

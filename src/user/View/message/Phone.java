@@ -1,6 +1,7 @@
 package user.View.message;
 
 
+import user.DAO.UpMessageData_User;
 import user.User;
 import util.view_tool.MyJPanel;
 import util.view_tool.JFrameLayoutCenter;
@@ -9,8 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import user.View.jframe.UserRouter;
-import user.DAO.UpData_User;
-import util.random.Phone_Yangzhengma;
+import user.Service.register.CreateYangZhengMa;
 import util.time.PhoneCountdown;
 import util.tset.UserPhoneMessage;
 
@@ -19,7 +19,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static user.View.jframe.Form.PHONE_NUM;
+import static util.other.PasswordForm.PHONE_NUM;
 
 public class Phone extends MyJPanel implements ActionListener {
     private final static Logger logger = LogManager.getLogger(Phone.class);
@@ -110,7 +110,7 @@ public class Phone extends MyJPanel implements ActionListener {
         Object source = e.getSource();
         if (source == submit && !isNull() && isPhone() && !isOldPhone() && isYanzheng()) {
             //输入不为空,符合手机号码格式,不是原手机号码
-            UpData_User.upDataPhone(getNewPhone());
+            UpMessageData_User.upDataPhone(getNewPhone());
             UserRouter.getRouter().removeJFrame(UserUpDataPhone);
             JOptionPane.showMessageDialog(null, "修改成功", "提示", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -122,8 +122,8 @@ public class Phone extends MyJPanel implements ActionListener {
         if (source == send && !isNull() && isPhone() && !isOldPhone()) {
             //发送验证码
             remind.setText("验证码已发送");
-            number = Phone_Yangzhengma.verificationNum(6);
-            UserPhoneMessage.getUserPhoneMessage().addYangZhengMa(number);
+            number = CreateYangZhengMa.verificationNum(6);
+            UserPhoneMessage.getUserPhoneMessage().getYangZhengMa(number);
             logger.info(USER,"发送验证码成功: {}", number);
             //启动计时启，60s后重新设置文字为：发送验证码
             new PhoneCountdown().createCountdown(60,send);

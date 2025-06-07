@@ -2,8 +2,8 @@ package util.erro;
 
 import javax.swing.*;
 
-public class FormExcetion extends RuntimeException {
-    public FormExcetion(String message) {
+public class SetPasswordExcetion extends RuntimeException {
+    public SetPasswordExcetion(String message) {
         super(message);
     }
     /**

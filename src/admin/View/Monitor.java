@@ -2,7 +2,7 @@ package admin.View;
 
 import util.view_tool.MyJFrame;
 import util.view_tool.RenderingPanel;
-import user.Service.pay.UserAction;
+import user.Service.UserAction;
 
 import javax.swing.*;
 import java.awt.*;

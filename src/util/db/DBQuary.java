@@ -1,5 +1,8 @@
 package util.db;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,7 +10,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class DBQuary extends DataBase {
-
+    private static Logger logger = LogManager.getLogger(DBQuary.class);
 
     /**
      * 普通查询（不建议使用，存在sql注入问题）
@@ -18,7 +21,8 @@ public class DBQuary extends DataBase {
             resultSet=statement.executeQuery(sql);
             return resultSet;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            logger.warn("数据库服务没有开启，或数据库配置错误，检查DBConfig");
+            return null;
         }
     }
 

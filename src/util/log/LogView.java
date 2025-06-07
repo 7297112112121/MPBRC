@@ -1,6 +1,6 @@
 package util.log;
 
-import user.Service.pay.UserAction;
+import user.Service.UserAction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

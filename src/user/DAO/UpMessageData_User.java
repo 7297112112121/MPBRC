@@ -1,6 +1,5 @@
 package user.DAO;
 
-import data.UserForm;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import user.User;
@@ -13,8 +12,8 @@ import java.sql.SQLException;
 /**
  * 数据更新业务
  * */
-public class UpData_User {
-    private static final Logger logger = LogManager.getLogger(UpData_User.class);
+public class UpMessageData_User {
+    private static final Logger logger = LogManager.getLogger(UpMessageData_User.class);
     private static final Marker USER = MarkerManager.getMarker("USER");
     /**
      * 方案一：一次性全部更新方法

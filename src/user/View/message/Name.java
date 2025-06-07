@@ -2,7 +2,6 @@ package user.View.message;
 
 import data.UserForm;
 import user.User;
-import user.View.jframe.UserMainJFrame;
 import util.view_tool.MyJPanel;
 import util.view_tool.JFrameLayoutCenter;
 import org.apache.logging.log4j.LogManager;
@@ -10,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import user.View.jframe.UserRouter;
-import user.DAO.UpData_User;
+import user.DAO.UpMessageData_User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -84,7 +83,7 @@ public class Name extends MyJPanel implements ActionListener {
             String na = name.getText();
             if (!na.isEmpty()) {                    //非空
                 if (!(na.equals(User.getUser().getName()))){   //名字不重复
-                    if(UpData_User.upDataName(na)) {                        //更新成功
+                    if(UpMessageData_User.upDataName(na)) {                        //更新成功
                         UserRouter.getTabPanel().update(new MessageMain());
                     }else {
                         remind.setText("程序遇到一点小问题，请重新确认，谢谢亲！");//数据库返回错误

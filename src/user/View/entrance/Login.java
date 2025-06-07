@@ -1,14 +1,14 @@
 package user.View.entrance;
 
 import util.view_tool.MyJPanel;
-import user.View.jframe.Text;
+import user.Service.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import user.User;
-import user.Service.pay.Loginer;
-import util.erro.FormExcetion;
+import user.Service.Loginer;
+import util.erro.SetPasswordExcetion;
 import user.View.jframe.UserRouter;
 
 import javax.swing.*;
@@ -120,9 +120,9 @@ public class Login extends MyJPanel implements ActionListener, Text {
                 //退出登录注册窗口
                 UserRouter.getRouter().removeJFrame(UserJFrame);
             }else {
-                throw new FormExcetion("请检查用户名或密码是否输入正确");
+                throw new SetPasswordExcetion("请检查用户名或密码是否输入正确");
             }
-        }catch (FormExcetion e2){
+        }catch (SetPasswordExcetion e2){
             e2.show();
         }catch (Exception e1){
             logger.error(e1.getMessage(),e1);

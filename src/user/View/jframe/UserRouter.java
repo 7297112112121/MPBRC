@@ -123,8 +123,9 @@ public class UserRouter implements UserRouteMessage {
         return userJFrame;
     }
 
+    @Deprecated
     /**
-     * 获得用户窗口渲染面板
+     * 获得用户窗口渲染面板(废弃，请使用用户系统-Server-Get)
      * */
     public static RenderingPanel getTabPanel() {
         return router.getUserMainJFrame().getRendering();

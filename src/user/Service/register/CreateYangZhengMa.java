@@ -1,12 +1,12 @@
-package util.random;
+package user.Service.register;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Random;
 
-public class Phone_Yangzhengma {
-    private final static Logger logger = LogManager.getLogger(Phone_Yangzhengma.class);
+public class CreateYangZhengMa {
+    private final static Logger logger = LogManager.getLogger(CreateYangZhengMa.class);
 
     /**
      * 生成指定长度的随机数字验证码

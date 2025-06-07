@@ -9,7 +9,7 @@ import user.User;
 import util.db.DBQuary;
 import util.db.DBUpData;
 import util.db.DataBase;
-import util.erro.UserException;
+import util.erro.UserObjectException;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -37,7 +37,7 @@ public class RegisterDAO implements  AdminSQL {
             User userUI = (User) obj;
             String sql = "SELECT * FROM user WHERE name = ? AND password = ?";
             if (DBQuary.query(sql, userUI.getName(), userUI.getPassword()).next()) {
-                throw new UserException("用户已存在");
+                throw new UserObjectException("用户已存在");
             }
 
             //user表注册
@@ -81,7 +81,7 @@ public class RegisterDAO implements  AdminSQL {
                 throw new SQLException();
             }
 
-        }catch (UserException e) {
+        }catch (UserObjectException e) {
             logger.info(USER,e.getMessage());
             return false;
         } catch (SQLException e) {

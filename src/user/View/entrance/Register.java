@@ -1,31 +1,29 @@
 package user.View.entrance;
 
-import user.DAO.RegisterDAO;
-import user.View.jframe.Form;
+import user.Service.Loginer;
+import user.Service.register.RegisterServe;
+import user.User;
+import util.erro.*;
+import util.other.PasswordForm;
 import util.view_tool.MyJPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import user.View.jframe.UserRouter;
-import user.User;
-import util.random.Phone_Yangzhengma;
-import util.time.PhoneCountdown;
-import util.tset.UserPhoneMessage;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Register extends MyJPanel implements ActionListener, Form {
+public class Register extends MyJPanel implements ActionListener, PasswordForm {
     private final static Logger logger = LogManager.getLogger(Register.class);
     private static final Marker USER = MarkerManager.getMarker("USER");
     private final JTextField phone;                     //手机号码输入框
     private final JLabel phoneR;                        //手机号提示信息
     private final JButton phoneYanzheng;                //手机号验证码按钮
     private final JTextField phoneYanzhengma;           //手机号验证码输入框
-    private String number;                              //生成的验证码号
 
     private final JButton register, login;              //用户注册按钮
     private final JTextField username;                  //用户名输入框
@@ -42,15 +40,17 @@ public class Register extends MyJPanel implements ActionListener, Form {
     private final JButton reLook;                   //查看密码
     private boolean reLookBool;                     //查看密码状态器
 
+    private final JLabel remind;                            //提示信息
+
     private final  JRadioButton radioButton;        //用户协议单项选择
 
 
     public Register() {
         super();
-        setLayout(new GridLayout(16, 1));
+        setLayout(new GridLayout(15, 1));
 
         //空格标签
-        JLabel space = new JLabel("  ");
+        JLabel space = new JLabel("");
 
         //用户名
         JLabel userLable = new JLabel("用户名：");
@@ -59,14 +59,13 @@ public class Register extends MyJPanel implements ActionListener, Form {
         JPanel namePanel = new JPanel(new GridLayout(1,3));
         namePanel.add(userLable);
         namePanel.add(username);
-        namePanel.add(space);
+        namePanel.add(new JLabel(""));
 
         //用户名提示信息
         userR = new JLabel();
         userR.setForeground(Color.red);
         JPanel userRPanel = new JPanel();
         userRPanel.add(userR);
-        add(userRPanel);
 
         //密码
         JLabel passWordLable = new JLabel("密码：");
@@ -81,7 +80,7 @@ public class Register extends MyJPanel implements ActionListener, Form {
 
         //密码提示信息
         passWordR = new JLabel();
-        passWordR.setForeground(Color.red);
+        passWordR.setText(PWD_B_TEXT);
         JPanel passWordRPanel = new JPanel();
         passWordRPanel.add(passWordR);
 
@@ -128,6 +127,13 @@ public class Register extends MyJPanel implements ActionListener, Form {
         phoneYanzhengPanel.add(phoneYanzhengma);
         phoneYanzhengPanel.add(phoneYanzheng);
 
+        //提示是否注册信息
+        JPanel remindPanel = new JPanel(new GridLayout(1,1));
+        remind = new JLabel();
+        remindPanel.add(remind);
+
+
+        //按钮
         JPanel button = new JPanel(new GridLayout(1,2));
         register = new JButton("用户注册");
         register.setEnabled(false);
@@ -147,6 +153,7 @@ public class Register extends MyJPanel implements ActionListener, Form {
         tipsPanel.add(tips);
 
         //布局
+
         add(namePanel);
         add(userRPanel);
 
@@ -160,6 +167,8 @@ public class Register extends MyJPanel implements ActionListener, Form {
         add(phoneRPanel);
 
         add(phoneYanzhengPanel);
+
+        add(remindPanel);
 
         add(button);
 
@@ -184,35 +193,58 @@ public class Register extends MyJPanel implements ActionListener, Form {
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
+
+        //重置提示信息
+        userR.setText("");
+        passWordR.setText(PWD_B_TEXT);
+        passWordR.setForeground(Color.red);
+        reText.setText("");
+        phoneR.setText("");
+        remind.setText("");
+
         if (source == register) {
-            if (isForm()) {
-                User user = new User(getName(), getPassWord(), getPhoneText());
-                if (RegisterDAO.register(user)) {
-                    //前往注册
-                    UserRouter.getRouter().getUserJFrame().getRendering().update(new Login());
-                }else {
-                    JOptionPane.showMessageDialog(null, "已注册", "管理员注册", JOptionPane.ERROR_MESSAGE);
-                }
+            //登陆
+            try {
+                //用户名验证
+                RegisterServe.isName(getNameText());
+                //密码验证
+                RegisterServe.isPassword(getUserPassWord(), getRePassword());
+                //手机号码验证
+                RegisterServe.isPhone(getPhoneText());
+                //验证码验证
+                RegisterServe.isYangZhengMa(phoneYanzhengma.getText().trim());
+                //注册
+                RegisterServe.register(getNameText(), getUserPassWord(), getPhoneText());
+                //直接登录，打开用户界面
+                UserRouter.getRouter().removeJFrame(UserJFrame);
+                User user = new User(getNameText(), getRePassword());
+                Loginer.login(user);
+                UserRouter.getRouter().newJFrame(USERMAINFRAME);
+            }catch (NameException name) {
+                userR.setText(name.getMessage());
+            } catch (SetPasswordExcetion form) {
+                passWordR.setText(form.getMessage());
+            }catch (QueryPasswordException query) {
+                reText.setText(query.getMessage());
+            }catch (PhoneException phone) {
+                phoneR.setText(phone.getMessage());
+            }catch (UserObjectException user) {
+                remind.setText(user.getMessage());
             }
         }
+
         if (source == login) {
-            //前往注册
+            //注册
             UserRouter.getRouter().getUserJFrame().getRendering().update(new Login());
         }
+
         if (source == phoneYanzheng ) {
-            //检查手机号是否为空或符合格式
-            if (!isPhoneForm()) {
-                phoneR.setText(PHONE_TEXT);
-                return;
-            }
+            //手机号码验证
+            RegisterServe.isPhone(getPhoneText());
             //发送验证码
-            phoneR.setText("验证码已发送");
-            number = Phone_Yangzhengma.verificationNum(6);
-            UserPhoneMessage.getUserPhoneMessage().addYangZhengMa(number);
-            logger.info(USER,"发送验证码成功: {}", number);
-            //启动计时启，60s后重新设置文字为：发送验证码
-            new PhoneCountdown().createCountdown(60,phoneYanzheng);
+            RegisterServe.sendYangZhenMa(30,phoneYanzheng);
         }
+
         if (source == reLook) {
             if (!reLookBool) {
                 rePassword.setEchoChar('\0');    //显示密码
@@ -224,6 +256,7 @@ public class Register extends MyJPanel implements ActionListener, Form {
                 reLook.setText("查看");
             }
         }
+
         if (source == passWordLook) {
             if (!passWordLookBool) {
                 userPassWord.setEchoChar('\0');   //显示密码
@@ -235,6 +268,7 @@ public class Register extends MyJPanel implements ActionListener, Form {
                 passWordLook.setText("查看");
             }
         }
+
         if (source == radioButton) {
             if (radioButton.isSelected()) {
                 register.setEnabled(true);
@@ -244,53 +278,22 @@ public class Register extends MyJPanel implements ActionListener, Form {
         }
     }
 
-
-    public boolean isForm() {
-        boolean fals = true;
-            if (getName().isEmpty()) {
-                fals = false;
-                userR.setText("用户名不能为空");
-            }else if (!isPassword()) {
-                fals = false;
-                passWordR.setText(PWD_B_TEXT);
-            }else if (!isPhoneForm()) {
-                fals = false;
-                phoneR.setText(PHONE_TEXT);
-            } else if (!isYanzheng()) {
-                fals = false;
-                phoneR.setText("验证码错误");
-            }
-        return fals;
-    }
-
-
-    public boolean isPassword(){
-        return getPassWord().matches(PWD_B);
-    }
-
-    public boolean isPhoneForm(){
-        return getPhoneText().matches(PHONE_NUM);
-    }
-
-    private boolean isYanzheng() {
-        return phoneYanzhengma.getText().trim().equals(number);
-    }
-
     /**
-     * 获取注册界面所有输入框文本
-     * 用户名称
-     * 密码
-     * 手机号码
+     * 格式化信息
      * */
-    public String getName(){
+    public String getNameText() {
         return username.getText().trim();
-    }
-
-    public String getPassWord(){
-        return userPassWord.getText().trim();
     }
 
     public String getPhoneText() {
         return phone.getText().trim();
+    }
+
+    public String getUserPassWord() {
+        return userPassWord.getText().trim();
+    }
+
+    public String getRePassword() {
+        return rePassword.getText().trim();
     }
 }
