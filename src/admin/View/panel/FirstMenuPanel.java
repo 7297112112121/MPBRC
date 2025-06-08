@@ -24,7 +24,7 @@ public class FirstMenuPanel extends MyJPanel implements ActionListener, AdminJFr
             setLayout(new GridLayout(1,8));
             //按钮面板
             buttonPanel = new JPanel();
-            buttonPanel.setLayout(new GridLayout(1,8));
+            buttonPanel.setLayout(new GridLayout(8,1));
 
             usersManger = new JButton("用户管理");
             usersManger.setHorizontalTextPosition(JButton.CENTER);

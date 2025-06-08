@@ -5,5 +5,5 @@ public interface DBConfig {
     String driver="com.mysql.cj.jdbc.Driver";
     String url="jdbc:mysql://localhost:3306/mobilepowerbankrentalsystem";
     String user="root";
-    String password="aaalll116";
+    String password="123456";
 }

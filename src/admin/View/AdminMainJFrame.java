@@ -5,6 +5,7 @@ import global.view_tool.JFrameLayoutCenter;
 import global.view_tool.MyJFrame;
 import global.view_tool.RenderingPanel;
 
+import javax.swing.*;
 import java.awt.*;
 
 
@@ -22,6 +23,12 @@ public class AdminMainJFrame extends MyJFrame implements AdminJFrameConfig{
         //窗口居中
         setBounds(JFrameLayoutCenter.setCenter_X(width), JFrameLayoutCenter.setCenter_Y(height), width, height);
         setLayout(new BorderLayout());
+
+        //顶部信息
+        JLabel text = new JLabel("充电宝租凭系统");
+        JPanel jp = new JPanel();
+        jp.add(text);
+        add(jp, BorderLayout.NORTH);
 
         //左栏菜单面板
         firstMenu = new FirstMenuPanel();
