@@ -10,7 +10,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
-import java.util.HashMap;
 
 public class UserMessage_AllPanel extends MyJPanel implements ActionListener {
     private final JTable allUserMessageTable ;              //所有用户信息表
@@ -43,7 +42,7 @@ public class UserMessage_AllPanel extends MyJPanel implements ActionListener {
         allUpdataButton.addActionListener(this);
 
         //录入数据
-        addData();
+        addDataUser();
 
         //全局显示
 
@@ -56,7 +55,7 @@ public class UserMessage_AllPanel extends MyJPanel implements ActionListener {
         if (source == updataButton) {
             //手动更新并查询用户数据（从数据重新读取数据）
             defaultt.setRowCount(0);
-            addData();
+            addDataUser();
         } else if (source == allUpdataButton) {
             //启动全局修改用户数据（不是从数据库重新读取，而是允许管理员直接在表格修改，而无需单点编辑）
         }
@@ -65,7 +64,7 @@ public class UserMessage_AllPanel extends MyJPanel implements ActionListener {
     /**
      * 模型添加数据
      * */
-    private void addData() {
+    private void addDataUser() {
         //查询所有用户数据
         Collection<User> userMessage = UserMessageManager.upDataUserAllMessageAndQueryAll();
         //将用户数据添加到表格中
