@@ -1,70 +1,50 @@
 package powerBank;
 
-import java.util.List;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
 
-public abstract class PowerBank implements PowerBankManage {
-
-/*
-* 移动电源编号
-* 移动电源品牌
-* 移动电源剩余电量
-* 租凭状态
-* 移动电源上下架
-* 修改移动电源信息
-* 查看移动电源信息
-* */
+public class PowerBank {
     private int id;
     private String brand;
-    private double remainingBattery;
-    private boolean isAvailable;
+    private double remainingPower;
+    private String status;
 
-    public PowerBank(int id,String brand ,double remainingBattery) {
+    public PowerBank(int id,double remainingPower,String brand) {
         this.id = id;
         this.brand = brand;
-        this.remainingBattery = remainingBattery;
-        this.isAvailable = remainingBattery > 0.5;
+        this.remainingPower = remainingPower;
+        this.status = remainingPower > 50? "可租赁" : "不可租赁";
     }
 
     public int getId() {
         return id;
     }
 
+
     public String getBrand() {
         return brand;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
+    public double getRemainingPower() {
+        return remainingPower;
     }
 
-    public double getRemainingBattery() {
-        return remainingBattery;
+
+
+    public String getStatus() {
+        return status;
     }
 
-    //设置移动电源剩余电量，并根据新的电量值更新可用性状态
-    public void setRemainingBattery(double remainingBattery) {
-        this.remainingBattery = remainingBattery;
-        this.isAvailable = remainingBattery > 0.5;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public boolean isAvailable() {
-        return isAvailable;
+    @Override
+    public String toString() {
+        return "ID: " + id + ", 品牌: " + brand + ", 电量: " + remainingPower + "%";
     }
-
-    public void addPowerBank(List<PowerBank> powerBanks, PowerBank powerBank) {
-        powerBanks.add(powerBank);
-        System.out.println("移动电源上架成功！");
-    }
-
-    // 移动电源下架
-    public void removePowerBank(List<PowerBank> powerBanks, PowerBank powerBank) {
-        if (powerBanks.remove(powerBank)) {
-            System.out.println("移动电源下架成功！");
-        } else {
-            System.out.println("移动电源下架失败，该电源可能不存在！");
-        }
-    }
-
 
 
 
