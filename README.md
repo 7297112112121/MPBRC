@@ -7,3 +7,5 @@ JAVA课程设计
       <hr>
       切勿上传.gitignore文件配置
       <hr>
+      切勿上传，log文件夹
+      <hr>
