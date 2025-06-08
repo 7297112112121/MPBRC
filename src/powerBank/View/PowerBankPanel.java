@@ -3,6 +3,7 @@ package powerBank.View;
 import powerBank.ADO.DatabaseUtil;
 import powerBank.Order;
 import powerBank.PowerBank;
+import powerBank.Serve.PowerBankService;
 import powerBank.Serve.PowerBankServiceImpl;
 import powerBank.Serve.OrderServiceImpl;
 

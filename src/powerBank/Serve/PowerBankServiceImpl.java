@@ -2,7 +2,6 @@ package powerBank.Serve;
 
 import powerBank.ADO.DatabaseUtil;
 import powerBank.PowerBank;
-import powerBank.View.PowerBankService;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
