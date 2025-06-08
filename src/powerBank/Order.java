@@ -1,38 +1,60 @@
 package powerBank;
 
-import user.User;
-
-/*
-* 订单编号
-* 移动电源的用户对象
-* 被租凭的移动电源对象
-* 订单开始时间
-* 订单结束时间
-* 订单计算费用
-* */
-
+import java.util.Date;
 
 public class Order {
-    //声明变量
-    private int idOrder;
-    private User user;
-    private PowerBank powerBank;
-    private long startTime;
-    private long endTime;
+    private int id;
+    private int powerBankId;
+    private Date startTime;
+    private Date endTime;
+    private double totalCost;
 
-    public Order(int idOrder, User user, PowerBank powerBank, long startTime) {
-        this.idOrder = idOrder;
-        this.user = user;
-        this.powerBank = powerBank;
+    public Order(int id, int powerBankId, Date startTime) {
+        this.id = id;
+        this.powerBankId = powerBankId;
         this.startTime = startTime;
     }
 
-    public void Order(long endTime) {
+    public int getId() {
+        return id;
+    }
+
+    public int getPowerBankId() {
+        return powerBankId;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
 
-    public double calculateCost(){
-        long duration = (endTime - startTime)/(1000*60*60);
-        return duration*1.5;
+    public double getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(double totalCost) {
+        this.totalCost = totalCost;
+    }
+
+    // 计算使用时长（单位：小时）
+    public long calculateDuration() {
+        if (endTime != null) {
+            long diff = endTime.getTime() - startTime.getTime();
+            return diff / (60 * 60 * 1000);
+        }
+        return 0;
+    }
+
+    // 计算租赁费用（示例：1.5元/小时）
+    public double calculateCost() {
+        long duration = calculateDuration(); // 获取使用时长（小时）
+        return duration * 1.5;
     }
 }

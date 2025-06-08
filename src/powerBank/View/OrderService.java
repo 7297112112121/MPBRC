@@ -1,4 +1,6 @@
-package powerBank;
+package powerBank.View;
+
+import powerBank.Order;
 
 import java.util.List;
 
