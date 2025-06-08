@@ -2,7 +2,7 @@ package user.View.message;
 
 import data.UserForm;
 import global.view_tool.MyJPanel;
-import user.config.Text;
+import user.Config.UserMainJFrameText;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
@@ -16,7 +16,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MessageMain extends MyJPanel implements ActionListener, Text {
+public class MessageMain extends MyJPanel implements ActionListener, UserMainJFrameText {
     private final static Logger logger = LogManager.getLogger(MessageMain.class);
     private static final Marker USER = MarkerManager.getMarker("USER");
     private final JButton home;                     //返回主页

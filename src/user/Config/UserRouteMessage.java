@@ -1,4 +1,4 @@
-package user.config;
+package user.Config;
 
 public interface UserRouteMessage {
     /**

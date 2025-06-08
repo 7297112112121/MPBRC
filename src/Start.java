@@ -4,7 +4,7 @@ import data.AdminForm;
 import data.UserForm;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import user.config.UserRouteMessage;
+import user.Config.UserRouteMessage;
 import user.Service.UserRouter;
 import global.db.DataBase;
 import global.LogExportConfig;

@@ -1,6 +1,4 @@
-package admin.DAO;
-
-import admin.Admin;
+package admin;
 
 public class RegularAdmin extends Admin {
     public RegularAdmin() {

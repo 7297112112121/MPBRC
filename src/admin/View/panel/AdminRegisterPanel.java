@@ -1,4 +1,4 @@
-package admin.View;
+package admin.View.panel;
 
 import admin.Serve.AdminRouterServe;
 import admin.Serve.LoginAdminServe;

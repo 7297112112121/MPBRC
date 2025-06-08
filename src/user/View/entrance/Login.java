@@ -1,7 +1,7 @@
 package user.View.entrance;
 
 import global.view_tool.MyJPanel;
-import user.config.Text;
+import user.Config.UserMainJFrameText;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
@@ -17,7 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class Login extends MyJPanel implements ActionListener, Text {
+public class Login extends MyJPanel implements ActionListener, UserMainJFrameText {
     private final static Logger logger = LogManager.getLogger(Login.class);
     private static final Marker USER = MarkerManager.getMarker("USER");
     private final JButton loginButton, registerButton;

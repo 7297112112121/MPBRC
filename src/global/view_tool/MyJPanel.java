@@ -1,7 +1,7 @@
 package global.view_tool;
 
 import admin.Serve.AdminRouterMessage;
-import user.config.UserRouteMessage;
+import user.Config.UserRouteMessage;
 
 import javax.swing.*;
 

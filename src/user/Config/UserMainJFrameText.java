@@ -1,10 +1,10 @@
-package user.config;
+package user.Config;
 
 
 /**
  * 储存常被使用的字符串，实现一改全改功能
  * */
-public interface Text {
+public interface UserMainJFrameText {
     /**
      * 主窗口用户信息面板（最顶部）
      * */

@@ -8,7 +8,7 @@ import global.view_tool.RenderingPanel;
 
 public class GetServe {
     /**
-     * 注册登录
+     * 注册登录窗口
      * */
     /// 获得登录注册界面
     public static MyJFrame getLoginRegisterFrame() {

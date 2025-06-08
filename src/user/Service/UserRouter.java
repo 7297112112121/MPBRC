@@ -4,7 +4,7 @@ import user.User;
 import user.View.LoginJFrame;
 import user.View.UserMainJFrame;
 import global.view_tool.MyJFrame;
-import user.config.UserRouteMessage;
+import user.Config.UserRouteMessage;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import global.erro.NullException;
