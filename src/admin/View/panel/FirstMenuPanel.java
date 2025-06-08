@@ -1,8 +1,11 @@
 package admin.View.panel;
 
-import admin.Serve.GetServe;
+import admin.Serve.AdminJFrameManger;
 import admin.Serve.SetServe;
 import admin.View.AdminJFrameConfig;
+import admin.View.panel.order.OrderMessagePanel;
+import admin.View.panel.powerBank.PowerBankMessagePanel;
+import admin.View.panel.user_message.UserMessagePanel;
 import global.view_tool.MyJPanel;
 
 import javax.swing.*;
@@ -54,13 +57,13 @@ public class FirstMenuPanel extends MyJPanel implements ActionListener, AdminJFr
         Object source = e.getSource();
         if (source == usersManger && usersManger.getActionListeners().length > 0) {
             //主窗口渲染用户信息面板
-            GetServe.getAdminMainJFrameRenderingPanel().update(new UserMessagePanel());
+            AdminJFrameManger.getAdminMainJFrameRenderingPanel().update(new UserMessagePanel());
         } else if (source == orderManger) {
             //主窗口渲染订单信息面板
-            GetServe.getAdminJFrameRenderingPanel().update(new OrderMessagePanel());
+            AdminJFrameManger.getAdminMainJFrameRenderingPanel().update(new OrderMessagePanel());
         } else if (source == powerBankManger) {
             //主窗口渲染充电宝信息面板
-            GetServe.getAdminMainJFrameRenderingPanel().update(new PowerBankMessagePanel());
+            AdminJFrameManger.getAdminMainJFrameRenderingPanel().update(new PowerBankMessagePanel());
         } else if (source == exitSystem) {
             //退出管理员系统
             SetServe.closeAdminMainJFrame();

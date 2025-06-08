@@ -1,12 +1,14 @@
-package admin.View.panel;
+package admin.View.panel.user_message;
 
 import global.view_tool.MyJPanel;
 import global.view_tool.RenderingPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class UserMessagePanel extends MyJPanel {
+public class UserMessagePanel extends MyJPanel implements ActionListener {
     private final JPanel buttonPanel;       //按钮面板
     private final RenderingPanel rp;        //渲染面板
     private final JButton allUserMessage;   //查看所有用户消息
@@ -44,6 +46,29 @@ public class UserMessagePanel extends MyJPanel {
         ////渲染面板
         rp = new RenderingPanel();
         add(rp, BorderLayout.CENTER);
+
+        ////注册
+        allUserMessage.addActionListener(this);
+        usePowerBank.addActionListener(this);
+        renturnPowerBank.addActionListener(this);
+        timeoutPowerBank.addActionListener(this);
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object source = e.getSource();
+        if (source == allUserMessage) {
+            //查看所有用户信息
+            rp.update(new UserMessage_AllPanel());
+        }else if (source == usePowerBank) {
+            //查看未归还充电宝用户信息
+            rp.update(new UserMessage_UsePowerBankPanel());
+        }else if (source == renturnPowerBank) {
+            //查看已归还充电宝用户信息
+            rp.update(new UserMessage_RentrunPBPanel());
+        }else if (source == timeoutPowerBank) {
+            //查看超时未归还充电宝用户信息
+            rp.update(new UserMessage_TimeoutPBPanel());
+        }
+    }
 }

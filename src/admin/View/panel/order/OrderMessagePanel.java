@@ -1,4 +1,4 @@
-package admin.View.panel;
+package admin.View.panel.order;
 
 import global.view_tool.MyJPanel;
 import global.view_tool.RenderingPanel;

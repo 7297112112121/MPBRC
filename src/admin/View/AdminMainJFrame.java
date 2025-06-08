@@ -15,8 +15,8 @@ public class AdminMainJFrame extends MyJFrame implements AdminJFrameConfig{
     private final int leftWidth = (int)(ADMIN_WIDTH * 0.3);  //左栏宽度占比30%,保持与主窗口大小一直
     private final int rightWidth = ADMIN_WIDTH - leftWidth;  //右栏占比剩余宽度
     private final FirstMenuPanel firstMenu;                  //菜单面板
-    private final int width = ADMIN_WIDTH;          //窗口宽度
-    private final int height = ADMIN_HEIGHT;         //窗口高度
+    private final int width = ADMIN_WIDTH;                  //窗口宽度
+    private final int height = ADMIN_HEIGHT;                //窗口高度
 
     public AdminMainJFrame() {
         setTitle("管理员主界面");

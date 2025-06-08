@@ -1,6 +1,6 @@
 package admin.View;
 
-import admin.View.panel.AdminLoginPanel;
+import admin.View.panel.auth.AdminLoginPanel;
 import global.view_tool.MyJFrame;
 import global.view_tool.RenderingPanel;
 import global.view_tool.JFrameLayoutCenter;

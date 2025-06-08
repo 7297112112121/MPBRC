@@ -79,8 +79,6 @@ public class RegisterServe implements PasswordConfig {
         //写入数据库
         boolean follow = RegisterDAO.register(admin);
         if (follow) {
-            //存入程序数据库
-            AdminForm.loadNewAdmins();
             logger.info("{} - 注册成功",admin.getName());
         } else {
             logger.warn("注册失败");

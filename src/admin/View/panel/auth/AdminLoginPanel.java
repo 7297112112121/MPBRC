@@ -1,7 +1,7 @@
-package admin.View.panel;
+package admin.View.panel.auth;
 
 
-import admin.Serve.GetServe;
+import admin.Serve.AdminJFrameManger;
 import admin.Serve.LoginAdminServe;
 import admin.Serve.SetServe;
 import global.erro.NameException;
@@ -107,7 +107,7 @@ public class AdminLoginPanel extends MyJPanel implements ActionListener {
 
         } else if (e.getSource() == registerButton) {
            //注册
-            GetServe.getAdminJFrameRenderingPanel().update(new AdminRegisterPanel());
+            AdminJFrameManger.getAdminJFrameRenderingPanel().update(new AdminRegisterPanel());
         }
     }
 

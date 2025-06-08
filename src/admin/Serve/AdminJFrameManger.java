@@ -5,8 +5,10 @@ import data.AdminForm;
 import global.view_tool.MyJFrame;
 import global.view_tool.RenderingPanel;
 
-
-public class GetServe {
+/**
+ * 窗口信息管理
+ * */
+public class AdminJFrameManger {
     /**
      * 注册登录窗口
      * */
@@ -18,15 +20,6 @@ public class GetServe {
     /// 获得登录注册界面渲染面板
     public static RenderingPanel getAdminJFrameRenderingPanel() {
         return AdminRouterServe.getRouter().getAdminJFrame().getRendering();
-    }
-
-    /// 获得已登录管理员信息记录ID
-    public static Admin getLoginAdmin() {
-        Admin admin = AdminForm.getAdmin(Admin.getLoginID());
-        if (admin == null) {
-            return null;
-        }
-        return admin;
     }
 
     /**
@@ -41,4 +34,5 @@ public class GetServe {
     public static RenderingPanel getAdminMainJFrameRenderingPanel() {
         return AdminRouterServe.getRouter().getAdminMainJFrame().getRendering();
     }
+
 }

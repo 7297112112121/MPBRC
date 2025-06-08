@@ -11,12 +11,13 @@ import global.db.DBQuary;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 /**
  * user表
  * */
 public class UserForm {
-    private static Multimap<Integer, User> userMap = HashMultimap.create();
+    private static HashMap<Integer, User> userMap = new HashMap<>();
     private static final Logger logger = LogManager.getLogger(PaymentTransaction.class);
 
     /**
@@ -56,9 +57,7 @@ public class UserForm {
             logger.warn("查询最新用户失败", e);
         }
     }
-    /**
-     * 从结果集创建单个用户对象
-     */
+      //从结果集创建单个用户对象
     private static User createUserFromResultSet(ResultSet res) {
         try {
             int nameID = res.getInt("nameID");
@@ -76,12 +75,16 @@ public class UserForm {
         }
     }
 
-
-
+    /**
+     * 获得所用用户对象
+     * */
+    public static HashMap<Integer, User> getUserMap() {
+        return userMap;
+    }
 
     //根据nameid查找该条用户信息
     public static User getUser(int nameID) {
-        return userMap.get(nameID).iterator().next();
+        return userMap.get(nameID);
     }
 
     //根据name，password查找用户信息，返回id
