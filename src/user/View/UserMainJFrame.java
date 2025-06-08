@@ -1,8 +1,8 @@
 package user.View;
 
-import util.view_tool.CreateLayout;
-import util.view_tool.MyJFrame;
-import util.view_tool.RenderingPanel;
+import global.view_tool.CreateLayout;
+import global.view_tool.MyJFrame;
+import global.view_tool.RenderingPanel;
 import user.View.index.IndexMain;
 
 import javax.swing.*;

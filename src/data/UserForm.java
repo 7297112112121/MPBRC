@@ -7,16 +7,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import user.DAO.PaymentTransaction;
 import user.User;
-import util.db.DBQuary;
+import global.db.DBQuary;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * user表
  * */
 public class UserForm {
-    private static Multimap<Integer, User> userMap = HashMultimap.create();
+    private static HashMap<Integer, User> userMap = new HashMap<>();
     private static final Logger logger = LogManager.getLogger(PaymentTransaction.class);
 
     /**
@@ -56,9 +59,7 @@ public class UserForm {
             logger.warn("查询最新用户失败", e);
         }
     }
-    /**
-     * 从结果集创建单个用户对象
-     */
+      //从结果集创建单个用户对象
     private static User createUserFromResultSet(ResultSet res) {
         try {
             int nameID = res.getInt("nameID");
@@ -66,22 +67,27 @@ public class UserForm {
             String sex = res.getString("sex");
             String password = res.getString("password");
             String phoneNum = res.getString("phone");
+            int adminID = res.getInt("adminid");
             String device_id = res.getString("device_id");
             Double account = res.getDouble("account");
 
-            return new User(nameID, name, sex, password, phoneNum, device_id, account);
+            return new User(nameID, name, sex, password, phoneNum, device_id, account, adminID);
         } catch (SQLException e) {
             logger.error("从结果集创建用户失败", e);
             return null;
         }
     }
 
-
-
+    /**
+     * 获得所用用户对象
+     * */
+    public static Collection<User> getUserList() {
+        return userMap.values();
+    }
 
     //根据nameid查找该条用户信息
     public static User getUser(int nameID) {
-        return userMap.get(nameID).iterator().next();
+        return userMap.get(nameID);
     }
 
     //根据name，password查找用户信息，返回id

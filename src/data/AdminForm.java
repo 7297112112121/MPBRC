@@ -5,7 +5,7 @@ import admin.Admin;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import util.db.DBQuary;
+import global.db.DBQuary;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -69,7 +69,16 @@ public class AdminForm {
         }
     }
 
+    /**
+     * 获得所有用户数据
+     * */
+    //返回hashmap集合
+    public HashMap<Integer, Admin> getAdminsHashMap(){
+        return adminMap;
+    }
+
         /**
+         * 查找管理员对象
          * 根据id查询有无该管理员
          * */
         public static Admin getAdmin (int id){
@@ -80,20 +89,9 @@ public class AdminForm {
         }
 
         /**
-         * 根据id查找名字
+         * 查找管理员名字
          * */
-        public static String queryName (int id){
-            if (adminMap.get(id) != null) {
-                return adminMap.get(id).getName();
-            }
-            //没找到返回null
-            return null;
-        }
-
-
-        /**
-         * 查找名字
-         * */
+        //根据名字查名字（主要用于确认管理员名称信息）
         public static String queryName (String name){
             for (Admin admin : adminMap.values()) {
                 if (admin.getName().equals(name)){
@@ -104,9 +102,19 @@ public class AdminForm {
             return null;
         }
 
+        //根据id查找名字
+        public static String queryName (int id){
+            if (adminMap.get(id) != null) {
+                return adminMap.get(id).getName();
+            }
+            //没找到返回null
+            return null;
+        }
+
         /**
-         * 根据名字、密码或的管理员id
+         * 查找管理员id
          * */
+        //根据名字、密码查找管理员id
         public static int getAdminID (String name, String password){
             for (Admin admin : adminMap.values()) {
                 if (admin.getName().equals(name) && admin.getPassword().equals(password))
@@ -114,4 +122,5 @@ public class AdminForm {
             }
                 return -1;
         }
+
 }

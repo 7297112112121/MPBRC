@@ -6,10 +6,10 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import user.User;
-import util.db.DBQuary;
-import util.db.DBUpData;
-import util.db.DataBase;
-import util.erro.UserObjectException;
+import global.db.DBQuary;
+import global.db.DBUpData;
+import global.db.DataBase;
+import global.erro.UserObjectException;
 
 import java.sql.Connection;
 import java.sql.SQLException;

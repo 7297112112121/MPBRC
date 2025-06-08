@@ -1,6 +1,6 @@
 package user.View.set;
 
-import util.view_tool.MyJPanel;
+import global.view_tool.MyJPanel;
 import admin.Serve.AdminRouterServe;
 
 import javax.swing.*;

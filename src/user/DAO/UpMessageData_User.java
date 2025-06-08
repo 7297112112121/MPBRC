@@ -3,7 +3,7 @@ package user.DAO;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import user.User;
-import util.db.DBUpData;
+import global.db.DBUpData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,7 +30,7 @@ public class UpMessageData_User {
         User loginUser = User.getUser();
         String sql = "UPDATE user SET name = ?, password = ?, phone = ? WHERE nameid = ?";
         try {
-            fals = DBUpData.update(sql,"user") > 0;    //更新数据库用户信息
+            fals = DBUpData.update(sql, "user") > 0;    //更新数据库用户信息
             logger.info("用户信息修改成功,新昵称为：" + user.getName());
         } catch (SQLException e) {
             logger.error("用户信息修改失败",e);

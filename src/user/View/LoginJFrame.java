@@ -1,9 +1,9 @@
 package user.View;
 
 import user.View.entrance.Login;
-import util.view_tool.MyJFrame;
-import util.view_tool.RenderingPanel;
-import util.view_tool.JFrameLayoutCenter;
+import global.view_tool.MyJFrame;
+import global.view_tool.RenderingPanel;
+import global.view_tool.JFrameLayoutCenter;
 
 import java.awt.*;
 

@@ -1,15 +1,16 @@
 package user.View.index;
 
 import data.UserForm;
+import user.Config.UserMainJFrameText;
 import user.User;
-import util.view_tool.MyJPanel;
+import global.view_tool.MyJPanel;
 import user.Service.UserRouter;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 
-public class Text extends MyJPanel implements user.Service.Text {
+public class Text extends MyJPanel implements UserMainJFrameText {
     private final JLabel nameLabel;
 
     public Text() {

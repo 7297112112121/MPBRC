@@ -1,6 +1,6 @@
 package user.View.pay;
 
-import util.view_tool.MyJPanel;
+import global.view_tool.MyJPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;

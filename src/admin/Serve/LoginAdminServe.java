@@ -2,8 +2,8 @@ package admin.Serve;
 
 import admin.Admin;
 import data.AdminForm;
-import util.erro.NameException;
-import util.erro.QueryPasswordException;
+import global.erro.NameException;
+import global.erro.QueryPasswordException;
 
 public class LoginAdminServe {
 
@@ -19,15 +19,14 @@ public class LoginAdminServe {
 
     }
 
-    public static void login(String name, String password) {
+    public static boolean login(String name, String password) {
         int i = AdminForm.getAdminID(name, password);
         //如果id小于0就是没有该管理员，报错
         if ( i < 0) {
             throw new NameException("管理员名称或密码错误");
         }
-
         //有的话返回该管理员的id
         Admin.setLoginID(i);
-
+        return true;
     }
 }

@@ -1,5 +1,7 @@
 package admin;
 
+import data.AdminForm;
+
 public class Admin {
     /**
      * 在线管理员id
@@ -90,5 +92,14 @@ public class Admin {
     }
     public static void setLoginID(int loginID) {
         Admin.loginID = loginID;
+    }
+
+    /// 获得已登录管理员信息记录ID
+    public static Admin getLoginAdmin() {
+        Admin admin = AdminForm.getAdmin(Admin.getLoginID());
+        if (admin == null) {
+            return null;
+        }
+        return admin;
     }
 }

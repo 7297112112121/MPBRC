@@ -1,6 +1,6 @@
 package user.View.index;
 
-import util.view_tool.MyJPanel;
+import global.view_tool.MyJPanel;
 
 import javax.swing.*;
 import java.awt.*;

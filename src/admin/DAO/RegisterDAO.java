@@ -1,11 +1,12 @@
 package admin.DAO;
 
 import admin.Admin;
+import data.AdminForm;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.db.DBQuary;
-import util.db.DBUpData;
-import util.erro.AdminObjectException;
+import global.db.DBQuary;
+import global.db.DBUpData;
+import global.erro.AdminObjectException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,9 +30,13 @@ public class RegisterDAO implements  AdminSQL {
                 throw new AdminObjectException("该管理员已存在");
             }
 
-            //写入数据库
+            //写入mysql数据库
             String sql1 = "INSERT INTO admin(name, password, phone, workid) VALUES(?, ?, ?, ?)";
             int success = DBUpData.update(sql1, admin.getName(), admin.getPassword(), admin.getPhone(), admin.getWorkID());
+
+            //写入程序数据库
+            AdminForm.loadNewAdmins();
+
             return true;
         }catch (SQLException e){
             logger.warn("检查sql语句 或 占位符数量是否对等。",e);

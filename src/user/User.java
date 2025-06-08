@@ -19,6 +19,7 @@ public class User {
     private String device_id;
     private String password;
     private String phone;
+    private int adminID;
     private double balance;             //充值金额
 
 
@@ -51,13 +52,14 @@ public class User {
     }
 
     //本系统用户实例
-    public User(int nameID, String name, String sex, String password, String phoneNum, String device_id, double balance) {
+    public User(int nameID, String name, String sex, String password, String phoneNum, String device_id, double balance, int adminID) {
         this.name = name;
         this.password = password;
         this.phone = phoneNum;
         this.nameID = nameID;
         this.device_id = device_id;
         this.balance = balance;
+        this.adminID = adminID;
     }
 
 
@@ -142,5 +144,13 @@ public class User {
 
     public void setDevice_id(String device_id) {
         this.device_id = device_id;
+    }
+
+    public int getAdminID() {
+        return adminID;
+    }
+
+    public void setAdminID(int adminID) {
+        this.adminID = adminID;
     }
 }

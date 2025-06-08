@@ -1,8 +1,8 @@
 package user.View.set;
 
-import util.view_tool.MyJFrame;
-import util.view_tool.RenderingPanel;
-import util.view_tool.JFrameLayoutCenter;
+import global.view_tool.MyJFrame;
+import global.view_tool.RenderingPanel;
+import global.view_tool.JFrameLayoutCenter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
