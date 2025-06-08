@@ -3,13 +3,14 @@ package user.Service;
 import user.User;
 import user.View.LoginJFrame;
 import user.View.UserMainJFrame;
-import util.view_tool.MyJFrame;
+import global.view_tool.MyJFrame;
+import user.config.UserRouteMessage;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
-import util.erro.NullException;
+import global.erro.NullException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.view_tool.RenderingPanel;
+import global.view_tool.RenderingPanel;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;

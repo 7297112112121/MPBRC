@@ -1,5 +1,6 @@
 package user.Service;
 
+import user.config.PaymentStrategy;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
@@ -11,7 +12,7 @@ import static user.DAO.PaymentTransaction.PaymentType.WECHAT;
 /**
  * 微信支付
  * */
-public class WeChatPay implements PaymentStrategy{
+public class WeChatPay implements PaymentStrategy {
     private static final Logger logger = LogManager.getLogger(PaymentTransaction.class);
     private static final Marker USER = MarkerManager.getMarker("USER");
     @Override

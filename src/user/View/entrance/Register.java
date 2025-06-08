@@ -1,11 +1,11 @@
 package user.View.entrance;
 
 import user.Service.Loginer;
-import user.Service.register.RegisterServe;
+import user.Service.RegisterServe;
 import user.User;
-import util.erro.*;
-import util.config.PasswordConfig;
-import util.view_tool.MyJPanel;
+import global.erro.*;
+import global.PasswordConfig;
+import global.view_tool.MyJPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;

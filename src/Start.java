@@ -4,18 +4,18 @@ import data.AdminForm;
 import data.UserForm;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import user.Service.UserRouteMessage;
+import user.config.UserRouteMessage;
 import user.Service.UserRouter;
-import util.db.DataBase;
-import util.log.LogExportMessage;
-import util.tset.UserPhoneMessage;
+import global.db.DataBase;
+import global.LogExportConfig;
+import global.tset.UserPhoneMessage;
 
 import static admin.Serve.AdminRouterMessage.AdminJFrame;
 
 /**
 * 程序入口
  * */
-public class Start implements UserRouteMessage, LogExportMessage {
+public class Start implements UserRouteMessage, LogExportConfig {
     private static final Logger logger = LogManager.getLogger(Start.class);
 //    final static File pathFile = new File(USER_INFO_LOG_FILE);
     public static void main(String[] args) {

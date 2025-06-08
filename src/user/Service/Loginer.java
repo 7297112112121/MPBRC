@@ -8,8 +8,6 @@ import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import user.User;
 
-import java.sql.SQLException;
-
 /**
  * 登陆业务
  * */

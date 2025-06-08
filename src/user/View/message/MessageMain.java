@@ -1,8 +1,8 @@
 package user.View.message;
 
 import data.UserForm;
-import util.view_tool.MyJPanel;
-import user.Service.Text;
+import global.view_tool.MyJPanel;
+import user.config.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;

@@ -3,23 +3,23 @@ package user.View.message;
 
 import user.DAO.UpMessageData_User;
 import user.User;
-import util.view_tool.MyJPanel;
-import util.view_tool.JFrameLayoutCenter;
+import global.view_tool.MyJPanel;
+import global.view_tool.JFrameLayoutCenter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import user.Service.UserRouter;
-import user.Service.register.CreateYangZhengMa;
-import util.time.PhoneCountdown;
-import util.tset.UserPhoneMessage;
+import user.Service.CreateYangZhengMa;
+import global.time.PhoneCountdown;
+import global.tset.UserPhoneMessage;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static util.config.PasswordConfig.PHONE_NUM;
+import static global.PasswordConfig.PHONE_NUM;
 
 public class Phone extends MyJPanel implements ActionListener {
     private final static Logger logger = LogManager.getLogger(Phone.class);

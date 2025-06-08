@@ -3,9 +3,9 @@ package admin.DAO;
 import admin.Admin;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.db.DBQuary;
-import util.db.DBUpData;
-import util.erro.AdminObjectException;
+import global.db.DBQuary;
+import global.db.DBUpData;
+import global.erro.AdminObjectException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

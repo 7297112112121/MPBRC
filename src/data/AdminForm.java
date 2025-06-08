@@ -5,7 +5,7 @@ import admin.Admin;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import util.db.DBQuary;
+import global.db.DBQuary;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

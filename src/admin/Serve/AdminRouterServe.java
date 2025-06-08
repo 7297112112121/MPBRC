@@ -1,14 +1,15 @@
 package admin.Serve;
 
 import admin.View.AdminMainJFrame;
+import global.erro.RouterException;
 import user.Service.UserRouter;
-import util.view_tool.MyJFrame;
+import global.view_tool.MyJFrame;
 import admin.View.AdminJFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
-import util.erro.NullException;
+import global.erro.NullException;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -67,7 +68,7 @@ public class AdminRouterServe implements AdminRouterMessage {
                     throw new RuntimeException("=========没有该窗口，请检查是否配置路由表=========");
             }
         } catch (NullException ee) {
-            logger.debug("用户试图打开已存在窗口，已阻止 : 窗口id：" + id);
+            logger.debug("试图打开已存在窗口，已阻止 : 窗口id：" + id);
         } catch (RuntimeException e) {
             logger.warn(e.getMessage(),e);
         }

@@ -1,17 +1,16 @@
 package admin.View;
 
-import util.view_tool.MyJFrame;
-import util.view_tool.RenderingPanel;
-import util.view_tool.JFrameLayoutCenter;
-import admin.View.entrance.panel.AdminLoginPanel;
+import global.view_tool.MyJFrame;
+import global.view_tool.RenderingPanel;
+import global.view_tool.JFrameLayoutCenter;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class AdminJFrame extends MyJFrame {
     private final RenderingPanel rp;        //渲染面板
-    private final int width = 400;          //窗口宽度
-    private final int height = 400;         //窗口高度
+    private final int width = 650;          //窗口宽度
+    private final int height = 500;         //窗口高度
 
     public AdminJFrame(){
         super();

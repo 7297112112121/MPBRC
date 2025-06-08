@@ -2,7 +2,7 @@ package admin.DAO;
 
 import admin.Admin;
 import admin.Serve.GetServe;
-import util.db.DBUpData;
+import global.db.DBUpData;
 import java.util.HashMap;
 /**
  * 数据更新业务——管理员

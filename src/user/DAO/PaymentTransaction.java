@@ -4,10 +4,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
-import util.db.DBQuary;
-import util.db.DBUpData;
-import util.db.DataBase;
-import util.erro.PayException;
+import global.db.DBQuary;
+import global.db.DBUpData;
+import global.db.DataBase;
+import global.erro.PayException;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
