@@ -1,6 +1,7 @@
 
 import admin.Serve.AdminRouterServe;
 import data.AdminForm;
+import data.OrderForm;
 import data.UserForm;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,6 +30,9 @@ public class Start implements UserRouteMessage, LogExportMessage {
 
         //加载管理员数据
         AdminForm.loadAdmins();
+
+        //加载订单数据
+        OrderForm.loadOrders();
 
         //启动用户登录界面
         UserRouter.getRouter().newJFrame(UserJFrame);

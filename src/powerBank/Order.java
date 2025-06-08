@@ -14,6 +14,9 @@ public class Order {
         this.powerBankId = powerBankId;
         this.startTime = startTime;
     }
+    public Order() {
+
+    }
 
     public int getId() {
         return id;
@@ -41,6 +44,18 @@ public class Order {
 
     public void setTotalCost(double totalCost) {
         this.totalCost = totalCost;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setPowerBankId(int powerBankId) {
+        this.powerBankId = powerBankId;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
     // 计算使用时长（单位：小时）
