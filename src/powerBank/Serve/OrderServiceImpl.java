@@ -1,7 +1,9 @@
-package powerBank;
+package powerBank.Serve;
 
+import powerBank.ADO.DatabaseUtil;
 import powerBank.Order;
-import powerBank.OrderService;
+import powerBank.PowerBank;
+import powerBank.View.OrderService;
 
 import java.sql.*;
 import java.util.List;

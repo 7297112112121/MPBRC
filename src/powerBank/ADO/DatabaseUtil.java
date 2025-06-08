@@ -1,4 +1,7 @@
-package powerbank;
+package powerBank.ADO;
+
+import powerBank.Order;
+import powerBank.PowerBank;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,7 +16,7 @@ public class DatabaseUtil {
     private static final String USER = "root";
     private static final String PASSWORD = "aaalll116";
 
-    static Connection getConnection() throws SQLException {
+    public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 

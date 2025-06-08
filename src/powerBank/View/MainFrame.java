@@ -1,4 +1,4 @@
-package powerBank;
+package powerBank.View;
 
 import javax.swing.*;
 
