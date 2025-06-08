@@ -1,6 +1,9 @@
 package admin.DAO;
 
 import data.UserForm;
+import user.User;
+
+import java.util.Collection;
 
 public class UpDataUserMessageDAO {
     /**

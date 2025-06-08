@@ -11,7 +11,9 @@ import global.db.DBQuary;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * user表
@@ -65,10 +67,11 @@ public class UserForm {
             String sex = res.getString("sex");
             String password = res.getString("password");
             String phoneNum = res.getString("phone");
+            int adminID = res.getInt("adminid");
             String device_id = res.getString("device_id");
             Double account = res.getDouble("account");
 
-            return new User(nameID, name, sex, password, phoneNum, device_id, account);
+            return new User(nameID, name, sex, password, phoneNum, device_id, account, adminID);
         } catch (SQLException e) {
             logger.error("从结果集创建用户失败", e);
             return null;
@@ -78,8 +81,8 @@ public class UserForm {
     /**
      * 获得所用用户对象
      * */
-    public static HashMap<Integer, User> getUserMap() {
-        return userMap;
+    public static Collection<User> getUserList() {
+        return userMap.values();
     }
 
     //根据nameid查找该条用户信息
