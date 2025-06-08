@@ -1,6 +1,6 @@
 package user.View.entrance;
 
-import user.Service.Loginer;
+import user.Service.LoginerMessageServe;
 import user.Service.RegisterServe;
 import user.User;
 import global.erro.*;
@@ -218,7 +218,7 @@ public class Register extends MyJPanel implements ActionListener, PasswordConfig
                 //直接登录，打开用户界面
                 UserRouter.getRouter().removeJFrame(UserJFrame);
                 User user = new User(getNameText(), getRePassword());
-                Loginer.login(user);
+                LoginerMessageServe.login(user);
                 UserRouter.getRouter().newJFrame(USERMAINFRAME);
             }catch (NameException name) {
                 userR.setText(name.getMessage());

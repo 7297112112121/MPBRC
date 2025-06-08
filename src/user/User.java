@@ -23,16 +23,38 @@ public class User {
     private double balance;             //充值金额
 
 
+    public User() {
+        this.nameID = -1;
+        this.name = null;
+        this.password = null;
+        this.phone = null;
+        this.adminID = -1;
+        this.balance = 0;
+        this.sex = null;
+        this.device_id = null;
+    }
     //登陆使用
     public User(String name, String password) {
         this.name = name;
         this.password = password;
+        this.nameID=-1;
+        this.adminID =-1;
+        this.balance = 0;
+        this.sex = null;
+        this.device_id = null;
+        this.phone = null;
+
     }
 
     //注册使用
     public User(String name, String password, String phoneNum) {
         this(name, password);
         this.phone = phoneNum;
+        this.nameID = -1;
+        this.adminID = -1;
+        this.balance = 0;
+        this.sex = null;
+        this.device_id = null;
     }
 
     public User(int nameID, String name, String password, String phoneNum) {
@@ -40,6 +62,10 @@ public class User {
         this.name = name;
         this.password = password;
         this.phone = phoneNum;
+        this.adminID = -1;
+        this.balance = 0;
+        this.sex = null;
+        this.device_id = null;
     }
 
     //user表
@@ -49,6 +75,9 @@ public class User {
         this.phone = phoneNum;
         this.nameID = nameID;
         this.device_id = device_id;
+        this.balance = 0;
+        this.adminID = -1;
+        this.sex = sex;
     }
 
     //本系统用户实例
@@ -60,6 +89,7 @@ public class User {
         this.device_id = device_id;
         this.balance = balance;
         this.adminID = adminID;
+        this.sex = sex;
     }
 
 
@@ -70,8 +100,6 @@ public class User {
         return UserForm.getUser(User.getLogNameID());
     }
 
-
-    public User() {}
     /**
     * 获取与设置实例变量
      * nameID

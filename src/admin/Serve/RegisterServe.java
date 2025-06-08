@@ -1,7 +1,7 @@
 package admin.Serve;
 
 import admin.Admin;
-import admin.DAO.RegisterDAO;
+import admin.DAO.AdminRegisterDAO;
 import data.AdminForm;
 import global.PasswordConfig;
 import global.erro.*;
@@ -77,7 +77,7 @@ public class RegisterServe implements PasswordConfig {
 
     public static void register(Admin admin) {
         //写入数据库
-        boolean follow = RegisterDAO.register(admin);
+        boolean follow = AdminRegisterDAO.register(admin);
         if (follow) {
             logger.info("{} - 注册成功",admin.getName());
         } else {

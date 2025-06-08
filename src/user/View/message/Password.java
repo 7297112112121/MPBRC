@@ -1,5 +1,6 @@
 package user.View.message;
 
+import user.Service.LoginerMessageServe;
 import user.User;
 import global.view_tool.MyJPanel;
 import global.PasswordConfig;
@@ -9,7 +10,6 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import user.Service.UserRouter;
-import user.DAO.UpMessageData_User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -192,7 +192,7 @@ public class Password extends MyJPanel implements ActionListener, PasswordConfig
             if (isPassword(or, nw, re)) {
                 //密码是否符合强度
                 if (isPasswordStrength(nw)) {
-                    if (UpMessageData_User.upDataPassword(nw)) {            //更新成功
+                    if (LoginerMessageServe.upUserPassword(nw)) {            //更新成功
                         JOptionPane.showMessageDialog(null, "修改成功", "提示", JOptionPane.INFORMATION_MESSAGE);//退出窗口
                     } else {
                         reText.setText("程序遇到一点小问题，请重新确认，谢谢亲！");//数据库返回错误

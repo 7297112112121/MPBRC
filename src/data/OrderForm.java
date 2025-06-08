@@ -1,10 +1,11 @@
 package data;
 
 import admin.Admin;
+import global.db.DBQuary;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import powerBank.Order;
-import util.db.DBQuary;
+
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

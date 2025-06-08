@@ -6,8 +6,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
+import user.Service.LoginerMessageServe;
 import user.User;
-import user.Service.Loginer;
 import global.erro.SetPasswordExcetion;
 import user.Service.UserRouter;
 
@@ -113,7 +113,7 @@ public class Login extends MyJPanel implements ActionListener, UserMainJFrameTex
         Object obj = createIdentity();                                  //将输入框中的信息转换为User对象，向上转型Object
         try{
             //登录操作
-            if (Loginer.login(obj)){
+            if (LoginerMessageServe.login(obj)){
                 //开启用户主窗口
                 UserRouter.getRouter().newJFrame(USERMAINFRAME);
                 //更新用户主窗口用户信息面板

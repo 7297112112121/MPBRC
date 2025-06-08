@@ -1,0 +1,137 @@
+package user.DAO;
+
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
+import user.User;
+import global.db.DBUpData;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.sql.SQLException;
+
+/**
+ * 数据更新业务
+ * */
+public class UpUserMessageDAO {
+    private static final Logger logger = LogManager.getLogger(UpUserMessageDAO.class);
+    private static final Marker USER = MarkerManager.getMarker("USER");
+    /**
+     * 方案一：一次性全部更新方法
+     * 1、获得需要修改用户对象类型
+     * 2、根据用户id查找该用户，覆盖原本数据库信息
+     * 3、用户对象调用set方法更新信息
+     * 3.1、更新用户登陆状态表与用户管理表
+     * 4、返回Boolean值，若true则修改成功，否则false失败
+     *
+     * 传入参数：完整用户对象
+     * */
+    public static boolean upData(User user) {
+        boolean fals = false;           //默认范围错误
+        User loginUser = User.getUser();
+        String sql = "UPDATE user SET name = ?, password = ?, phone = ? WHERE nameid = ?";
+        try {
+            fals = DBUpData.update(sql, "user") > 0;    //更新数据库用户信息
+            logger.info("用户信息修改成功,新昵称为：" + user.getName());
+        } catch (SQLException e) {
+            logger.error("用户信息修改失败",e);
+        }
+        return fals;
+    }
+
+    /**
+     * 方案二：局部信息更新方法
+     * */
+    //传入最新的名字
+    public static boolean upDataName(String name, int nameid) {
+        boolean fals = false;
+        String sql = "UPDATE user SET name = ? WHERE nameid = ?";
+        try {
+            fals = DBUpData.update(sql, name, nameid) > 0;
+            if (fals) logger.info(USER,"用户昵称修改完成，新昵称："+ name);
+            else throw new SQLException() ;
+
+        } catch (SQLException e) {
+            logger.error("用户昵称修改失败",e);
+        }
+        return fals;
+    }
+    //传入最新的密码
+    public static boolean upDataPassword(String password, int nameid) {
+        boolean fals = false;
+        String sql = "UPDATE user SET password = ? WHERE nameid = ?";
+        try {
+            fals = DBUpData.update(sql, password, nameid) > 0;
+            if (fals)  logger.info(USER,"用户密码已修改");
+            else throw new SQLException() ;
+        } catch (SQLException e) {
+           logger.error("用户密码修改失败",e);
+        }
+        return fals;
+    }
+    //传入最新的性别
+    public static boolean upDataSex(String sex, int nameid) {
+        boolean fals = false;
+        String sql = "UPDATE user SET sex = ? WHERE nameid = ?";
+        try {
+            fals = DBUpData.update(sql, sex, nameid) > 0;
+            if (fals) logger.info(USER,"用户性别修改完成");
+            else throw new SQLException() ;
+        } catch (SQLException e) {
+            logger.error("用户性别修改失败",e);
+        }
+        return fals;
+    }
+    //传入最新的设备id
+    public static boolean upDataDeviceId(String deviceId, int nameid) {
+        boolean fals = false;
+        String sql = "UPDATE user SET deviceId = ? WHERE nameid = ?";
+        try {
+            fals = DBUpData.update(sql, deviceId, nameid) > 0;
+            if (fals) logger.info(USER,"用户设备id修改完成");
+            else throw new SQLException() ;
+        } catch (SQLException e){
+            logger.error("用户设备id修改失败",e);
+        }
+        return fals;
+    }
+    //传入最新的电话
+    public static boolean upDataPhone(String phone, int nameid) {
+        boolean fals = false;
+        String sql = "UPDATE user SET phone = ? WHERE nameid = ?";
+        try {
+            fals = DBUpData.update(sql, phone, nameid) > 0;
+            if (fals) logger.info(USER,"用户电话修改完成");
+            else throw new SQLException() ;
+        } catch (SQLException e) {
+            logger.error("用户电话修改失败",e);
+        }
+        return fals;
+    }
+    //传入最新的管理员id
+    public static boolean upDataAdminId(int adminId, int nameid) {
+        boolean fals = false;
+        String sql = "UPDATE user SET adminId = ? WHERE nameid = ?";
+        try {
+            fals = DBUpData.update(sql, adminId, nameid) > 0;
+            if (fals) logger.info(USER,"用户管理员id修改完成");
+            else throw new SQLException() ;
+        } catch (SQLException e) {
+            logger.error("用户管理员id修改失败",e);
+        }
+        return fals;
+    }
+    //传入最新的账户信息
+    public static boolean upDataAccount(double balance, int nameid) {
+        boolean fals = false;
+        String sql = "UPDATE user SET account = ? WHERE nameid = ?";
+        try {
+            fals = DBUpData.update(sql, balance, nameid) > 0;
+            if (fals) logger.info(USER,"用户账户信息修改完成");
+            else throw new SQLException() ;
+        } catch (SQLException e) {
+            logger.error("用户账户信息修改失败",e);
+        }
+        return fals;
+    }
+
+}

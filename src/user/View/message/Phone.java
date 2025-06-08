@@ -1,7 +1,8 @@
 package user.View.message;
 
 
-import user.DAO.UpMessageData_User;
+import user.Service.Get;
+import user.Service.LoginerMessageServe;
 import user.User;
 import global.view_tool.MyJPanel;
 import global.view_tool.JFrameLayoutCenter;
@@ -110,8 +111,8 @@ public class Phone extends MyJPanel implements ActionListener {
         Object source = e.getSource();
         if (source == submit && !isNull() && isPhone() && !isOldPhone() && isYanzheng()) {
             //输入不为空,符合手机号码格式,不是原手机号码
-            UpMessageData_User.upDataPhone(getNewPhone());
-            UserRouter.getRouter().removeJFrame(UserUpDataPhone);
+            LoginerMessageServe.upUserPhone(getNewPhone());
+            Get.getMainUserFrame_Rendering().update(new MessageMain());
             JOptionPane.showMessageDialog(null, "修改成功", "提示", JOptionPane.INFORMATION_MESSAGE);
         }
         if (source == cancel) {

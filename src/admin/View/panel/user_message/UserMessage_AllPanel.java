@@ -1,7 +1,13 @@
 package admin.View.panel.user_message;
 
+import admin.Serve.ModelProcessServe;
 import admin.Serve.UserMessageManager;
 import global.view_tool.MyJPanel;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
+import user.Service.RegisterServe;
 import user.User;
 
 import javax.swing.*;
@@ -9,18 +15,20 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collection;
+import java.util.List;
 
 public class UserMessage_AllPanel extends MyJPanel implements ActionListener {
+    private static Logger logger = LogManager.getLogger(UserMessage_AllPanel.class);
+    private static final Marker ADMIN = MarkerManager.getMarker("ADMIN");
+
     private final JTable allUserMessageTable ;              //所有用户信息表
     private final DefaultTableModel defaultt;               //所有用户信息表模型
-    private final  JButton updataButton; //手动更新用户数据（重新从数据库读取）
-    private final  JButton allUpdataButton ; //启动全局修改用户数据（是可直接在表格修改，而非从数据库重新读取会弹出是否启动全局修改提示）
+    private  String[] columnNames= {"ID", "昵称", "性别", "电话", "管理员", "充值余额"};//所有用户信息表字段
+    private final  JButton updataButton;                    //手动更新用户数据（重新从数据库读取）
+    private final  JButton saveButton ;                     //保存修改的数据
     public  UserMessage_AllPanel(){
         setLayout(new BorderLayout());
 
-        //用户信息表设置
-        String[] columnNames = {"ID", "昵称", "性别", "电话", "管理员", "充值余额"};
         //所有用户信息表
         JPanel userMessagePanel = new JPanel();
         defaultt = new DefaultTableModel(columnNames ,0);
@@ -32,14 +40,14 @@ public class UserMessage_AllPanel extends MyJPanel implements ActionListener {
         //按钮
         JPanel buttonPanel = new JPanel();
         updataButton = new JButton("更新");
-        allUpdataButton = new JButton("直接修改");
+        saveButton = new JButton("保存");
         buttonPanel.add(updataButton);
-        buttonPanel.add(allUpdataButton);
+        buttonPanel.add(saveButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
         //注册
         updataButton.addActionListener(this);
-        allUpdataButton.addActionListener(this);
+        saveButton.addActionListener(this);
 
         //录入数据
         addDataUser();
@@ -56,8 +64,14 @@ public class UserMessage_AllPanel extends MyJPanel implements ActionListener {
             //手动更新并查询用户数据（从数据重新读取数据）
             defaultt.setRowCount(0);
             addDataUser();
-        } else if (source == allUpdataButton) {
-            //启动全局修改用户数据（不是从数据库重新读取，而是允许管理员直接在表格修改，而无需单点编辑）
+            logger.info(ADMIN, "手动更新用户数据成功");
+        } else if (source == saveButton) {
+            //保存修改的数据
+            //获得模型对象列表
+            List<User> users = ModelProcessServe.createUsersList(defaultt);
+            //更新数据库
+            UserMessageManager.upAllUserMessage(users);
+            logger.info(ADMIN, "保存用户数据成功");
         }
     }
 
@@ -65,20 +79,13 @@ public class UserMessage_AllPanel extends MyJPanel implements ActionListener {
      * 模型添加数据
      * */
     private void addDataUser() {
-        //查询所有用户数据
-        Collection<User> userMessage = UserMessageManager.upDataUserAllMessageAndQueryAll();
-        //将用户数据添加到表格中
-        for (User user : userMessage) {
-            Object[] rowData = {
-                    user.getNameID(),
-                    user.getName(),
-                    user.getSex(),
-                    user.getPhone(),
-                    user.getAdminID(),
-                    user.getBalance()
-            };
-            defaultt.addRow(rowData);
-        }
+        ModelProcessServe.addRow(columnNames, defaultt);
+    }
 
+    /**
+     * 获得表格模型所有数据
+     * */
+    private void getModelData() {
+        ModelProcessServe.getModelData(defaultt);
     }
 }

@@ -14,8 +14,8 @@ import java.sql.SQLException;
 /**
  * 注册业务
  * */
-public class RegisterDAO implements  AdminSQL {
-    private static final Logger logger = LogManager.getLogger(RegisterDAO.class);
+public class AdminRegisterDAO implements  AdminSQL {
+    private static final Logger logger = LogManager.getLogger(AdminRegisterDAO.class);
     /**
      * 执行用户注册，主要处理注册异常
      * 默认注册失败，返回false

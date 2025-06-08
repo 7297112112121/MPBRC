@@ -1,6 +1,7 @@
 package user.Service;
 
 import data.UserForm;
+import global.view_tool.RenderingPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import user.User;
@@ -33,8 +34,8 @@ public class Get {
     /**
      * 获得MainUserFrame（用户主窗口）的Rendering（渲染面板）
      * */
-    public static MyJPanel getMainUserFrame_Rendering() {
-        MyJPanel jf = UserRouter.getRouter().getUserMainJFrame().getRendering();
+    public static RenderingPanel getMainUserFrame_Rendering() {
+        RenderingPanel jf = UserRouter.getRouter().getUserMainJFrame().getRendering();
         if (jf == null) {
             logger.warn("UserMainJFrame（用户主窗口）没有被创建");
             return null;
