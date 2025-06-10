@@ -1,4 +1,4 @@
-package Config;
+package Util.db;
 
 public interface DBConfig {
     //加载驱动

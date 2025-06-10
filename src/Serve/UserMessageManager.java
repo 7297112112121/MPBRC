@@ -1,6 +1,6 @@
 package Serve;
 
-import Util.Reflection;
+import Util.ReflectionTool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import Object.User;
@@ -46,7 +46,7 @@ public class UserMessageManager {
             if (user.getNameID() < 0) {
                 logger.warn("没有用户ID，无法更新,请检查是否有传入id");
             }
-            Reflection ref = new Reflection();
+            ReflectionTool ref = new ReflectionTool();
             ref.traverseFields(user);
             List<Object> value = ref.getValue();
             List<String> attribute = ref.getAttribute();

@@ -1,6 +1,5 @@
 package Util.db;
 
-import Config.DBConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

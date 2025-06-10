@@ -1,6 +1,6 @@
 package View.user;
 
-import Config.CSSJFrameConfig;
+import View.CSSJFrameConfig;
 import Util.View.MyRenderingPanel;
 import Util.View.UserJFrame;
 import Util.View.UserRenderingPanel;

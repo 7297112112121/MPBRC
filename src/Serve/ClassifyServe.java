@@ -1,6 +1,6 @@
 package Serve;
 
-import DAO.SaveDAO;
+import DAO.save.DeniceFrom;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ public class ClassifyServe {
         if (start < 0) {
             throw new RuntimeException("开头数字不能小于0");
         }
-        List<List<String>> deviceList = SaveDAO.getDeviceList();
+        List<List<String>> deviceList = DeniceFrom.getDeviceList();
         for(List<String> device : deviceList) {
 
         }

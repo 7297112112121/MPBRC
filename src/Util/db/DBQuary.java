@@ -82,6 +82,8 @@ public class DBQuary extends DataBase {
     /**
      *
      * 检查使用的字段情况
+     * @param field 所有字段
+     * @param useField 使用过的字段
      * */
     public static void checkUseFieldNumber(List<String> field, List<String> useField) {
         //检查字段是是否用尽
@@ -95,6 +97,9 @@ public class DBQuary extends DataBase {
 
     /**
      * 转换二维表
+     * 内部分List《String》是一条记录
+     * 外部分List《...》是装所有记录
+     * 故每条记录的序号是从0开始，而不是按数据库中表唯一的id
      * */
     public static List<List<String>> getTable(ResultSet res, List<String> useField) {
         List<List<String>> lists = new ArrayList<>();

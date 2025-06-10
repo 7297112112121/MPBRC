@@ -14,9 +14,7 @@ public class ControlFrame extends MyJFrame {
 
         //以被创建的手机
         JPanel allPhonePanel = new JPanel(new FlowLayout());
-        for () {
-            allPhonePanel.add();
-        }
+
         JPanel allPhonePanel2 = new JPanel(new FlowLayout());
 
         JPanel allPhonePanel3 = new JPanel(new FlowLayout());

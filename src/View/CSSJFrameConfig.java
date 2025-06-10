@@ -1,4 +1,4 @@
-package Config;
+package View;
 
 public interface CSSJFrameConfig {
     /**

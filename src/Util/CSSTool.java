@@ -1,6 +1,6 @@
 package Util;
 
-import Config.CSSJFrameConfig;
+import View.CSSJFrameConfig;
 
 /**
  * 窗口居中
