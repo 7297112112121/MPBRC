@@ -72,7 +72,7 @@
                 <!-- 限制日志级别在info及以上在error以下 -->
                 <ThresholdFilter level="info"/>
                 <ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL"/>
-                <MarkerFilter marker="admin" onMatch="ACCEPT" onMismatch="DENY"/>
+                <MarkerFilter marker="A" onMatch="ACCEPT" onMismatch="DENY"/>
             </Filters>
             <!-- 日志格式 -->
             <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %m%n"/>

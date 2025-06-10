@@ -1,22 +1,14 @@
 
-import admin.Serve.AdminRouterServe;
-import data.AdminForm;
-import data.OrderForm;
-import data.UserForm;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import user.Config.UserRouteMessage;
-import user.Service.UserRouter;
-import global.db.DataBase;
-import global.LogExportConfig;
-import global.tset.UserPhoneMessage;
+import Router.RouterConfig;
+import Util.db.DataBase;
 
-import static admin.Serve.AdminRouterMessage.AdminJFrame;
 
 /**
 * 程序入口
  * */
-public class Start implements UserRouteMessage, LogExportConfig {
+public class Start implements  LogConfig , RouterConfig {
     private static final Logger logger = LogManager.getLogger(Start.class);
 //    final static File pathFile = new File(USER_INFO_LOG_FILE);
     public static void main(String[] args) {
@@ -26,31 +18,12 @@ public class Start implements UserRouteMessage, LogExportConfig {
         DataBase.DBcheck();
 
         //加载用户数据
-        UserForm.loadUsers();
 
         //加载管理员数据
-        AdminForm.loadAdmins();
 
         //加载订单数据
-        OrderForm.loadOrders();
 
-        //启动用户登录界面
-        UserRouter.getRouter().newJFrame(UserJFrame);
+        //启动手机模拟器
 
-        //启动管理员登录界面
-        AdminRouterServe.getRouter().newJFrame(AdminJFrame);
-
-        //实时日志监控
-//        try{
-//            LogView view = new LogView();
-//            view.realtimeShowLog(pathFile);
-//        }catch (NullPointerException e){
-//            logger.error("文件对象不存在，请检查pathFile变量的指定目录路径是否正确",e);
-//        }
-        //启动手机短信模拟器
-        UserPhoneMessage.getUserPhoneMessage();
-
-        //等待用户结束操作，执行结束操作
-//        Thread.currentThread().join();
     }
 }
