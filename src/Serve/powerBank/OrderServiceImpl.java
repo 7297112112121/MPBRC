@@ -1,8 +1,8 @@
 package Serve.powerBank;
 
 import DAO.powerBank.DatabaseUtil;
-import Object.Order;
-import Object.PowerBank;
+import MyObject.Order;
+import MyObject.PowerBank;
 import View.powerBank.OrderService;
 
 import java.sql.*;

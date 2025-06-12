@@ -1,6 +1,6 @@
 package View.powerBank;
 
-import Object.PowerBank;
+import MyObject.PowerBank;
 
 import java.util.List;
 

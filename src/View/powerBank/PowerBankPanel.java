@@ -1,8 +1,8 @@
 package View.powerBank;
 
 import DAO.powerBank.DatabaseUtil;
-import Object.Order;
-import Object.PowerBank;
+import MyObject.Order;
+import MyObject.PowerBank;
 import Serve.powerBank.PowerBankServiceImpl;
 import Serve.powerBank.OrderServiceImpl;
 

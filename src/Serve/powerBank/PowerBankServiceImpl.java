@@ -1,7 +1,7 @@
 package Serve.powerBank;
 
 import DAO.powerBank.DatabaseUtil;
-import Object.PowerBank;
+import MyObject.PowerBank;
 import View.powerBank.PowerBankService;
 
 import java.sql.Connection;

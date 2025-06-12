@@ -4,9 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
-import DAO.pay.PayDAO;
+import DAO.PayDAO;
 
-import static DAO.pay.PayDAO.PaymentType.WECHAT;
+import static DAO.PayDAO.PaymentType.WECHAT;
 
 /**
  * 微信支付

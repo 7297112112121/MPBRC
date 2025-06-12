@@ -1,7 +1,7 @@
 package View.powerBank;
 
 import DAO.powerBank.DatabaseUtil;
-import Object.Order;
+import MyObject.Order;
 import Serve.powerBank.OrderServiceImpl;
 
 import javax.swing.*;

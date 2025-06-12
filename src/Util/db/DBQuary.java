@@ -24,7 +24,7 @@ public class DBQuary extends DataBase {
             resultSet=statement.executeQuery(sql);
             return resultSet;
         } catch (SQLException e) {
-            logger.warn("数据库服务没有开启，或数据库配置错误，检查DBConfig,若以上都不行，则定位逻辑错误");
+            logger.error(e);
             return null;
         }
     }
@@ -55,8 +55,11 @@ public class DBQuary extends DataBase {
                 field.add( metaData.getColumnName(i));
             }
             return field;
-        } catch (SQLException e) {
-            logger.error(e);
+        } catch (NullPointerException e) {
+            logger.error("没有该表",e);
+            return null;
+        } catch (SQLException e2) {
+            logger.error(e2);
             return null;
         }
     }

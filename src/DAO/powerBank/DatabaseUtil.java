@@ -1,7 +1,7 @@
 package DAO.powerBank;
 
-import Object.Order;
-import Object.PowerBank;
+import MyObject.Order;
+import MyObject.PowerBank;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

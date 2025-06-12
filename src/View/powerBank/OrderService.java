@@ -1,6 +1,6 @@
 package View.powerBank;
 
-import Object.Order;
+import MyObject.Order;
 
 import java.util.List;
 

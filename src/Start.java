@@ -1,8 +1,8 @@
 
-import DAO.save.tool.LoadFormDataThead;
+import DAO.LoadFormDataThead;
+import View.user.UserFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import Router.RouterConfig;
 import Util.db.DataBase;
 
 
@@ -11,7 +11,6 @@ import Util.db.DataBase;
  * */
 public class Start {
     private static final Logger logger = LogManager.getLogger(Start.class);
-//    final static File pathFile = new File(USER_INFO_LOG_FILE);
     public static void main(String[] args) {
         logger.info("程序开始运行");
 
@@ -25,6 +24,8 @@ public class Start {
         Thread loadDataThead = new Thread(loadFormDataThead);
         loadDataThead.start();
 
+        //用户登陆
+        new UserFrame();
 
         //启动手机模拟器
 
