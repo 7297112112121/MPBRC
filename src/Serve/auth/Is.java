@@ -1,6 +1,9 @@
 package Serve.auth;
 
 import Config.Global;
+import Util.Rand;
+
+import static Config.PhoneConfig.PHONE_NUM;
 
 
 public class Is {
@@ -42,6 +45,25 @@ public class Is {
         return true;
     }
 
+    //判断手机号码位数
+    public boolean isPhone(String phone) {
+        if (!phone.matches(PHONE_NUM)) {
+            return false;
+        }
+        return true;
+    }
+
+    //判断验证码
+    public boolean isCaptcha( int number ,String captch) {
+        Rand rand = new Rand();
+        //生成验证码
+        String captcha = rand.generate(number);
+        if (captcha != captch) {
+            return false;
+        }
+        return true;
+    }
+
     //判断工号
     public boolean isWorkNumber(String workNumber) {
         //判断输入是否为空
@@ -50,17 +72,6 @@ public class Is {
         }
         //判断输入是否符合格式
         if (!workNumber.matches(Global.getWorkID())){
-            return false;
-        }
-        return true;
-    }
-
-    public boolean captcha(String captcha) {
-        if (captcha.isEmpty()){
-            return false;
-        }
-        //判断输入是否正确
-        if (!captcha.matches(Global.getCaptcha())) {
             return false;
         }
         return true;

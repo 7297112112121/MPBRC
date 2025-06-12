@@ -32,12 +32,7 @@ public interface PasswordConfig {
     String PWD_C_TEXT = "密码必须包含数字，且长度是8-32位";
 
 
-    /**
-     * 手机号码格式
-     * 11位手机号码
-     * */
-    String PHONE_NUM = "^1[3-9]\\d{9}$";
-    String PHONE_TEXT = "手机号码应该为11位";
+
 
     /**
      * 工号格式
