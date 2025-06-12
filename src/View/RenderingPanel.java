@@ -59,7 +59,7 @@ public class RenderingPanel extends View.MyJPanel {
     }
 
     public MyJPanel getShowPanel() {
-        if (!saveShowPanel) {
+        if (saveShowPanel) {
             return showPanel[0];
         }else {
             return showPanel[1];

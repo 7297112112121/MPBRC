@@ -55,7 +55,10 @@ public class FactoryPanel{
                     JTextField noButtonInputCENTER = new JTextField(Integer.parseInt(params[1]));
                     JLabel nameRemind = new JLabel();
 
-                    JPanel namePanel = new JPanel(new GridLayout(2, 2));
+                    JPanel namePanel = new JPanel(new GridLayout(1, 3));
+                    JPanel namePanel1 = new JPanel(new GridLayout(1,3));
+
+                    noButtonInputLeft.setHorizontalAlignment(JLabel.CENTER);
 
                     //文字居中
                     nameRemind.setHorizontalAlignment(JLabel.CENTER);
@@ -66,8 +69,12 @@ public class FactoryPanel{
                     setPanel(MyJPanelType.NO_Button_INPUT_JPANEL,MyJPanelType.REMIND,nameRemind);
                     namePanel.add(noButtonInputLeft);
                     namePanel.add(noButtonInputCENTER);
-                    namePanel.add(nameRemind);
-                    return namePanel;
+                    namePanel.add(new JLabel(""));
+                    namePanel1.add(nameRemind);
+                    JPanel nameAll = new JPanel(new GridLayout(2,1));
+                    nameAll.add(namePanel);
+                    nameAll.add(namePanel1);
+                    return nameAll;
 
                     //密码输入框（请配合）
                 case PASSWORD_INPUT_JPANEL:
@@ -76,6 +83,8 @@ public class FactoryPanel{
                     JPasswordField passwordInputCenter = new JPasswordField(Integer.parseInt(params[1]));
                     JButton passwordRight = new JButton("显示");
                     JLabel passwordLabel = new JLabel();
+
+                    passwordInputLeft.setHorizontalAlignment(JLabel.CENTER);
 
                     //文字居中
                     JPanel passwordPanel = new JPanel(new GridLayout(1, 3));
@@ -101,8 +110,10 @@ public class FactoryPanel{
 
                 case Button_INPUT_JPANEL:
                     //标签+普通输入框+发送验证码按钮
-                    JPanel phonePanel = new JPanel(new GridLayout(2, 2));
+                    JPanel phonePanel = new JPanel(new GridLayout(1, 3));
+                    JPanel phonePanel1 = new JPanel(new GridLayout(1,3));
                     JLabel buttonInputLeft = new JLabel(params[0]);
+                    buttonInputLeft.setHorizontalAlignment(JLabel.CENTER);
                     JTextField buttonInputCenter = new JTextField(Integer.parseInt(params[1]));
                     JButton buttonInputRight = new JButton(params[2]);
                     //设置组件名称，返回组件内容
@@ -112,7 +123,10 @@ public class FactoryPanel{
                     phonePanel.add(buttonInputLeft);
                     phonePanel.add(buttonInputCenter);
                     phonePanel.add(buttonInputRight);
-                    return phonePanel;
+                    JPanel phoneall = new JPanel(new GridLayout(2,1));
+                    phoneall.add(phonePanel);
+                    phoneall.add(phonePanel1);
+                    return phoneall;
 
                 default:
                     logger.warn("PanelFactory工厂没有该对象");

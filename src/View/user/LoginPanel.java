@@ -33,8 +33,8 @@ public class LoginPanel extends MyJPanel {
 
         FactoryPanel factoryPanel = new FactoryPanel();
 
-        add(factoryPanel.createPanel(NO_Button_INPUT_JPANEL, "昵称", "10"));
-        add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.PASSWORD_INPUT_JPANEL, "密码", "10"));
+        add(factoryPanel.createPanel(NO_Button_INPUT_JPANEL, "昵称:", "10"));
+        add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.PASSWORD_INPUT_JPANEL, "密码:", "10"));
 
         JLabel nickName = (JLabel)factoryPanel.getPanel(NO_Button_INPUT_JPANEL,REMIND);
         JTextField nickNameInput = (JTextField)factoryPanel.getPanel(NO_Button_INPUT_JPANEL,CENTER);

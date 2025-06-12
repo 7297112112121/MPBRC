@@ -82,21 +82,7 @@ public class DBQuary extends DataBase {
         }
     }
 
-    /**
-     *
-     * 检查使用的字段情况
-     * @param field 所有字段
-     * @param useField 使用过的字段
-     * */
-    public static void checkUseFieldNumber(List<String> field, List<String> useField) {
-        //检查字段是是否用尽
-        if (useField.size() < field.size() ) {
-            logger.warn("字段数量不匹配 ： {}", field.size() - useField.size());
-            for (int i = field.size(); i> useField.size(); i--) {
-                logger.warn("未使用的字段：{}",field.get(i));
-            }
-        }
-    }
+
 
     /**
      * 转换二维表

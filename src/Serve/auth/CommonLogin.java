@@ -8,6 +8,9 @@ import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import static Config.PasswordConfig.PWD_B_TEXT;
 
 public class CommonLogin {
@@ -25,13 +28,20 @@ public class CommonLogin {
         //操作数据库
         ContextQuery query = new ContextQuery();
         query.setQuery(new SimplyQueryWhere());
-        query.query(
-                UserFieldEnum.FORM,
-                UserFieldEnum.NAME, name.getText().trim(),
-                UserFieldEnum.PASSWORD, password.getText().trim()
+        ResultSet rst = query.query(
+                UserFieldEnum.FORM.getValue(),
+                UserFieldEnum.NAME.getValue(), name.getText().trim(),
+                UserFieldEnum.PASSWORD.getValue(), password.getText().trim()
         );
-
-        return true;
+        try {
+            if (!rst.next()) {
+                passwordRimd.setText("用户名或密码错误");
+                return false;
+            }
+            return true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
     //展示提示词
     private boolean add(JTextField name , JLabel nameRimd , JPasswordField password, JLabel passwordRimd) {
@@ -42,9 +52,8 @@ public class CommonLogin {
             nameRimd.setText("用户名不能为空");
             return false;
         }
-        if (!is.isPassword(passwor)) {
-            passwordRimd.setText(PWD_B_TEXT);
-            return false;
+        if (!password.getText().isEmpty()) {
+            passwordRimd.setText("密码不能为空");
         }
         return true;
     }
