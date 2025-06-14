@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MessagePane extends MyJPanel  {
+    private String messagePanelID;
     private MyFrame frame;
     private TextArea message;
     public MessagePane(MyFrame frame, String messagePanelID) {
@@ -27,5 +28,9 @@ public class MessagePane extends MyJPanel  {
 
     public void addMessage(String msg) {
          message.append(msg);
+    }
+
+    public String getMessagePanelID() {
+        return messagePanelID;
     }
 }

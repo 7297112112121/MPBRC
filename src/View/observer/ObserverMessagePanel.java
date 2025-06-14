@@ -7,12 +7,16 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import static View.observer.AllObserverOfFrame.Type.OBSERVER_MESSAGE_PANEL;
+
 public class ObserverMessagePanel extends Observer {
     private MyFrame frame;
     private static HashMap<String, MessagePane> messagePaneHashMap = new HashMap<>();
 
     public ObserverMessagePanel(MyFrame frame) {
         this.frame = frame;
+        //添加到观察者列表
+        AllObserverOfFrame.add(frame, OBSERVER_MESSAGE_PANEL, this);
     }
 
     //添加到观察列表

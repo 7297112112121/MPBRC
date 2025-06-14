@@ -1,21 +1,27 @@
 package View;
 
 
+import View.observer.AllObserverOfFrame;
+import View.observer.ObserverMessagePanel;
 import View.user.MessagePane;
 
 import java.awt.*;
+import java.util.List;
+
 /**
  * 渲染面板
  * 使用卡片布局渲染新面板
  * */
 public class RenderingPanel extends View.MyJPanel {
 
+    private MyFrame frame ;
     private CardLayout cardLayout;
     private MyJPanel[] showPanel = new MyJPanel[2]; //面板历史记录，最大保留记录1
     private boolean saveShowPanel = true;           //记录保留开关
 
-    public RenderingPanel() {
+    public RenderingPanel(MyFrame frame) {
         super();
+        this.frame = frame;
         cardLayout = new CardLayout();
         setLayout(cardLayout); // 关键修复：设置CardLayout为当前面板的布局管理器
     }
@@ -25,6 +31,12 @@ public class RenderingPanel extends View.MyJPanel {
      * @param showPanel 要显示的面板
      */
     public void update(MyJPanel showPanel) {
+        //判断若为此前创建的消息面板，则显示此前创建的消息面板
+        MessagePane messagePane = skipSetObserverMessagePanel(showPanel);
+        if (messagePane != null) {
+            showPanel = messagePane;
+        }
+
         // 获取showPanel的类名
         String panelName = showPanel.getClass().getName();
 
@@ -69,8 +81,26 @@ public class RenderingPanel extends View.MyJPanel {
         }
     }
 
-    //自动跳过设置观察者的信息面板
-    private boolean skipSetObserverMessagePanel() {
-
+    //识别信息面板是否被创建
+    private MessagePane skipSetObserverMessagePanel(MyJPanel showPanel) {
+        //判断传入面板是不是信息面板
+        if (!(showPanel instanceof MessagePane)) {
+            return null;
+        }
+        //转换为MessagePane
+        MessagePane messagePanel = (MessagePane) showPanel;
+        //获得frame下的消息面板的观察者
+        ObserverMessagePanel message = (ObserverMessagePanel) AllObserverOfFrame.getObserverByFrame(frame, AllObserverOfFrame.Type.OBSERVER_MESSAGE_PANEL);
+        //获取所有消息面板
+        List<MessagePane> messagePanels = message.getAllMessagePanel();
+        //对比，判断此前是否已经创建过该面板
+        for (MessagePane panel : messagePanels) {
+            if (messagePanel.getMessagePanelID().equals(panel.getMessagePanelID())) {
+                //之前已经创建，返回之前创建的消息面板
+                return panel;
+            }
+        }
+        //之前没有创建，返回null
+        return null;
     }
 }

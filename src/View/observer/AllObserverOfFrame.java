@@ -31,7 +31,7 @@ public class AllObserverOfFrame extends Observer {
     }
 
     // 获取指定窗口的特定类型观察者
-    public static Observer get(MyFrame frame, Type type) {
+    public static Observer getObserverByFrame(MyFrame frame, Type type) {
         Map<Type, Observer> frameObservers = allObserver.get(frame);
         if (frameObservers != null) {
             return frameObservers.get(type);
@@ -42,7 +42,7 @@ public class AllObserverOfFrame extends Observer {
     }
 
     // 获取指定窗口的所有观察者
-    public static Map<Type, Observer> getObservers(MyFrame frame) {
+    public static Map<Type, Observer> getObserversByFrame(MyFrame frame) {
         return allObserver.getOrDefault(frame, Collections.emptyMap());
     }
 
