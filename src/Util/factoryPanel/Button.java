@@ -1,4 +1,4 @@
-package View.factoryPanel;
+package Util.factoryPanel;
 
 // 按钮组件（示例）
 public class Button implements Component {

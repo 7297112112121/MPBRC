@@ -1,9 +1,11 @@
 package View.user;
 
 import Serve.auth.CommonRegister;
+import Util.observer.AllObserverOfFrame;
+import Util.observer.ObserverMessagePanel;
 import View.MyFrame;
 import View.MyJPanel;
-import View.factoryPanel.FactoryPanel;
+import Util.factoryPanel.FactoryPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,7 +14,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static View.factoryPanel.FactoryPanel.MyJPanelType.*;
+import static Util.factoryPanel.FactoryPanel.MyJPanelType.*;
 
 public class RegisterJPane extends MyJPanel {
     private static final Logger logger = LogManager.getLogger(RegisterJPane.class);
@@ -30,7 +32,7 @@ public class RegisterJPane extends MyJPanel {
         add(factoryPanel.createPanel(JLABLE, register1.setPasswordRemind() + ";密码提示标签"));
         add(factoryPanel.createPanel(JLABLE_JPASSWORDFIELD_JBUTTON, "确认密码：", "20;重复密码输入框", "显示"));
         add(factoryPanel.createPanel(JLABLE, ";重复密码提示标签"));
-        add(factoryPanel.createPanel(JLABLE_JTEXTFIELD_JBUTTON, "手机号：", "20;手机号输入框","发送验证码"));
+        add(factoryPanel.createPanel(JLABLE_JTEXTFIELD_JBUTTON, "手机号：", "20;手机号输入框","发送验证码;发送验证码"));
         add(factoryPanel.createPanel(JLABLE, ";手机号码提示标签"));
         add(factoryPanel.createPanel(JLABLE_JTEXTFIELD_JLABLE,"验证码", "10;验证码输入框", ""));
         add(factoryPanel.createPanel(JLABLE, ";验证码提示标签"));
@@ -72,7 +74,17 @@ public class RegisterJPane extends MyJPanel {
             public void actionPerformed(ActionEvent e) {
                 JTextField phoneField = (JTextField)factoryPanel.getJComponent("手机号输入框");
                 String phone = phoneField.getText().trim();
-                register1.sendCaptcha(phone);
+                register1.createCaptcha(phone, (JLabel) factoryPanel.getJComponent("手机号码提示标签"));
+                //通知用户验证码号码
+                ObserverMessagePanel obserMe = (ObserverMessagePanel) AllObserverOfFrame.getObserverByFrame(frame, AllObserverOfFrame.Type.OBSERVER_MESSAGE_PANEL);
+                obserMe.addMessage("用户界面顶部消息",
+                                "尊敬的" + phone + "用户，\n" +
+                                "\n" +
+                                "您的验证码是："+ register1.getCaptcha(phone) +"。\n" +
+                                "\n" +
+                                "请勿将验证码泄露给他人，以确保您的账户安全。\n" +
+                                "\n" +
+                                "谢谢！" + "\n");
             }
         });
         logger.info("用户注册界面加载完成");

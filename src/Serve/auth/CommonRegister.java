@@ -38,7 +38,7 @@ public class CommonRegister {
         boolean fals = true;    //验证开关
         int count = 0;          //记录验证不通过次数
         // 验证用户名
-        if (!verify.setName(nam)) {
+        if (!verify.isName(nam)) {
             // 如果用户名验证失败，设置错误提示信息
             nameRimd.setText(verify.setNameRimd());
             // 返回false，表示验证失败
@@ -46,7 +46,7 @@ public class CommonRegister {
         }
 
         // 验证密码
-        if (!verify.setPassword(passwor)) {
+        if (!verify.isPassword(passwor)) {
             // 如果密码验证失败，设置错误提示信息
             passwordRimd.setText(verify.setPasswordRimd());
             // 返回false，表示验证失败
@@ -54,7 +54,7 @@ public class CommonRegister {
         }
 
         // 验证确认密码
-        if (!verify.setConfirmPassword(passwor, comfirPasswor)) {
+        if (!verify.isConfirmPassword(passwor, comfirPasswor)) {
             // 如果确认密码验证失败，设置错误提示信息
             comfirPasswordRimd.setText(verify.setConfirmPasswordRimd());
             // 返回false，表示验证失败
@@ -62,7 +62,7 @@ public class CommonRegister {
         }
 
         // 验证手机号
-        if (!verify.setPhone(phon)) {
+        if (!verify.isPhone(phon)) {
             // 如果手机号验证失败，设置错误提示信息
             phoneRimd.setText(verify.setPhoneRimd());
             // 返回false，表示验证失败
@@ -71,7 +71,7 @@ public class CommonRegister {
 
         // 验证验证码
         try {
-            if (!verify.setCaptcha(phon, ca)) {
+            if (!verify.isCaptcha(phon, ca)) {
                 // 如果验证码验证失败，设置错误提示信息
                 captchaRimd.setText(verify.setCaptchaRimd());
                 // 返回false，表示验证失败
@@ -95,10 +95,19 @@ public class CommonRegister {
         return verify.setPasswordRimd();
     }
 
-    //发送验证码
-    public void sendCaptcha(String phone) {
-         verify.createCaptcha(phone);
+    //生成验证码
+    public void createCaptcha(String phone, JLabel phoneRimd) {
+        if (verify.isPhone(phone)){
+            verify.createCaptcha(phone);
+            phoneRimd.setText("验证码已发送");
+        } else {
+            phoneRimd.setText(verify.setPhoneRimd());
+        }
+    }
 
+    //获得验证码
+    public String getCaptcha(String phone) {
+        return verify.getCapcha(phone);
     }
 
     //清理标签

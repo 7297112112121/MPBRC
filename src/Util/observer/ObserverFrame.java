@@ -1,4 +1,4 @@
-package View.observer;
+package Util.observer;
 
 import View.MyFrame;
 

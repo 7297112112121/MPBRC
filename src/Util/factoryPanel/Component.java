@@ -1,4 +1,4 @@
-package View.factoryPanel;
+package Util.factoryPanel;
 
 public interface Component {
 }

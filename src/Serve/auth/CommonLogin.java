@@ -47,7 +47,7 @@ public class CommonLogin {
         String nam = name.getText().trim();
         String passwor = password.getText().trim();
         Verify is = new Verify();
-        if(!is.setName(nam)){
+        if(!is.isName(nam)){
             nameRimd.setText("用户名不能为空");
             return false;
         }

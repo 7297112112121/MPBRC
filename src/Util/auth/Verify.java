@@ -12,11 +12,8 @@ public class Verify {
 
     }
 
-    public boolean setName(String name) {
-        if (name.isEmpty()){
-            return false;
-        }
-        return true;
+    public boolean isName(String name) {
+        return !name.isEmpty();
     }
     //获得用户名提示信息
     public String setNameRimd() {
@@ -28,16 +25,13 @@ public class Verify {
      * @param password 输入的密码
      *
      * */
-    public boolean setPassword(String password) {
+    public boolean isPassword(String password) {
         if (password.isEmpty()){
             return false;
         }
         //判断密码强度
         String chosePassword = Global.getPasswordRegular();
-        if (!password.matches(chosePassword)) {
-            return false;
-        }
-        return true;
+        return password.matches(chosePassword);
     }
     //获得密码提示信息
     public String setPasswordRimd() {
@@ -46,12 +40,9 @@ public class Verify {
     }
 
     //重复密码确认
-    public boolean setConfirmPassword(String password, String ConfirmPassword) {
+    public boolean isConfirmPassword(String password, String ConfirmPassword) {
         //相同通过，不相同返回false
-        if (!password.equals(ConfirmPassword)) {
-            return false;
-        }
-        return true;
+        return password.equals(ConfirmPassword);
     }
     //获得重复密码提示信息
     public String setConfirmPasswordRimd() {
@@ -59,11 +50,8 @@ public class Verify {
     }
 
     //判断手机号码位数
-    public boolean setPhone(String phone) {
-        if (!phone.matches(PHONE_NUM)) {
-            return false;
-        }
-        return true;
+    public boolean isPhone(String phone) {
+        return phone.matches(PHONE_NUM);
     }
     //获得手机号码提示信息
     public String setPhoneRimd() {
@@ -72,10 +60,10 @@ public class Verify {
 
     /**
      * 生成验证码
-     * */
-    public String createCaptcha(String phone) {
+     */
+    public void createCaptcha(String phone) {
         CaptchaGlobal captchaGlobal = new CaptchaGlobal();
-        return captchaGlobal.createCaptcha(phone);
+        captchaGlobal.createCaptcha(phone);
     }
 
     /**
@@ -91,16 +79,12 @@ public class Verify {
      * @param phone 用户手机号码
      * @param captcha 用户输入的验证码
      * */
-    public boolean setCaptcha( String phone, String captcha) throws RuntimeException{
+    public boolean isCaptcha( String phone, String captcha) throws RuntimeException{
         //判断验证码是否为空
         if (captcha.isEmpty()){
             throw new RuntimeException("未发送验证码");
         }
-        CaptchaGlobal captchaGlobal = new CaptchaGlobal();
-        if (captcha != captchaGlobal.getCapcha(phone)) {
-            return false;
-        }
-        return true;
+        return captcha.equals(getCapcha(phone));
     }
     //获得验证码提示信息
     public String setCaptchaRimd() {
@@ -108,16 +92,13 @@ public class Verify {
     }
 
     //判断工号
-    public boolean setWorkNumber(String workNumber) {
+    public boolean isWorkNumber(String workNumber) {
         //判断输入是否为空
         if (workNumber.isEmpty()){
             return false;
         }
         //判断输入是否符合格式
-        if (!workNumber.matches(Global.getWorkIDRegular())){
-            return false;
-        }
-        return true;
+        return workNumber.matches(Global.getWorkIDRegular());
     }
     //获得工号提示信息
     public String setWorkNumberRimd() {

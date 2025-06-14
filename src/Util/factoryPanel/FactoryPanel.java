@@ -1,4 +1,4 @@
-package View.factoryPanel;
+package Util.factoryPanel;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

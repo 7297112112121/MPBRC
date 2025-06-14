@@ -1,8 +1,8 @@
 package View;
 
 
-import View.observer.AllObserverOfFrame;
-import View.observer.ObserverMessagePanel;
+import Util.observer.AllObserverOfFrame;
+import Util.observer.ObserverMessagePanel;
 import View.user.MessagePane;
 
 import java.awt.*;
@@ -95,7 +95,7 @@ public class RenderingPanel extends View.MyJPanel {
         List<MessagePane> messagePanels = message.getAllMessagePanel();
         //对比，判断此前是否已经创建过该面板
         for (MessagePane panel : messagePanels) {
-            if (messagePanel.getMessagePanelID().equals(panel.getMessagePanelID())) {
+            if (panel == messagePanel) {
                 //之前已经创建，返回之前创建的消息面板
                 return panel;
             }

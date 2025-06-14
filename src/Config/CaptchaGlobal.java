@@ -12,7 +12,7 @@ public class CaptchaGlobal {
     //手机号码+验证码
     //当用户重新发送验证码时，若手机号码相同，覆盖原本的验证码
     private static CaptchaGlobal captchaGlobal = new CaptchaGlobal();
-    private static HashMap<String, String> captchaList;
+    private static HashMap<String, String> captchaList = new HashMap<>();
     private static ContextCaptcha contextCaptcha = new ContextCaptcha();
     private String capcha;//生成的验证码
 

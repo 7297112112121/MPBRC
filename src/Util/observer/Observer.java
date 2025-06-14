@@ -1,4 +1,4 @@
-package View.observer;
+package Util.observer;
 
 public abstract class Observer {
 }

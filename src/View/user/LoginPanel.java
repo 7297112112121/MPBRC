@@ -4,7 +4,7 @@ package View.user;
 import Serve.auth.CommonLogin;
 import View.MyFrame;
 import View.MyJPanel;
-import View.factoryPanel.FactoryPanel;
+import Util.factoryPanel.FactoryPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,7 +13,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static View.factoryPanel.FactoryPanel.MyJPanelType.*;
+import static Util.factoryPanel.FactoryPanel.MyJPanelType.*;
 
 public class LoginPanel extends MyJPanel {
     private static final Logger logger = LogManager.getLogger(LoginPanel.class);

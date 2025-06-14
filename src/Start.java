@@ -3,8 +3,8 @@ import Config.CaptchaGlobal;
 import Config.Global;
 import DAO.LoadFormDataThead;
 
-import View.observer.AllObserverOfFrame;
-import View.observer.ObserverFrame;
+import Util.observer.AllObserverOfFrame;
+import Util.observer.ObserverFrame;
 import View.user.UserFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

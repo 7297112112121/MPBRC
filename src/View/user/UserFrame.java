@@ -3,8 +3,8 @@ package View.user;
 import View.MyFrame;
 import View.MyJPanel;
 import View.RenderingPanel;
-import View.observer.ObserverFrame;
-import View.observer.ObserverMessagePanel;
+import Util.observer.ObserverFrame;
+import Util.observer.ObserverMessagePanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,11 +29,11 @@ public class UserFrame extends MyFrame {
         JPanel top = new JPanel(new BorderLayout());
 
         //创建消息面板
-        messagePane = new MessagePane(this, "globeNews");
+        messagePane = new MessagePane(this, "用户界面顶部消息");
         //设置MessagePanel观察者
         ObserverMessagePanel observerMessagePanel = new ObserverMessagePanel(this);
 
-        observerMessagePanel.addMessagePanel("globeNews",messagePane);
+        observerMessagePanel.addMessagePanel("用户界面顶部消息",messagePane);
         //设置标题格式
         title.setHorizontalAlignment(JLabel.CENTER);
         top.add(title, BorderLayout.CENTER);
