@@ -1,9 +1,9 @@
 package Config;
 
-import Util.auth.password.ContextPassword;
-import Util.auth.password.Password_PWD_B;
-import Util.auth.workID.ContextWorkID;
-import Util.auth.workID.WorkID_WORK_ID;
+import Serve.auth.password.ContextPassword;
+import Serve.auth.password.Password_PWD_B;
+import Serve.auth.workID.ContextWorkID;
+import Serve.auth.workID.WorkID_WORK_ID;
 
 
 public class Global {

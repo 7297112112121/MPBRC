@@ -1,10 +1,11 @@
 package View.user;
 
+import MyObject.User;
 import View.MyFrame;
 import View.MyJPanel;
 import View.RenderingPanel;
-import Util.observer.ObserverFrame;
-import Util.observer.ObserverMessagePanel;
+import View.observer.ObserverFrame;
+import View.observer.ObserverMessagePanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +15,8 @@ public class UserFrame extends MyFrame {
     private final JLabel title = new JLabel("欢迎使用租凭充电包系统");
     private final MessagePane messagePane;
     private final RenderingPanel rp ;
+    private int identify;
+    private User user;
     public UserFrame() {
         super();
         setBounds(800,200,600,800);
@@ -55,8 +58,16 @@ public class UserFrame extends MyFrame {
         rp.update(panel);
     }
 
+    //返回上一级
     public MyJPanel getShowPanel() {
         return rp.getShowPanel();
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

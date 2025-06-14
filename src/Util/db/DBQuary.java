@@ -34,11 +34,15 @@ public class DBQuary extends DataBase {
      * setString（）
      * @return 返回多行数据
      * */
-    public static ResultSet query(String sql,Object... parameters) throws SQLException {
-        //获得getPreparedStatement
-        PreparedStatement preparedStatement = getPreparedStatement(sql, parameters);
-        //返回结果集
-        return preparedStatement.executeQuery();
+    public static ResultSet query(String sql,Object... parameters)  {
+        try {
+            //获得getPreparedStatement
+            PreparedStatement preparedStatement = getPreparedStatement(sql, parameters);
+            //返回结果集
+            return preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

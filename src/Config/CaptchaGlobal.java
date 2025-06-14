@@ -1,7 +1,7 @@
 package Config;
 
-import Util.auth.captcha.ContextCaptcha;
-import Util.auth.captcha.SixNum;
+import Serve.auth.captcha.ContextCaptcha;
+import Serve.auth.captcha.SixNum;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

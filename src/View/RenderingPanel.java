@@ -1,8 +1,8 @@
 package View;
 
 
-import Util.observer.AllObserverOfFrame;
-import Util.observer.ObserverMessagePanel;
+import View.observer.AllObserverOfFrame;
+import View.observer.ObserverMessagePanel;
 import View.user.MessagePane;
 
 import java.awt.*;
@@ -43,12 +43,14 @@ public class RenderingPanel extends View.MyJPanel {
         // 检查面板是否已存在，如果不存在则添加
         if (getComponentCount() > 0) {
             boolean panelExists = false;
-            for (Component comp : getComponents()) {
-                if (comp.getClass().getName().equals(panelName)) {
-                    panelExists = true;
-                    break;
-                }
-            }
+            //获得容器中创建过的所有组件
+//            for (Component comp : getComponents()) {
+//                if (comp.getClass().getName().equals(panelName)) {
+//                    panelExists = true;
+//                    break;
+//                }
+//            }
+            //添加组件
             if (!panelExists) {
                 add(showPanel, panelName);
             }

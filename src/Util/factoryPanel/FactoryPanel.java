@@ -169,7 +169,6 @@ public class FactoryPanel{
                         labelPanel.add(labels[i]);
                         //设置组件id信息
                         labels[i].setHorizontalAlignment(JLabel.CENTER);
-                        labels[i].setForeground(Color.RED);
                         //设置组件id信息
                         String str = params[i];
                         setPanel( str, labels[i]);

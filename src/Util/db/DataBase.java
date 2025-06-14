@@ -49,6 +49,37 @@ public class DataBase implements DBConfig {
     }
 
     /**
+     * 创建PreparedStatement对象（推荐启用，有效防止sql注入）
+     * */
+    public static PreparedStatement getPreparedStatement(String sql, String parameters) throws SQLException {
+        // 将传入的参数字符串按逗号分割成数组
+        String[] paramsArray = (parameters != null && !parameters.isEmpty()) ?
+                parameters.split(",") :
+                new String[0];
+
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        // 获得元数据
+        ParameterMetaData parameterMetaData = preparedStatement.getParameterMetaData();
+        // 获得SQL语句需要的参数个数
+        int count = parameterMetaData.getParameterCount();
+
+        // 判断什么情况才需要给preparedStatement赋值
+        // 判断解释:当SQL需要的参数不为0，且分割后的参数数量等于需要的参数数量
+        if (count != 0 && paramsArray.length == count) {
+            for (int i = 0; i < count; i++) {
+                // 去除参数两边可能的引号或空格
+                String paramValue = paramsArray[i].trim();
+                if ((paramValue.startsWith("'") && paramValue.endsWith("'")) ||
+                        (paramValue.startsWith("\"") && paramValue.endsWith("\""))) {
+                    paramValue = paramValue.substring(1, paramValue.length() - 1);
+                }
+                preparedStatement.setObject(i + 1, paramValue);
+            }
+        }
+        return preparedStatement;
+    }
+
+    /**
      * 创建Statement对象（不建议使用，推荐预处理）
      * */
     public static Statement getStatement() {

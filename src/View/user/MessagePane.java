@@ -23,6 +23,8 @@ public class MessagePane extends MyJPanel  {
         add(button , BorderLayout.SOUTH);
 
         message = new TextArea();
+        //关闭编辑
+        message.setEditable(false);
         add(message , BorderLayout.CENTER);
     }
 

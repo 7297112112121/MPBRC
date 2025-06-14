@@ -30,13 +30,42 @@ public class DBUpData extends DataBase {
      * setString（）
      * @return 返回多行数据
      * */
-    public static int update(String sql,Object... parameters) throws SQLException {
-        //获得getPreparedStatement
-        PreparedStatement preparedStatement = getPreparedStatement(sql, parameters);
-        //开始操作，并返回影响行数，
-        int s = preparedStatement.executeUpdate();
-        //返回影响数(处理了多少条数据)
-        return s ;
+    public static int update(String sql,Object... parameters)  {
+        try {
+            //获得getPreparedStatement
+            PreparedStatement preparedStatement = getPreparedStatement(sql, parameters);
+            //开始操作，并返回影响行数，
+            int s = preparedStatement.executeUpdate();
+            //返回影响数(处理了多少条数据)
+            return s ;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * 预处理-执行插入操作
+     * setString（）
+     * @return 返回多行数据
+     * */
+    public static int update(String sql, String parameters)   {
+        try {
+            // 将传入的参数字符串按逗号分割成数组
+            String[] paramsArray = (parameters != null && !parameters.isEmpty()) ?
+                    parameters.split(",") :
+                    new String[0];
+
+            // 调用修改后的 getPreparedStatement 方法
+            PreparedStatement preparedStatement = getPreparedStatement(sql, parameters);
+
+            // 开始操作，并返回影响行数
+            int s = preparedStatement.executeUpdate();
+
+            // 返回影响数(处理了多少条数据)
+            return s;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

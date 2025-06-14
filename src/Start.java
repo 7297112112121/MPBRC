@@ -1,10 +1,10 @@
 
 import Config.CaptchaGlobal;
 import Config.Global;
-import DAO.LoadFormDataThead;
+import DAO.LoadDataThead;
 
-import Util.observer.AllObserverOfFrame;
-import Util.observer.ObserverFrame;
+import View.observer.AllObserverOfFrame;
+import View.observer.ObserverFrame;
 import View.user.UserFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,7 +29,7 @@ public class Start {
         logger.info("验证配置信息加载成功");
 
         //线程加载数据
-        LoadFormDataThead loadFormDataThead = new LoadFormDataThead();
+        LoadDataThead loadFormDataThead = new LoadDataThead();
         Thread loadDataThead = new Thread(loadFormDataThead);
         loadDataThead.start();
         logger.info("线程加载数据启动");

@@ -10,7 +10,7 @@ public class ContextQuery {
         this.query = query;
     }
     //使用方法
-    public ResultSet query( Object... params) {
+    public ResultSet query( String... params) {
         return query.query( params);
     }
 }

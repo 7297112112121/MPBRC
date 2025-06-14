@@ -9,4 +9,5 @@ public abstract class MyFrame extends JFrame{
     public abstract void update(MyJPanel panel);
 
     public abstract MyJPanel getShowPanel() ;
+
 }

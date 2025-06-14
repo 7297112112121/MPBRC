@@ -77,15 +77,14 @@ public class User {
         this.sex = sex;
     }
 
-    //本系统用户实例
-    public User(int nameID, String name, String sex, String password, String phoneNum, String device_id, double balance, int adminID) {
+    //完整用户实例
+    public User(int nameID, String name, String sex, String password, String phoneNum, double account) {
         this.name = name;
         this.password = password;
         this.phone = phoneNum;
         this.nameID = nameID;
-        this.device_id = device_id;
-        this.account = balance;
-        this.adminID = adminID;
+        this.account = account;
+        this.adminID = -1;
         this.sex = sex;
     }
 
