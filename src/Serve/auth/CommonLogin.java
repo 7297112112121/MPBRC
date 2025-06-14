@@ -3,6 +3,7 @@ package Serve.auth;
 import DAO.UserFieldEnum;
 import DAO.query.ContextQuery;
 import DAO.query.SimplyQueryWhere;
+import Util.auth.Verify;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,8 +11,6 @@ import javax.swing.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import static Config.PasswordConfig.PWD_B_TEXT;
 
 public class CommonLogin {
     private static Logger logger = LogManager.getLogger(CommonLogin.class);
@@ -47,8 +46,8 @@ public class CommonLogin {
     private boolean add(JTextField name , JLabel nameRimd , JPasswordField password, JLabel passwordRimd) {
         String nam = name.getText().trim();
         String passwor = password.getText().trim();
-        Is is = new Is();
-        if(!is.isName(nam)){
+        Verify is = new Verify();
+        if(!is.setName(nam)){
             nameRimd.setText("用户名不能为空");
             return false;
         }

@@ -1,4 +1,4 @@
-package Config;
+package Util.auth.captcha;
 
 public class ContextCaptcha {
     private CaptchaConfig captchaConfig;
@@ -8,7 +8,8 @@ public class ContextCaptcha {
         this.captchaConfig = captchaConfig;
     }
     //使用接口定义方法
-    public void useCaptcha(){
-        captchaConfig.getCaptcha();
+
+    public String getCaptcha() {
+        return captchaConfig.getCaptcha();
     }
 }

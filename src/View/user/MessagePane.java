@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 public class MessagePane extends MyJPanel  {
     private MyFrame frame;
     private TextArea message;
-    public MessagePane(MyFrame frame) {
+    public MessagePane(MyFrame frame, String messagePanelID) {
         super();
         setLayout(new BorderLayout());
         this.frame = frame;

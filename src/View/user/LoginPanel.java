@@ -5,6 +5,8 @@ import Serve.auth.CommonLogin;
 import View.MyFrame;
 import View.MyJPanel;
 import View.factoryPanel.FactoryPanel;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +16,7 @@ import java.awt.event.ActionListener;
 import static View.factoryPanel.FactoryPanel.MyJPanelType.*;
 
 public class LoginPanel extends MyJPanel {
+    private static final Logger logger = LogManager.getLogger(LoginPanel.class);
 
     /**
      * 昵称输入框
@@ -27,23 +30,24 @@ public class LoginPanel extends MyJPanel {
     private final JButton register = new JButton("注册");
     private final MyFrame frame;
     public LoginPanel(MyFrame userFrame) {
+        logger.info("用户登陆界面正在加载");
         this.frame = userFrame;
 
         setLayout(new GridLayout(13,1));
 
         FactoryPanel factoryPanel = new FactoryPanel();
         //设置面板
-        add(factoryPanel.createPanel(JLABLE_JTEXTFIELD_JLABLE, "昵称:", "10", ""));
-        add(factoryPanel.createPanel(JLABLE, "<html>&nbsp;</html>"));
-        add(factoryPanel.createPanel(JLABLE_JPASSWORDFIELD_JBUTTON, "密码:", "10", "显示"));
-        add(factoryPanel.createPanel(JLABLE, "<html>&nbsp;&nbsp;</html>"));
+        add(factoryPanel.createPanel(JLABLE_JTEXTFIELD_JLABLE, "昵称:", "10;名字输入框", ""));
+        add(factoryPanel.createPanel(JLABLE, ";名字提示标签"));
+        add(factoryPanel.createPanel(JLABLE_JPASSWORDFIELD_JBUTTON, "密码:", "10;密码输入框", "显示"));
+        add(factoryPanel.createPanel(JLABLE, ";密码提示标签"));
 
         //提取组件
-        JTextField nickNameInput = (JTextField)factoryPanel.getPanel(JLABLE_JTEXTFIELD_JLABLE,"10");
-        JLabel nickName = (JLabel)factoryPanel.getPanel(JLABLE,"<html>&nbsp;</html>");
+        JTextField nickNameInput = (JTextField)factoryPanel.getJComponent("名字输入框");
+        JLabel nickName = (JLabel)factoryPanel.getJComponent("名字提示标签");
 
-        JPasswordField password = (JPasswordField)factoryPanel.getPanel(JLABLE_JPASSWORDFIELD_JBUTTON,"10");
-        JLabel rimind = (JLabel)factoryPanel.getPanel(JLABLE,"<html>&nbsp;&nbsp;</html>");
+        JPasswordField password = (JPasswordField)factoryPanel.getJComponent("密码输入框");
+        JLabel rimind = (JLabel)factoryPanel.getJComponent("密码提示标签");
 
         //登录按钮
         JPanel buttonPanel = new JPanel(new GridLayout(1,2));
@@ -68,6 +72,7 @@ public class LoginPanel extends MyJPanel {
                 frame.update(new RegisterJPane(frame));
             }
         });
+        logger.info("用户登陆界面加载完成");
     }
 
 

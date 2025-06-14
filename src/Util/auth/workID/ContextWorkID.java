@@ -1,4 +1,4 @@
-package Config;
+package Util.auth.workID;
 
 public class ContextWorkID {
     private WorkIDConfig workIDConfig;
@@ -9,7 +9,11 @@ public class ContextWorkID {
     }
 
     //使用方法
-    public void getWorkID(){
-        workIDConfig.getWorkID();
+    public String getWorkID(){
+        return workIDConfig.getWorkID();
+    }
+
+    public String setWorkIDText() {
+        return workIDConfig.setWorkIDText();
     }
 }

@@ -1,4 +1,4 @@
-package Config;
+package Util.auth.phone;
 
 public interface PhoneConfig {
     /**

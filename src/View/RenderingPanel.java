@@ -1,6 +1,8 @@
 package View;
 
 
+import View.user.MessagePane;
+
 import java.awt.*;
 /**
  * 渲染面板
@@ -9,8 +11,8 @@ import java.awt.*;
 public class RenderingPanel extends View.MyJPanel {
 
     private CardLayout cardLayout;
-    private MyJPanel[] showPanel = new MyJPanel[2];
-    private boolean saveShowPanel = true;
+    private MyJPanel[] showPanel = new MyJPanel[2]; //面板历史记录，最大保留记录1
+    private boolean saveShowPanel = true;           //记录保留开关
 
     public RenderingPanel() {
         super();
@@ -58,11 +60,17 @@ public class RenderingPanel extends View.MyJPanel {
         repaint();
     }
 
+    //获得历史记录上一个面板
     public MyJPanel getShowPanel() {
         if (saveShowPanel) {
             return showPanel[0];
         }else {
             return showPanel[1];
         }
+    }
+
+    //自动跳过设置观察者的信息面板
+    private boolean skipSetObserverMessagePanel() {
+
     }
 }

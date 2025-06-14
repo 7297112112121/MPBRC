@@ -3,6 +3,7 @@ package View.user;
 import View.MyFrame;
 import View.MyJPanel;
 import View.RenderingPanel;
+import View.observer.ObserverMessagePanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +23,12 @@ public class UserFrame extends MyFrame {
 
         //顶部（持久存在）
         JPanel top = new JPanel(new BorderLayout());
-        messagePane = new MessagePane(this);
+
+        //设置MessagePanel观察者
+        ObserverMessagePanel observerMessagePanel = new ObserverMessagePanel(this);
+        messagePane = new MessagePane(this, "globeNews");
+        observerMessagePanel.addMessagePanel("globeNews",messagePane);
+        //设置标题格式
         title.setHorizontalAlignment(JLabel.CENTER);
         top.add(title, BorderLayout.CENTER);
         top.add(news, BorderLayout.EAST);
