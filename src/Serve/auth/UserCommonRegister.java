@@ -110,7 +110,6 @@ public class UserCommonRegister {
     //生成验证码
     public void createCaptcha(String phone,JButton phoneButton , JLabel phoneRimd, MyFrame frame) {
         verify.createCaptchaWithUI(phone, phoneButton, phoneRimd, frame);
-
     }
 
     //获得验证码

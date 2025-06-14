@@ -4,6 +4,7 @@ import Serve.auth.UserCommonSet;
 import Util.factoryPanel.FactoryPanel;
 import View.MyFrame;
 import View.MyJPanel;
+import com.sun.org.apache.xpath.internal.operations.Or;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,18 +16,21 @@ import java.awt.event.ActionListener;
 public class PasswordPanel extends MyJPanel {
     private static final Logger log = LogManager.getLogger(PasswordPanel.class);
     private MyFrame frame;
+    private boolean one = false;
+    private boolean two = false;
+    private boolean three = false;
     public PasswordPanel(MyFrame frame) {
          super();
          this.frame = frame;
          setLayout(new GridLayout(7,1));
         FactoryPanel factoryPanel = new FactoryPanel();
-        add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.JLABLE_JPASSWORDFIELD_JBUTTON,"原密码", "20;password", "显示"));
+        add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.JLABLE_JPASSWORDFIELD_JBUTTON,"原密码", "20;password", "显示;00"));
         add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.JLABLE,";0"));
-        add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.JLABLE_JPASSWORDFIELD_JBUTTON,"新密码", "20;password1", "显示"));
+        add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.JLABLE_JPASSWORDFIELD_JBUTTON,"新密码", "20;password1", "显示;11"));
         add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.JLABLE,";1"));
-        add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.JLABLE_JPASSWORDFIELD_JBUTTON,"确认密码", "20;password2", "显示"));
+        add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.JLABLE_JPASSWORDFIELD_JBUTTON,"确认密码", "20;password2", "显示;22"));
         add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.JLABLE,";2"));
-        add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.BUTTONS, "确认;确认", "取消"));
+        add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.BUTTONS, "确认;确认", "取消;取消"));
 
         //设置信息
         JPasswordField OrPassword = (JPasswordField) factoryPanel.getJComponent("password");
@@ -38,6 +42,52 @@ public class PasswordPanel extends MyJPanel {
         JPasswordField ConfirmPassword = (JPasswordField) factoryPanel.getJComponent("password2");
         ConfirmPassword.setEchoChar('●');
         JLabel ConfirmPasswordRemind = (JLabel) factoryPanel.getJComponent("2");
+
+        //显示密码事件
+        JButton show = (JButton) factoryPanel.getJComponent("00");
+        show.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                one = !one;
+                if (one) {
+                    show.setText("隐藏");
+                    OrPassword.setEchoChar('\0');
+                } else {
+                    show.setText("显示");
+                    OrPassword.setEchoChar('●');
+                }
+
+            }
+        });
+        JButton show1 = (JButton) factoryPanel.getJComponent("11");
+        show1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                two = !two;
+                if (two) {
+                    show1.setText("隐藏");
+                    NewPassword.setEchoChar('\0');
+                }else {
+                    show1.setText("显示");
+                    NewPassword.setEchoChar('●');
+                }
+            }
+        });
+        JButton show2 = (JButton) factoryPanel.getJComponent("22");
+        show2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                three = !three;
+                if (three) {
+                    show2.setText("移除");
+                    ConfirmPassword.setEchoChar('\0');
+                }else {
+                    show2.setText("显示");
+                    ConfirmPassword.setEchoChar('●');
+                }
+            }
+        });
+
 
         //确认修改密码事件
         JButton confirm = (JButton) factoryPanel.getJComponent("确认");

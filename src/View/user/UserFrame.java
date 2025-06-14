@@ -48,9 +48,12 @@ public class UserFrame extends MyFrame {
         add(rp,BorderLayout.CENTER);
         rp.update(new LoginPanel(this));
 
-        //事件
+        //消息事件
         news.addActionListener(e -> {
-            rp.update(messagePane);
+
+                rp.update(messagePane);
+                news.setEnabled(false);
+
         });
         setVisible(true);
     }
@@ -69,5 +72,9 @@ public class UserFrame extends MyFrame {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public JButton getNews() {
+        return news;
     }
 }

@@ -68,8 +68,15 @@ public class UserCommonSet {
         return true;
     }
 
+    //生成验证码
+    public void createCaptchaWithUI(JTextField phon, JButton phoneButton, JLabel phoneRimd, MyFrame frame) {
+        String phone = phon.getText().trim();
+        verify.createCaptchaWithUI(phone, phoneButton, phoneRimd, frame);
+    }
+
     //电话号码正确则修改电话号码
-    public boolean setPhone(String phone, JLabel phoneRimd, JTextField cap, int nameid) {
+    public boolean setPhone(JTextField phon, JLabel phoneRimd, JTextField cap, int nameid) {
+        String phone = phon.getText().trim();
         String capcha = verify.getCapcha(phone);
         if (capcha.equals(cap.getText().trim())) {
             new SimplySet().set(

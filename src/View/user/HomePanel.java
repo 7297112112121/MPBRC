@@ -3,6 +3,8 @@ package View.user;
 import Util.factoryPanel.FactoryPanel;
 import View.MyFrame;
 import View.MyJPanel;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,9 +12,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class HomePanel extends MyJPanel {
+    private static final Logger logger = LogManager.getLogger(HomePanel.class);
     private MyFrame frame ;
     public HomePanel(MyFrame frame) {
         super();
+        logger.info("首页加载中");
         this.frame = frame;
         setLayout(new GridLayout(2,1));
         FactoryPanel factoryPanel = new FactoryPanel();
@@ -29,5 +33,6 @@ public class HomePanel extends MyJPanel {
                 frame.update(new MyMessagePanel(frame));
             }
         });
+        logger.info("首页加载完成");
     }
 }
