@@ -1,6 +1,7 @@
 package View.user;
 
 import MyObject.User;
+import Serve.charge.ChargeLocal;
 import Util.factoryPanel.FactoryPanel;
 import View.FatherJPanel;
 import org.apache.logging.log4j.LogManager;
@@ -10,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class CheckMoneyPanel extends FatherJPanel {
     private Logger logger = LogManager.getLogger(CheckMoneyPanel.class);
@@ -38,14 +40,32 @@ public class CheckMoneyPanel extends FatherJPanel {
         JPanel five = factoryPanel.createPanel(FactoryPanel.MyJPanelType.BUTTONS, "返回;return");
         add(five);
 
+        //设置文本信息
+
+        JTextArea moneyText = (JTextArea) factoryPanel.getJComponent("moneyText");
+        // 设置字体大小为16像素，加粗
+        Font font = new Font("宋体", Font.BOLD, 16);
+        moneyText.setFont(font);
+        moneyText.setEditable(false);
+        //添加记录
+        ChargeLocal chargeLocal = new ChargeLocal();
+        List<String> list = chargeLocal.getAccountLogin(user.getNameID());
+        if (list.isEmpty()) {
+            moneyText.setText("空空如也");
+        }else {
+            for (String s : list) {
+                moneyText.append(s + "\n");
+            }
+        }
+
+
         //设置信息
         JLabel money = (JLabel) factoryPanel.getJComponent("￥");
         money.setText(String.valueOf(user.getAccount()) + "￥");
+        Font fontMoney = new Font("宋体", Font.BOLD, 30);
+        money.setFont(fontMoney);
         JLabel orderNumber = (JLabel) factoryPanel.getJComponent("moneyNum") ;
-        orderNumber.setText("共0条");         ///待修改
-        JTextArea moneyText = (JTextArea) factoryPanel.getJComponent("moneyText");
-        moneyText.setText("空空如也");
-        moneyText.setEditable(false);
+        orderNumber.setText("共" + list.size() + "条");         ///待修改
 
         //充值事件
         JButton reCharge = (JButton) factoryPanel.getJComponent("recharge");

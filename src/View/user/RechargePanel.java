@@ -1,7 +1,7 @@
 package View.user;
 
 import MyObject.User;
-import Serve.charge.chargeLocal;
+import Serve.charge.ChargeLocal;
 import Util.factoryPanel.FactoryPanel;
 import View.FatherJPanel;
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +17,7 @@ import java.awt.event.FocusListener;
 public class RechargePanel extends FatherJPanel implements ActionListener {
     private static final Logger logger = LogManager.getLogger(RechargePanel.class);
     private UserFrame frame;
-    private chargeLocal rechargeLocal = new chargeLocal();
+    private ChargeLocal rechargeLocal = new ChargeLocal();
     private User user;
     FactoryPanel factoryPanel = new FactoryPanel();
     String textCharge = "支持0-300元充值";

@@ -5,6 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SimplyInsertAllForm implements Insert {
+    /**
+     * 第 1 个参数：formName - 要插入数据的表名（字符串）
+     * 第 2 个及之后参数：EnumValue - 可变参数，格式为：
+     * "字段1", "字段2", ..., "字段n", "值1", "值2", ..., "值n"
+     *
+     * 字段名：表中的列名（字符串），多个字段用逗号分隔（实际通过分号;标识字段与值的分界）
+     * 值：要插入的字段值（字符串），需与字段顺序一一对应
+     * */
     public int insert(String formName, String... EnumValue) {
         // 确定字段与值的分割点
         int splitIndex = 0;

@@ -23,7 +23,7 @@ public class MyMessagePanel extends FatherJPanel {
 
         //微调返回首页部分
         JPanel panel = new JPanel(new GridLayout(1,3));
-        panel.add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.BUTTONS, "返回首页;index"));
+        panel.add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.BUTTONS, "返回;index"));
         panel.add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.JLABLE, ";1"));
         panel.add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.JLABLE,";2"));
         add(panel);

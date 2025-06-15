@@ -6,8 +6,11 @@ import java.sql.ResultSet;
 
 public class SimplyQueryWhere implements Query {
     @Override
-    /* *
-     * 按照写入的枚举返回表
+
+    /**
+     * 第 1 个参数：要查询的表名（字符串）
+     * 第 2 个及之后参数：按 字段名-值 对依次排列，格式为：
+     * "字段1", "值1", "字段2", "值2", ..., "字段n", "值n"
      * */
     public ResultSet query(String... parms) {
         if (parms.length < 3) { // 至少需要表名、一个字段和一个值
