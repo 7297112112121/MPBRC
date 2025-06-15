@@ -1,19 +1,16 @@
 package View.user;
 
-import MyObject.User;
-import View.MyFrame;
-import View.MyJPanel;
+import View.FatherFrame;
+import View.FatherJPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class MessagePane extends MyJPanel  {
+public class MessagePane extends FatherJPanel {
     private String messagePanelID;
     private UserFrame frame;
     private TextArea message;
-    public MessagePane(MyFrame frame, String messagePanelID) {
+    public MessagePane(FatherFrame frame, String messagePanelID) {
         super();
         setLayout(new BorderLayout());
         this.frame = (UserFrame) frame;

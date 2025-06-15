@@ -1,8 +1,8 @@
 package View.user;
 
 import MyObject.User;
-import View.MyFrame;
-import View.MyJPanel;
+import View.FatherFrame;
+import View.FatherJPanel;
 import View.RenderingPanel;
 import View.observer.ObserverFrame;
 import View.observer.ObserverMessagePanel;
@@ -10,16 +10,18 @@ import View.observer.ObserverMessagePanel;
 import javax.swing.*;
 import java.awt.*;
 
-public class UserFrame extends MyFrame {
+public class UserFrame extends FatherFrame {
     private final JButton news = new JButton("消息");
     private final JLabel title = new JLabel("欢迎使用租凭充电包系统");
     private final MessagePane messagePane;
     private final RenderingPanel rp ;
     private int identify;
     private User user;
+    private int width = 600;
+    private int height = 800;
     public UserFrame() {
         super();
-        setBounds(800,200,600,800);
+        setBounds(800,200,width,height);
         setLayout(new BorderLayout());
         setTitle("用户界面");
         setVisible(true);
@@ -57,12 +59,12 @@ public class UserFrame extends MyFrame {
         });
         setVisible(true);
     }
-    public void update(MyJPanel panel) {
+    public void update(FatherJPanel panel) {
         rp.update(panel);
     }
 
     //返回上一级
-    public MyJPanel getShowPanel() {
+    public FatherJPanel getShowPanel() {
         return rp.getShowPanel();
     }
 
@@ -76,5 +78,15 @@ public class UserFrame extends MyFrame {
 
     public JButton getNews() {
         return news;
+    }
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
     }
 }

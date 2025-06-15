@@ -1,8 +1,8 @@
 package View.user;
 
 import Util.factoryPanel.FactoryPanel;
-import View.MyFrame;
-import View.MyJPanel;
+import View.FatherFrame;
+import View.FatherJPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,11 +11,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MyMessagePanel extends MyJPanel {
+public class MyMessagePanel extends FatherJPanel {
     private static final Logger logger = LogManager.getLogger(MyMessagePanel.class);
 
     private UserFrame frame ;
-    public  MyMessagePanel(MyFrame frame) {
+    public  MyMessagePanel(FatherFrame frame) {
         logger.info("我的信息面板加载中");
         this.frame = (UserFrame) frame;
         setLayout(new GridLayout(5,1));
@@ -53,7 +53,7 @@ public class MyMessagePanel extends MyJPanel {
         returnHome.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.update(new HomePanel(frame));
+                frame.update(new MyPanel((UserFrame) frame));
             }
         });
 

@@ -39,10 +39,9 @@ public class FactoryPanel{
         JLABLE_JPASSWORDFIELD_JBUTTON,
         JLABLE_JTEXTFIELD_JBUTTON,
         BUTTONS,
-        JLABLE
-
-
-//        ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,TEN
+        JLABLE,
+        JTEXTFIELD,
+        JTEXTAREA
     }
 
     //面板抽象工厂
@@ -81,7 +80,7 @@ public class FactoryPanel{
 
                     return namePanel;
 
-                    //密码输入框（请配合）
+                //密码输入框（请配合）
                 case JLABLE_JPASSWORDFIELD_JBUTTON:
                     //参数：标签名称 + 密码输入框长度
                     JLabel passwordInputLeft = new JLabel();
@@ -179,6 +178,52 @@ public class FactoryPanel{
                     }
 
                     return labelPanel;
+
+                case JTEXTFIELD:
+                    JPanel textFieldPanel = new JPanel(new GridLayout(1, params.length));
+                    JTextField[] textFields = new JTextField[params.length];
+
+                    for (int i = 0; i < params.length; i++) {
+                        textFields[i] = new JTextField();
+                        textFieldPanel.add(textFields[i]);
+
+                        // 设置组件id信息
+                        setPanel(params[i], textFields[i]);
+
+                        // 卸载id信息，设置文本框列数
+                        String columnStr = deleteID(params[i]);
+                        textFields[i].setColumns(Integer.parseInt(columnStr));
+                    }
+
+                    return textFieldPanel;
+
+                case JTEXTAREA:
+                    JPanel textAreaPanel = new JPanel(new GridLayout(1, params.length));
+                    JTextArea[] textAreas = new JTextArea[params.length];
+
+                    for (int i = 0; i < params.length; i++) {
+                        textAreas[i] = new JTextArea();
+                        textAreaPanel.add(new JScrollPane(textAreas[i])); // 使用滚动面板包装文本域
+
+                        // 设置组件id信息
+                        setPanel(params[i], textAreas[i]);
+
+                        // 卸载id信息，解析参数格式: "行数x列数;id"
+                        String spec = deleteID(params[i]);
+                        String[] parts = spec.split("x");
+
+                        if (parts.length == 2) {
+                            int rows = Integer.parseInt(parts[0]);
+                            int columns = Integer.parseInt(parts[1]);
+                            textAreas[i].setRows(rows);
+                            textAreas[i].setColumns(columns);
+                        } else {
+                            logger.error("JTEXTAREA参数格式错误，应为'行数x列数;id'");
+                            return null;
+                        }
+
+                    }
+                    return textAreaPanel;
 
                 default:
                     logger.warn("PanelFactory工厂没有该对象,请检查是否创建或设置引用");

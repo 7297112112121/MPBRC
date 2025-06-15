@@ -1,6 +1,6 @@
 package View.observer;
 
-import View.MyFrame;
+import View.FatherFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,7 +9,7 @@ import java.util.*;
 public class AllObserverOfFrame extends Observer {
     private static final Logger logger = LogManager.getLogger(AllObserverOfFrame.class);
     // 存储每个窗口对应的观察者列表，使用Map确保每种类型唯一
-    public static HashMap<MyFrame, Map<Type, Observer>> allObserver = new HashMap<>();
+    public static HashMap<FatherFrame, Map<Type, Observer>> allObserver = new HashMap<>();
 
     public AllObserverOfFrame(){}
 
@@ -18,7 +18,7 @@ public class AllObserverOfFrame extends Observer {
     }
 
     // 添加观察者到指定窗口，确保每种类型唯一
-    public static void add(MyFrame frame, Type type, Observer observer) {
+    public static void add(FatherFrame frame, Type type, Observer observer) {
         Map<Type, Observer> frameObservers = allObserver.computeIfAbsent(frame, k -> new HashMap<>());
 
         // 检查是否已存在相同类型的观察者
@@ -31,7 +31,7 @@ public class AllObserverOfFrame extends Observer {
     }
 
     // 获取指定窗口的特定类型观察者
-    public static Observer getObserverByFrame(MyFrame frame, Type type) {
+    public static Observer getObserverByFrame(FatherFrame frame, Type type) {
         Map<Type, Observer> frameObservers = allObserver.get(frame);
         if (frameObservers != null) {
             return frameObservers.get(type);
@@ -42,7 +42,7 @@ public class AllObserverOfFrame extends Observer {
     }
 
     // 获取指定窗口的所有观察者
-    public static Map<Type, Observer> getObserversByFrame(MyFrame frame) {
+    public static Map<Type, Observer> getObserversByFrame(FatherFrame frame) {
         return allObserver.getOrDefault(frame, Collections.emptyMap());
     }
 
@@ -58,17 +58,17 @@ public class AllObserverOfFrame extends Observer {
     }
 
     // 获取所有窗口及其观察者映射
-    public static HashMap<MyFrame, Map<Type, Observer>> getAll() {
+    public static HashMap<FatherFrame, Map<Type, Observer>> getAll() {
         return new HashMap<>(allObserver);
     }
 
     // 移除指定窗口的所有观察者
-    public static void remove(MyFrame frame) {
+    public static void remove(FatherFrame frame) {
         allObserver.remove(frame);
     }
 
     // 移除指定窗口的特定类型观察者
-    public static void remove(MyFrame frame, Type type) {
+    public static void remove(FatherFrame frame, Type type) {
         Map<Type, Observer> frameObservers = allObserver.get(frame);
         if (frameObservers != null) {
             frameObservers.remove(type);

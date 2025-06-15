@@ -2,8 +2,8 @@ package View.user;
 
 import Serve.auth.UserCommonSet;
 import Util.factoryPanel.FactoryPanel;
-import View.MyFrame;
-import View.MyJPanel;
+import View.FatherFrame;
+import View.FatherJPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,10 +12,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PhoneJPanel extends MyJPanel {
+public class PhoneJPanel extends FatherJPanel {
     private static final Logger logger = LogManager.getLogger(PhoneJPanel.class);
     private UserFrame frame;
-    public PhoneJPanel(MyFrame frame) {
+    public PhoneJPanel(FatherFrame frame) {
         logger.info("加载手机号码修改界面");
         this.frame = (UserFrame) frame;
         this.setLayout(null);
@@ -57,7 +57,7 @@ public class PhoneJPanel extends MyJPanel {
                         (JTextField)factoryPanel.getJComponent("待修改"),
                         (JLabel) factoryPanel.getJComponent("提示框"),
                         (JTextField) factoryPanel.getJComponent("验证码"),
-                        ((UserFrame) frame).getUser().getNameID()
+                        (UserFrame) frame
                 );
                 if (fa){
                     frame.update(new MyMessagePanel(frame));

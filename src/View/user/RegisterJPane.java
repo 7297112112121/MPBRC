@@ -1,8 +1,8 @@
 package View.user;
 
 import Serve.auth.UserCommonRegister;
-import View.MyFrame;
-import View.MyJPanel;
+import View.FatherFrame;
+import View.FatherJPanel;
 import Util.factoryPanel.FactoryPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,13 +14,13 @@ import java.awt.event.ActionListener;
 
 import static Util.factoryPanel.FactoryPanel.MyJPanelType.*;
 
-public class RegisterJPane extends MyJPanel {
+public class RegisterJPane extends FatherJPanel {
     private static final Logger logger = LogManager.getLogger(RegisterJPane.class);
-    private MyFrame frame;//储存索引
+    private FatherFrame frame;//储存索引
 
     private boolean checkPassword = false;
     private boolean checkConfirmPassword = false;
-    public RegisterJPane(MyFrame frame) {
+    public RegisterJPane(FatherFrame frame) {
         logger.info("用户注册界面正在加载");
         this.frame = frame;//获得索引
         UserCommonRegister register1 = new UserCommonRegister();

@@ -13,22 +13,16 @@ public class User {
     private int nameID;
     private String name;
     private String sex;
-    private String device_id;
     private String password;
     private String phone;
     private int adminID;
-    private double account;             //充值金额
+    private double account = 0.00;             //充值金额
 
 
     public User() {
         this.nameID = -1;
-        this.name = null;
-        this.password = null;
-        this.phone = null;
         this.adminID = -1;
         this.account = 0;
-        this.sex = null;
-        this.device_id = null;
     }
     //登陆使用
     public User(String name, String password) {
@@ -37,9 +31,7 @@ public class User {
         this.nameID=-1;
         this.adminID =-1;
         this.account = 0;
-        this.sex = null;
-        this.device_id = null;
-        this.phone = null;
+
 
     }
 
@@ -50,8 +42,7 @@ public class User {
         this.nameID = -1;
         this.adminID = -1;
         this.account = 0;
-        this.sex = null;
-        this.device_id = null;
+
     }
 
     public User(int nameID, String name, String password, String phoneNum) {
@@ -61,8 +52,6 @@ public class User {
         this.phone = phoneNum;
         this.adminID = -1;
         this.account = 0;
-        this.sex = null;
-        this.device_id = null;
     }
 
     //user表
@@ -71,21 +60,16 @@ public class User {
         this.password = password;
         this.phone = phoneNum;
         this.nameID = nameID;
-        this.device_id = device_id;
-        this.account = 0;
-        this.adminID = -1;
-        this.sex = sex;
     }
 
     //完整用户实例
     public User(int nameID, String name, String sex, String password, String phoneNum, double account) {
+        this.nameID = nameID;
         this.name = name;
+        this.sex = sex;
         this.password = password;
         this.phone = phoneNum;
-        this.nameID = nameID;
         this.account = account;
-        this.adminID = -1;
-        this.sex = sex;
     }
 
 
@@ -141,14 +125,6 @@ public class User {
         this.sex = sex;
     }
 
-    public String getDevice_id() {
-        return device_id;
-    }
-
-    public void setDevice_id(String device_id) {
-        this.device_id = device_id;
-    }
-
     public int getAdminID() {
         return adminID;
     }
@@ -157,4 +133,11 @@ public class User {
         this.adminID = adminID;
     }
 
+    public double getAccount() {
+        return account;
+    }
+
+    public void setAccount(double account) {
+        this.account = account;
+    }
 }

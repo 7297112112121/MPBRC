@@ -1,6 +1,6 @@
 package View.observer;
 
-import View.MyFrame;
+import View.FatherFrame;
 import View.user.MessagePane;
 
 import java.util.ArrayList;
@@ -10,10 +10,10 @@ import java.util.List;
 import static View.observer.AllObserverOfFrame.Type.OBSERVER_MESSAGE_PANEL;
 
 public class ObserverMessagePanel extends Observer {
-    private MyFrame frame;
+    private FatherFrame frame;
     private static HashMap<String, MessagePane> messagePaneHashMap = new HashMap<>();
 
-    public ObserverMessagePanel(MyFrame frame) {
+    public ObserverMessagePanel(FatherFrame frame) {
         this.frame = frame;
         //添加到观察者列表
         AllObserverOfFrame.add(frame, OBSERVER_MESSAGE_PANEL, this);

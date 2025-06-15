@@ -2,8 +2,8 @@ package View.user;
 
 import Serve.auth.UserCommonSet;
 import Util.factoryPanel.FactoryPanel;
-import View.MyFrame;
-import View.MyJPanel;
+import View.FatherFrame;
+import View.FatherJPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,10 +12,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class NamePanel extends MyJPanel {
+public class NamePanel extends FatherJPanel {
     private static final Logger logger = LogManager.getLogger(NamePanel.class);
     private UserFrame frame;
-    public NamePanel(MyFrame frame) {
+    public NamePanel(FatherFrame frame) {
         logger.info("修改名字界面加载中");
         this.frame = (UserFrame) frame;
         FactoryPanel factoryPanel = new FactoryPanel();
@@ -46,8 +46,7 @@ public class NamePanel extends MyJPanel {
         sure.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int nameid = ((UserFrame) frame).getUser().getNameID();
-                boolean fa = new UserCommonSet().setName(name, rimid, nameid);
+                boolean fa = new UserCommonSet().setName(name, rimid, frame);
                 if (fa) {
                     frame.update(new MyMessagePanel(frame));
                     logger.info("修改名字成功");

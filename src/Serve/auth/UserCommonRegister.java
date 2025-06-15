@@ -2,7 +2,7 @@ package Serve.auth;
 
 import DAO.insert.ContextInsert;
 import DAO.insert.SimplyInsertAllForm;
-import View.MyFrame;
+import View.FatherFrame;
 
 import javax.swing.*;
 
@@ -108,7 +108,7 @@ public class UserCommonRegister {
     }
 
     //生成验证码
-    public void createCaptcha(String phone,JButton phoneButton , JLabel phoneRimd, MyFrame frame) {
+    public void createCaptcha(String phone,JButton phoneButton , JLabel phoneRimd, FatherFrame frame) {
         verify.createCaptchaWithUI(phone, phoneButton, phoneRimd, frame);
     }
 

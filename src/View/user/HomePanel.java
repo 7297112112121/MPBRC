@@ -1,8 +1,8 @@
 package View.user;
 
 import Util.factoryPanel.FactoryPanel;
-import View.MyFrame;
-import View.MyJPanel;
+import View.FatherFrame;
+import View.FatherJPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,10 +11,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class HomePanel extends MyJPanel {
+public class HomePanel extends FatherJPanel {
     private static final Logger logger = LogManager.getLogger(HomePanel.class);
-    private MyFrame frame ;
-    public HomePanel(MyFrame frame) {
+    private FatherFrame frame ;
+    public HomePanel(FatherFrame frame) {
         super();
         logger.info("首页加载中");
         this.frame = frame;
@@ -30,7 +30,7 @@ public class HomePanel extends MyJPanel {
         my.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.update(new MyMessagePanel(frame));
+                frame.update(new MyPanel((UserFrame) frame));
             }
         });
         logger.info("首页加载完成");

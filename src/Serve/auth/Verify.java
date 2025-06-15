@@ -5,7 +5,7 @@ import Config.Global;
 
 
 import Util.CountDown;
-import View.MyFrame;
+import View.FatherFrame;
 import View.observer.AllObserverOfFrame;
 import View.observer.ObserverMessagePanel;
 
@@ -88,7 +88,7 @@ public class Verify {
 
     // 新增生成验证码并处理界面交互的方法，供外部调用（比如 GUI 相关类）
     // 这里把原来和界面组件交互的逻辑放到这里，后续在实际使用时传入对应组件即可
-    public void createCaptchaWithUI(String phone, JButton phoneButton, JLabel phoneRimd, MyFrame frame) {
+    public void createCaptchaWithUI(String phone, JButton phoneButton, JLabel phoneRimd, FatherFrame frame) {
         if (isPhone(phone)) {
             createCaptcha(phone);
             phoneRimd.setText("验证码已发送");

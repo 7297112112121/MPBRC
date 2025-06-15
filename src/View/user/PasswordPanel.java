@@ -2,9 +2,8 @@ package View.user;
 
 import Serve.auth.UserCommonSet;
 import Util.factoryPanel.FactoryPanel;
-import View.MyFrame;
-import View.MyJPanel;
-import com.sun.org.apache.xpath.internal.operations.Or;
+import View.FatherFrame;
+import View.FatherJPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,13 +12,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PasswordPanel extends MyJPanel {
+public class PasswordPanel extends FatherJPanel {
     private static final Logger log = LogManager.getLogger(PasswordPanel.class);
-    private MyFrame frame;
+    private FatherFrame frame;
     private boolean one = false;
     private boolean two = false;
     private boolean three = false;
-    public PasswordPanel(MyFrame frame) {
+    public PasswordPanel(FatherFrame frame) {
          super();
          this.frame = frame;
          setLayout(new GridLayout(7,1));
