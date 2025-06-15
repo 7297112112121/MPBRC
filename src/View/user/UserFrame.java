@@ -15,8 +15,8 @@ public class UserFrame extends FatherFrame {
     private final JLabel title = new JLabel("欢迎使用租凭充电包系统");
     private final MessagePane messagePane;
     private final RenderingPanel rp ;
-    private int identify;
     private User user;
+    private int scheme = 0;//用户选择租借冲电宝的套餐
     private int width = 600;
     private int height = 800;
     public UserFrame() {
@@ -88,5 +88,13 @@ public class UserFrame extends FatherFrame {
     @Override
     public int getHeight() {
         return height;
+    }
+
+    public int getScheme() {
+        return scheme;
+    }
+
+    public void setScheme(int scheme) {
+        this.scheme = scheme;
     }
 }

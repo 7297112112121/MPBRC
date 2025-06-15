@@ -1,9 +1,10 @@
-package View.user;
+package View.user.my;
 
 import MyObject.User;
 import Serve.charge.ChargeLocal;
 import Util.factoryPanel.FactoryPanel;
 import View.FatherJPanel;
+import View.user.UserFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -65,7 +66,7 @@ public class CheckMoneyPanel extends FatherJPanel {
         Font fontMoney = new Font("宋体", Font.BOLD, 30);
         money.setFont(fontMoney);
         JLabel orderNumber = (JLabel) factoryPanel.getJComponent("moneyNum") ;
-        orderNumber.setText("共" + list.size() + "条");         ///待修改
+        orderNumber.setText("共" + list.size() + "条");
 
         //充值事件
         JButton reCharge = (JButton) factoryPanel.getJComponent("recharge");

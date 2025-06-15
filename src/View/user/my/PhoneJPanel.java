@@ -1,9 +1,10 @@
-package View.user;
+package View.user.my;
 
 import Serve.auth.UserCommonSet;
 import Util.factoryPanel.FactoryPanel;
 import View.FatherFrame;
 import View.FatherJPanel;
+import View.user.UserFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
