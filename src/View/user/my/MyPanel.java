@@ -1,7 +1,7 @@
 package View.user.my;
 
 
-import Util.factoryPanel.FactoryPanel;
+import Util.factory.FactoryPanel;
 import View.FatherJPanel;
 import View.user.HomePanel;
 import View.user.UserFrame;

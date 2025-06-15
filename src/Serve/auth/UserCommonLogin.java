@@ -1,10 +1,10 @@
 package Serve.auth;
 
-import DAO.fromemu.UserFieldEnum;
-import DAO.query.ContextQuery;
-import DAO.query.SimplyQueryWhere;
+import Util.UserFieldEnum;
+import Util.query.ContextQuery;
+import Util.query.SimplyQueryWhere;
 import MyObject.User;
-import MyObject.UserCreationFactory;
+import Util.factory.UserCreationFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

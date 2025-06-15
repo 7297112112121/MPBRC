@@ -2,6 +2,10 @@ package DAO.powerBank;
 
 import MyObject.Order;
 import MyObject.PowerBank;
+import Util.TimeSystem;
+import Util.db.DataBase;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,12 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseUtil {
-    private static final String URL = "jdbc:mysql://localhost:3306/mobilepowerbankrentalsystem";
-    private static final String USER = "root";
-    private static final String PASSWORD = "123456";
+    private static final Logger logger = LogManager.getLogger(DatabaseUtil.class);
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        return DataBase.getConnection();
     }
 
     // 获取所有可用移动电源
@@ -37,10 +39,11 @@ public class DatabaseUtil {
                 all.add(pb);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+           logger.error("获取所有可用移动电源失败", e);
         }
         return all;
     }
+
 
     // 获取移动电源详情
     public static PowerBank getPowerBankById(int id) {
@@ -60,7 +63,7 @@ public class DatabaseUtil {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("获取移动电源详情失败", e);
         }
         return null;
     }
@@ -74,7 +77,7 @@ public class DatabaseUtil {
             stmt.setInt(2, powerBank.getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("更新移动电源状态失败", e);
         }
     }
 
@@ -88,7 +91,7 @@ public class DatabaseUtil {
             stmt.setString(4, brand);
             stmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("添加移动电源失败", e);
         }
     }
 
@@ -106,7 +109,7 @@ public class DatabaseUtil {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("创建订单失败", e);
         }
         if (orderId != -1) {
             return new Order(orderId, powerBankId, new java.util.Date());
@@ -149,7 +152,7 @@ public class DatabaseUtil {
                 orders.add(order);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("获取所有订单失败", e);
         }
         return orders;
     }
@@ -169,7 +172,7 @@ public class DatabaseUtil {
                 stmt.setInt(3, order.getId());
                 stmt.executeUpdate();
             } catch (SQLException e) {
-                e.printStackTrace();
+               logger.error("更新订单失败", e);
             }
         }
     }
@@ -197,7 +200,7 @@ public class DatabaseUtil {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("获取订单详情失败", e);
         }
         return null;
     }

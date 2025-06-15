@@ -6,8 +6,8 @@ import Config.Global;
 
 import Util.CountDown;
 import View.FatherFrame;
-import View.observer.AllObserverOfFrame;
-import View.observer.ObserverMessagePanel;
+import Serve.observer.frame.AllObserverOfFrame;
+import Serve.observer.frame.ObserverMessagePanel;
 
 import javax.swing.*;
 

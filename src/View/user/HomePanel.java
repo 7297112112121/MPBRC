@@ -1,9 +1,9 @@
 package View.user;
 
-import Util.factoryPanel.FactoryPanel;
+import Util.factory.FactoryPanel;
 import View.FatherFrame;
 import View.FatherJPanel;
-import View.powerBank.OrderPanel;
+import View.user.order.OrderPanel;
 import View.user.my.MyPanel;
 import View.user.rent.RentMessagePanel;
 import org.apache.logging.log4j.LogManager;

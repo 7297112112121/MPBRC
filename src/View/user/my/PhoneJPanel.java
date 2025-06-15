@@ -1,7 +1,7 @@
 package View.user.my;
 
 import Serve.auth.UserCommonSet;
-import Util.factoryPanel.FactoryPanel;
+import Util.factory.FactoryPanel;
 import View.FatherFrame;
 import View.FatherJPanel;
 import View.user.UserFrame;

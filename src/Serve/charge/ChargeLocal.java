@@ -1,8 +1,8 @@
 package Serve.charge;
 
-import DAO.insert.SimplyInsertAllForm;
-import DAO.query.SimplyQueryWhere;
-import DAO.set.SimplySet;
+import Util.insert.SimplyInsertAllForm;
+import Util.query.SimplyQueryWhere;
+import Util.set.SimplySet;
 import MyObject.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

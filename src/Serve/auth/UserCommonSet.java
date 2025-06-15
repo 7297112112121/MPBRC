@@ -1,6 +1,6 @@
 package Serve.auth;
 
-import DAO.set.SimplySet;
+import Util.set.SimplySet;
 import MyObject.User;
 import View.FatherFrame;
 import View.user.UserFrame;

@@ -1,6 +1,6 @@
 package View.user.my;
 
-import Util.factoryPanel.FactoryPanel;
+import Util.factory.FactoryPanel;
 import View.FatherFrame;
 import View.FatherJPanel;
 import View.user.LoginPanel;
