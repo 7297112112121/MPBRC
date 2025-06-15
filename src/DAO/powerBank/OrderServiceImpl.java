@@ -4,22 +4,30 @@ import MyObject.Order;
 import MyObject.PowerBank;
 import View.powerBank.OrderService;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class OrderServiceImpl implements OrderService {
+
     //获取订单号码
     @Override
     public Order getOrderById(int orderId) {
         String sql = "SELECT id, power_bank_id, start_time, end_time, total_cost " +
                 "FROM orders WHERE id = ?";
-        try (Connection conn = DatabaseUtil.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            conn = DatabaseUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
             stmt.setInt(1, orderId);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return mapToOrder(rs);
-                }
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                return mapToOrder(rs);
             }
         } catch (SQLException e) {
             throw new RuntimeException("查询订单失败", e);
@@ -37,8 +45,11 @@ public class OrderServiceImpl implements OrderService {
 
         // 2. 更新订单结束时间和费用
         String sql = "UPDATE orders SET end_time = NOW(), total_cost = ? WHERE id = ?";
-        try (Connection conn = DatabaseUtil.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        try {
+            conn = DatabaseUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
             stmt.setDouble(1, totalCost);
             stmt.setInt(2, orderId);
             int rowsAffected = stmt.executeUpdate();

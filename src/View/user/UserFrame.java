@@ -4,8 +4,8 @@ import MyObject.User;
 import View.FatherFrame;
 import View.FatherJPanel;
 import View.RenderingPanel;
-import Serve.observer.frame.ObserverFrame;
-import Serve.observer.frame.ObserverMessagePanel;
+import Serve.observer.observer_frame.ObserverFrame;
+import Serve.observer.observer_frame.ObserverMessagePanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +16,7 @@ public class UserFrame extends FatherFrame {
     private final MessagePane messagePane;
     private final RenderingPanel rp ;
     private User user;
+    private boolean mapVisible = true;//  控制地图是否还要刷新
     private double price = 0;//用户选择租借冲电宝的套餐
     private int width = 600;
     private int height = 800;
@@ -96,5 +97,13 @@ public class UserFrame extends FatherFrame {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public boolean getMapVisible() {
+        return mapVisible;
+    }
+
+    public void setMapVIsible(boolean mapVisible) {
+        this.mapVisible = mapVisible;
     }
 }

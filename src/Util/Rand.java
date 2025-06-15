@@ -20,5 +20,12 @@ public class Rand {
         return String.valueOf(min + (int) (Math.random() * (max - min + 1)));
     }
 
+    /**
+     * 生成指定范围的随机数
+     * */
+    public int generate(int min, int max) {
+        return min + (int) (Math.random() * (max - min + 1));
+    }
+
 }
 

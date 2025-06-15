@@ -1,4 +1,4 @@
-package Serve.observer.frame;
+package Serve.observer.observer_frame;
 
 import Serve.observer.Observer;
 import View.FatherFrame;

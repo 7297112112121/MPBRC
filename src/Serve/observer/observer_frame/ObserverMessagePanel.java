@@ -1,4 +1,4 @@
-package Serve.observer.frame;
+package Serve.observer.observer_frame;
 
 import Serve.observer.Observer;
 import View.FatherFrame;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static Serve.observer.frame.AllObserverOfFrame.Type.OBSERVER_MESSAGE_PANEL;
+import static Serve.observer.observer_frame.AllObserverOfFrame.Type.OBSERVER_MESSAGE_PANEL;
 
 public class ObserverMessagePanel extends Observer {
     private FatherFrame frame;

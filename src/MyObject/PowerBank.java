@@ -3,8 +3,9 @@ package MyObject;
 public class PowerBank {
     private int id;
     private String brand;
-    private double remainingPower;
+    private double remainingPower; //电量
     private String status;
+    private String cabinet; //所在充电宝柜
 
     public PowerBank(int id,double remainingPower,String brand) {
         this.id = id;
@@ -12,6 +13,16 @@ public class PowerBank {
         this.remainingPower = remainingPower;
         this.status = remainingPower > 50? "可租赁" : "不可租赁";
     }
+
+    public PowerBank(int id,double remainingPower,String brand, String cabinet) {
+        this.id = id;
+        this.brand = brand;
+        this.remainingPower = remainingPower;
+        this.status = remainingPower > 50? "可租赁" : "不可租赁";
+        this.cabinet = cabinet;
+    }
+
+
 
     public int getId() {
         return id;

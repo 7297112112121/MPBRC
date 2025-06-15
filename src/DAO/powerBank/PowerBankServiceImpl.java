@@ -9,14 +9,17 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class PowerBankServiceImpl implements PowerBankService {
-    //管理员添加充电宝
+    // 管理员添加充电宝
     @Override
     public void addPowerBank(PowerBank powerBank) {
         // 定义插入移动电源的SQL语句
         String sql = "INSERT INTO power_banks (id, remaining_power, status, brand) " +
                 "VALUES (?, ?, ?, ?)";
-        try (Connection conn = DatabaseUtil.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        try {
+            conn = DatabaseUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
             // 设置SQL语句中的参数
             stmt.setInt(1, powerBank.getId());
             stmt.setDouble(2, powerBank.getRemainingPower());
@@ -30,11 +33,17 @@ public class PowerBankServiceImpl implements PowerBankService {
         }
     }
 
-    //获取所有充电宝信息
+    // 获取所有充电宝信息
     @Override
     public List<PowerBank> getAvailablePowerBanks() {
         // 复用DatabaseUtil原有逻辑，或添加新实现
         return DatabaseUtil.getAllPowerBanks();
+    }
+
+    // 获取本机所有充电宝信息
+    public List<PowerBank> getAvailablePowerBanks(int id) {
+        // 复用DatabaseUtil原有逻辑，或添加新实现
+        return DatabaseUtil.getAllPowerBanks(id);
     }
 
     @Override

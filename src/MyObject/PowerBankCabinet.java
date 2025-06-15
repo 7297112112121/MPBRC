@@ -9,12 +9,24 @@ public class PowerBankCabinet {
     private int id;
     private String name;
     private int capacity;//能存放多少个充电宝
+    private String address;
     private List<PowerBank> powerBanks;
 
     public PowerBankCabinet(int id, String name, int capacity) {
         this.id = id;
         this.name = name;
         this.capacity = capacity;
+        //数据库中获得充电宝数据
+        PowerBankServiceImpl powerBankService = new PowerBankServiceImpl();
+        //获得本机的充电宝
+        powerBanks = powerBankService.getAvailablePowerBanks(id);
+
+    }
+    public PowerBankCabinet(int id, String name, int capacity, String address) {
+        this.id = id;
+        this.name = name;
+        this.capacity = capacity;
+        this.address = address;
         //数据库中获得充电宝数据
         PowerBankServiceImpl powerBankService = new PowerBankServiceImpl();
         powerBanks = powerBankService.getAvailablePowerBanks();
@@ -45,10 +57,24 @@ public class PowerBankCabinet {
         }
     }
 
-
     //设置所有充电宝
     public void setPowerBanks(List<PowerBank> powerBanks) {
         this.powerBanks = powerBanks;
+    }
+
+    //删除指定充电宝
+    public void removePowerBank(int id) {
+        for (int i = 0; i < powerBanks.size(); i++) {
+            if (powerBanks.get(i).getId() == id) {
+                powerBanks.remove(i);
+                break;
+            }
+        }
+    }
+
+    //删除所有充电宝
+    public void removeAllPowerBank() {
+        powerBanks.clear();
     }
 
 
