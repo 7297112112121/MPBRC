@@ -2,7 +2,7 @@ package View.user.my;
 
 import MyObject.User;
 import Serve.charge.ChargeLocal;
-import Util.factoryPanel.FactoryPanel;
+import Util.factory.FactoryPanel;
 import View.FatherJPanel;
 import View.user.UserFrame;
 import org.apache.logging.log4j.LogManager;

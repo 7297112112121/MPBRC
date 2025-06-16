@@ -1,8 +1,8 @@
 package View;
 
 
-import View.observer.AllObserverOfFrame;
-import View.observer.ObserverMessagePanel;
+import Serve.observer.observer_frame.AllObserverOfFrame;
+import Serve.observer.observer_frame.ObserverMessagePanel;
 import View.user.MessagePane;
 
 import java.awt.*;

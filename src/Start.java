@@ -1,10 +1,10 @@
 
 import Config.CaptchaGlobal;
 import Config.Global;
-import DAO.LoadDataThead;
+import Serve.LoadDataThead;
 
-import View.observer.AllObserverOfFrame;
-import View.observer.ObserverFrame;
+import Serve.observer.observer_frame.AllObserverOfFrame;
+import Serve.observer.observer_frame.ObserverFrame;
 import View.user.UserFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -39,6 +39,7 @@ public class Start {
         new AllObserverOfFrame();
 
         //用户登陆
+        new UserFrame();
         new UserFrame();
         logger.info("用户登陆界面加载完成");
 

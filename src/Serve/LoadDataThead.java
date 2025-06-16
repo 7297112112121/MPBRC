@@ -1,0 +1,29 @@
+package Serve;
+
+import MyObject.PowerBankCabinet;
+import Serve.observer.ObserverCabinet;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.List;
+
+/**
+ * 定时更新数据线程
+ * */
+public class LoadDataThead implements Runnable{
+    private static final Logger logger = LogManager.getLogger(LoadDataThead.class);
+    @Override
+    public void run() {
+
+        while (true) {
+            //加载所有存在的充电宝柜
+            List<PowerBankCabinet> powerBankCabinets = new CabinetServer().loadCabinets();
+            ObserverCabinet observerCabinet = new ObserverCabinet();
+            try {
+                Thread.sleep(5*60*1000);
+            } catch (InterruptedException e) {
+                logger.warn("定时更新数据线程异常",e);
+            }
+        }
+    }
+}
