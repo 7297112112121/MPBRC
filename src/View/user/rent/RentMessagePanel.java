@@ -3,7 +3,6 @@ package View.user.rent;
 import Serve.rent.ContextRentPackage;
 import Serve.rent.OneOfHoure;
 import Serve.rent.ThreeOfHoure;
-import Util.CountDown;
 import Util.factory.FactoryPanel;
 import View.FatherJPanel;
 import View.user.UserFrame;
@@ -38,18 +37,28 @@ public class RentMessagePanel extends FatherJPanel {
 
 
 
+
+
 /**
- * 套餐1信息
+ * 套餐1信息（默认套餐）
  **/
-        contextRentPackage.setRentPackage(new ThreeOfHoure());   ///可修改
+        //设置默认套餐
+        contextRentPackage.setRentPackage(new ThreeOfHoure());  ///可修改
+        frame.setPrice(contextRentPackage.getPrice());
+        //获取组件
         JTextArea in = (JTextArea) factoryPanel.getJComponent("套餐介绍1");
+        JButton scheme1 = (JButton) factoryPanel.getJComponent("套餐1");
+        //文本设置字体
         Font inFont = new Font("宋体", Font.BOLD, 16);
+        //设置默认选中颜色显示
+        scheme1.setBackground(Color.YELLOW);
+        currentSelectedButton = scheme1;
         in.setFont(inFont);
-//添加套餐1的信息
+        //添加套餐1的信息
         for (String s : contextRentPackage.getPackageText()) {
             in.append(s + "\n");
         }
-        JButton scheme1 = (JButton) factoryPanel.getJComponent("套餐1");
+
         scheme1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -113,25 +122,8 @@ public class RentMessagePanel extends FatherJPanel {
         rent.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //判断用户是否选择套餐
-                if (frame.getPrice()< 0) {
-                    //消息弹窗
-                    rent.setBackground(Color.RED);
-                    rent.setText("押金租凭：请选择套餐");
-                    CountDown time  = new CountDown(1);
-                    Thread tme = new Thread(time);
-                    tme.start();
-                    try {
-                        tme.join();
-                    } catch (InterruptedException ex) {
-                        logger.error(ex);
-                    }
-                    rent.setBackground(null);
-                }
-                //用户选了套餐，开始计费
-
-                frame.update(new RentDingPanel(frame));
-
+                //用户选了套餐，弹出充电宝
+                frame.update(new PowerBankPopPanel(frame, frame.getPowerBankCabinetDefault()));
             }
         });
     }

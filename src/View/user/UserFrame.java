@@ -1,5 +1,6 @@
 package View.user;
 
+import MyObject.PowerBankCabinet;
 import MyObject.User;
 import View.FatherFrame;
 import View.FatherJPanel;
@@ -18,6 +19,7 @@ public class UserFrame extends FatherFrame {
     private User user;
     private boolean mapVisible = true;//  控制地图是否还要刷新
     private double price = 0;//用户选择租借冲电宝的套餐
+    private PowerBankCabinet powerBankCabinetDefault;  //默认选择的充电宝柜台
     private int width = 600;
     private int height = 800;
     public UserFrame() {
@@ -105,5 +107,13 @@ public class UserFrame extends FatherFrame {
 
     public void setMapVIsible(boolean mapVisible) {
         this.mapVisible = mapVisible;
+    }
+
+    public PowerBankCabinet getPowerBankCabinetDefault() {
+        return powerBankCabinetDefault;
+    }
+
+    public void setPowerBankCabinetDefault(PowerBankCabinet powerBankCabinetDefault) {
+        this.powerBankCabinetDefault = powerBankCabinetDefault;
     }
 }

@@ -6,6 +6,7 @@ public class PowerBank {
     private double remainingPower; //电量
     private String status;
     private String cabinet; //所在充电宝柜
+    private int powerID;   //充电宝所在柜台的端口id
 
     public PowerBank(int id,double remainingPower,String brand) {
         this.id = id;
@@ -52,6 +53,11 @@ public class PowerBank {
         return "ID: " + id + ", 品牌: " + brand + ", 电量: " + remainingPower + "%";
     }
 
+    public int getPowerID() {
+        return powerID;
+    }
 
-
+    public void setPowerID(int powerID) {
+        this.powerID = powerID;
+    }
 }

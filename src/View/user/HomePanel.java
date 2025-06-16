@@ -32,10 +32,12 @@ public class HomePanel extends FatherJPanel {
         setLayout(new GridLayout(3,1));
         FactoryPanel factoryPanel = new FactoryPanel();
 
+
         // 获取所有主机柜
         if (frame.getMapVisible()) {
             ObserverCabinet observerCabinet = new ObserverCabinet();
-            List<PowerBankCabinet> powerBankCabinets = observerCabinet.getCabinets();
+            //设置要显示的充电柜的数量
+            List<PowerBankCabinet> powerBankCabinets = observerCabinet.getCabinets(2);
             int start = 0;
             int end = 16;                                   // 可显示主机的上限
             int cabinetCount = observerCabinet.getCabinetSize(); // 主机柜的数量
@@ -93,6 +95,12 @@ public class HomePanel extends FatherJPanel {
                         Font font = new Font("宋体", Font.BOLD, 16);
                         addressLabels[e].setFont(font);
                         addressLabels[e].setForeground(Color.BLACK);
+                        //如果是第一个则为默认选择的充电柜，返回其对象
+                        if (count == 0) {
+
+                            frame.setPowerBankCabinetDefault(cabinet);
+                        }
+                        //防止数组下标越界
                         if (count < visiblePositions.length - 1){
                             count++;
                         }
@@ -136,6 +144,7 @@ public class HomePanel extends FatherJPanel {
                 frame.update(new RentMessagePanel((UserFrame) frame));
             }
         });
+        logger.info("默认选择的充电柜:{}", frame.getPowerBankCabinetDefault().getName());
         logger.info("首页加载完成");
     }
 }
