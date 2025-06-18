@@ -52,7 +52,9 @@ public class OrderPanel extends FatherJPanel {
         this.powerBank = powerBank;
         this.powerBankCabinet = powerBankCabinet;
         initializeUI();
+        //初始化订单
         initializeOrder();
+        //事件源
         initializeListeners();
         startTimer();
         logger.info("用户订单加载成功");
@@ -95,8 +97,14 @@ public class OrderPanel extends FatherJPanel {
         JButton returnButton = (JButton) factoryPanel.getJComponent("return");
         returnButton.addActionListener(e -> {
             stopTimer();
-            frame.update(new OrderListPanel(frame));
+//            frame.update(new OrderListPanel(frame));
         });
+    }
+
+    //归还结束订单
+    private void overOrder() {
+        //结束订单
+        orderSever.endOrder();
     }
 
     //停止计时，移除计时器
@@ -109,8 +117,6 @@ public class OrderPanel extends FatherJPanel {
     //开始计时
     // 启动定时器
     private void startTimer() {
-
-
         // 创建一个单线程调度器
         scheduler = Executors.newSingleThreadScheduledExecutor();
         // 每隔1分钟执行一次任务
@@ -137,7 +143,7 @@ public class OrderPanel extends FatherJPanel {
 
     //创建订单
     private boolean createOrder() {
-        return createOrderSever.createOrder(powerBankCabinet, powerBank, frame.getUser().getNameID(), frame.getPrice());
+        return createOrderSever.createOrder(powerBankCabinet, powerBank, frame.getUser().getNameID(), frame.getPrice(), frame.getPlanName());
     }
 
     //查询订单

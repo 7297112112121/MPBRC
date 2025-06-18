@@ -1,143 +1,104 @@
 package View.user.order;
 
-import DAO.powerBank.DatabaseUtil;
 import MyObject.Order;
-import DAO.powerBank.OrderDAO;
-import Util.factory.FactoryPanel;
+import Serve.OrderSever;
 import View.FatherJPanel;
-import View.powerBank.OrderService;
-import View.user.HomePanel;
 import View.user.UserFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 public class OrderListPanel extends FatherJPanel {
     private Logger logger = LogManager.getLogger(OrderListPanel.class);
-    private UserFrame frame ;
-
-    private JTable orderTable;
-    private DefaultTableModel tableModel;
-    private JButton refreshButton;
-    private JButton returnButton;
-    private final OrderService orderService = new OrderDAO(); // 依赖订单服务接口
+    private UserFrame frame;
+    private List<Order> orders;
+    private OrderSever orderSever = new OrderSever();
 
     public OrderListPanel(UserFrame frame) {
         this.frame = frame;
-        logger.info("加载订单界面");
+        // 获取用户的所有订单
+        orders = orderSever.getAllOrders(frame.getUser().getNameID());
 
-        setLayout(new BorderLayout());
-        FactoryPanel factoryPanel = new FactoryPanel();
+        // 设置当前面板的布局为垂直流式布局
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.BUTTONS,"返回;return"),BorderLayout.SOUTH);
+        // 检查订单列表是否为空
+        if (orders == null || orders.isEmpty()) {
+            add(new JLabel("暂无订单记录"));
+        } else {
+            // 遍历所有订单并添加订单卡片
+            for (Order order : orders) {
+                // 计算订单时长
+                long hours = orderSever.returnHours(order.getStartTime().toLocalDateTime(),
+                        order.getEndTime().toLocalDateTime());
+                long minutes = orderSever.returnMinutes(order.getStartTime().toLocalDateTime(),
+                        order.getEndTime().toLocalDateTime());
 
-        String[] columnNames = {"订单ID", "电源ID", "开始时间", "结束时间", "费用"};
-        tableModel = new DefaultTableModel(columnNames, 0);
-        orderTable = new JTable(tableModel);
-        JScrollPane scrollPane = new JScrollPane(orderTable);
+                String durationStr = "";
+                if (hours > 0) {
+                    durationStr += hours + "小时";
+                }
+                durationStr += minutes + "分钟";
 
-        refreshButton = new JButton("刷新订单");
-        refreshButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                updateOrderTable();
+                // 添加订单卡片
+                addOrderCard("租借充电宝",
+                        order.getStatus(), // 假设Order类有getStatus方法
+                        "租借时间：" + order.getStartTime(),
+                        "租借地点：" + "广州软件学院",
+                        durationStr + " " + order.getTotalCost() + "￥");
             }
-        });
-
-        JPanel toolbar = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        toolbar.add(refreshButton);
-
-        add(toolbar, BorderLayout.NORTH);
-        add(scrollPane, BorderLayout.CENTER);
-
-        updateOrderTable();
-
-        // 新增归还按钮
-        returnButton = new JButton("归还电源");
-        returnButton.addActionListener(new ReturnOrderListener());
-
-        JPanel toolbar1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        toolbar1.add(refreshButton);
-        toolbar1.add(returnButton); // 添加到工具条
-        add(toolbar1, BorderLayout.NORTH);
-
-        //返回事件
-        JButton returnHome = (JButton) factoryPanel.getJComponent("return");
-        returnHome.setPreferredSize(new Dimension(getWidth(),100));
-        returnHome.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.update(new HomePanel(frame));
-            }
-        });
-        logger.info("订单界面加载完成");
-    }
-
-
-    // 独立归还事件监听器
-    private class ReturnOrderListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            int selectedRow = orderTable.getSelectedRow();
-            if (selectedRow == -1) {
-                JOptionPane.showMessageDialog(OrderListPanel.this, "请选择要归还的订单", "提示", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            int orderId = (int) tableModel.getValueAt(selectedRow, 0);
-            Order order = orderService.getOrderById(orderId);
-
-            if (order.getEndTime() != null) {
-                JOptionPane.showMessageDialog(OrderListPanel.this, "该订单已结束", "错误", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // 计算实际使用时长（分钟）
-            long durationMinutes = (new Date().getTime() - order.getStartTime().getTime()) / (60 * 1000);
-            double totalCost = calculateCost(durationMinutes); // 调用费用计算逻辑
-
-            // 执行归还逻辑
-            try {
-                orderService.returnOrder(orderId, totalCost);
-                JOptionPane.showMessageDialog(OrderListPanel.this,
-                        "归还成功！\n使用时长：" + durationMinutes + "分钟\n费用：" + totalCost + "元",
-                        "成功", JOptionPane.INFORMATION_MESSAGE);
-                updateOrderTable(); // 刷新订单列表
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(OrderListPanel.this,
-                        "归还失败：" + ex.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-
-        // 费用计算规则：每小时3.0元，不足一小时按一小时算
-        private double calculateCost(long minutes) {
-            long hours = (minutes + 59)/ 60;
-            return hours*3.0;
-        }
-    }
-
-    private void updateOrderTable() {
-        tableModel.setRowCount(0);
-        List<Order> orders = DatabaseUtil.getAllOrders();
-        for (Order order : orders) {
-            Object[] row = {
-                    order.getId(),
-                    order.getPowerBankId(),
-                    new Timestamp(order.getStartTime().getTime()),
-                    order.getEndTime() != null? new Timestamp(order.getEndTime().getTime()) : "未结束",
-                    String.format("%.2f元", order.getTotalCost())
-            };
-            tableModel.addRow(row);
         }
     }
 
 
+    /**
+     * 添加单个订单卡片到当前面板
+     */
+    private void addOrderCard(String orderTitle, String status,
+                              String rentTime, String rentAddr, String durationAndPrice) {
+        // 订单卡片面板，使用边框布局
+        JPanel cardPanel = new JPanel(new BorderLayout());
+        cardPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+        cardPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 120)); // 限制卡片最大高度
+
+        // 标题和状态面板
+        JPanel titlePanel = new JPanel(new BorderLayout());
+        JLabel titleLabel = new JLabel(orderTitle);
+        titleLabel.setFont(new Font("微软雅黑", Font.BOLD, 16));
+        JLabel statusLabel = new JLabel(status);
+        statusLabel.setForeground(Color.GRAY);
+        titlePanel.add(titleLabel, BorderLayout.WEST);
+        titlePanel.add(statusLabel, BorderLayout.EAST);
+
+        // 内容面板
+        JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+        JLabel timeLabel = new JLabel(rentTime);
+        JLabel addrLabel = new JLabel(rentAddr);
+        contentPanel.add(timeLabel);
+        contentPanel.add(addrLabel);
+
+        // 底部信息面板
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        JLabel durationPriceLabel = new JLabel(durationAndPrice);
+        durationPriceLabel.setFont(new Font("微软雅黑", Font.BOLD, 14));
+        // 模拟删除图标
+        JLabel deleteIcon = new JLabel("删除"); // 实际使用时替换为图标
+        deleteIcon.setForeground(Color.BLUE);
+        deleteIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        bottomPanel.add(durationPriceLabel, BorderLayout.WEST);
+        bottomPanel.add(deleteIcon, BorderLayout.EAST);
+
+        // 将各部分面板添加到订单卡片面板
+        cardPanel.add(titlePanel, BorderLayout.NORTH);
+        cardPanel.add(contentPanel, BorderLayout.CENTER);
+        cardPanel.add(bottomPanel, BorderLayout.SOUTH);
+
+        // 添加订单卡片到当前面板，并设置间距
+        add(cardPanel);
+        add(Box.createVerticalStrut(10));
+    }
 }

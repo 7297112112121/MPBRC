@@ -8,4 +8,7 @@ public interface RentPackage {
 
     //套餐价格
     double getPriceText();
+
+    //套餐名称
+    String getPackageName();
 }

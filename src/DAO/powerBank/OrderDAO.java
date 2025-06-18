@@ -9,18 +9,19 @@ import View.powerBank.OrderService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class OrderDAO implements OrderService {
     private static Logger logger = LogManager.getLogger(OrderDAO.class);
+
     @Override
-    public Order getOrderById(int orderId) {
-        return null;
+    public void returnOrder(int orderId, double totalCost) throws Exception {
+
     }
 
     //获取订单号码
@@ -28,7 +29,7 @@ public class OrderDAO implements OrderService {
         try {
             String sql = "SELECT * FROM orders WHERE nameid = ?";
             ResultSet resultSet = DBQuary.query(sql,nameid );
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 Timestamp timestamp = resultSet.getTimestamp("end_time");
                 //核查订单时间是否结束
                 if (timestamp != null) {
@@ -44,7 +45,9 @@ public class OrderDAO implements OrderService {
                 Integer cabinet = resultSet.getInt("cabinet");
                 Integer cabinetPowerID = resultSet.getInt("cabinet_powerid");
                 Double price = resultSet.getDouble("price");
-                return new Order(id, powerBankId, startTime, endTime, totalCost, cabinet, cabinetPowerID, price);
+                String plan = resultSet.getString("plan");
+                String status = resultSet.getString("status");
+                return new Order(id, powerBankId, startTime, endTime, totalCost, cabinet, cabinetPowerID, price, plan, status);
             }
         } catch (SQLException e) {
             logger.error("查询进行订单失败", e);
@@ -52,61 +55,53 @@ public class OrderDAO implements OrderService {
         return null;
     }
 
-    @Override
-    public void returnOrder(int orderId, double totalCost) throws Exception {
-        // 1. 检查订单是否存在且未结束
-        Order order = getOrderById(orderId);
-        if (order == null || order.getEndTime() != null) {
-            throw new Exception("无效订单或已结束");
-        }
-
-        // 2. 更新订单结束时间和费用
-        String sql = "UPDATE orders SET end_time = NOW(), total_cost = ? WHERE id = ?";
-        Connection conn = null;
-        PreparedStatement stmt = null;
+    //获取结束的订单
+    public List<Order> getOverOrders(int nameid) {
+        List<Order> list = new ArrayList<>();
         try {
-            conn = DatabaseUtil.getConnection();
-            stmt = conn.prepareStatement(sql);
-            stmt.setDouble(1, totalCost);
-            stmt.setInt(2, orderId);
-            int rowsAffected = stmt.executeUpdate();
-            if (rowsAffected == 0) {
-                throw new Exception("订单更新失败");
+            String sql =  "SELECT * FROM orders WHERE `nameid` = " + nameid;
+            ResultSet resultSet = DBQuary.query(sql,nameid);
+            while (resultSet.next()) {
+                if (resultSet.getTimestamp("end_time") != null || resultSet.getString("status").equals("已结束")) {
+                    Integer id = resultSet.getInt("id");
+                    Integer powerBankId = resultSet.getInt("power_bank_id");
+                    Timestamp startTime = resultSet.getTimestamp("start_time");
+                    Timestamp endTime = resultSet.getTimestamp("end_time");
+                    Double totalCost = resultSet.getDouble("total_cost");
+                    Integer cabinet = resultSet.getInt("cabinet");
+                    Integer cabinetPowerID = resultSet.getInt("cabinet_powerid");
+                    Double price = resultSet.getDouble("price");
+                    String plan = resultSet.getString("plan");
+                    String status = resultSet.getString("status");
+                     list.add(new Order(id, powerBankId, startTime, endTime, totalCost, cabinet, cabinetPowerID, price, plan, status));
+                }
+                return list;
             }
         } catch (SQLException e) {
-            throw new RuntimeException("归还订单失败", e);
+            logger.error("查询结束订单失败", e);
+            return null;
         }
-
-        // 3. 恢复移动电源状态为“可租赁”
-        PowerBank powerBank = DatabaseUtil.getPowerBankById(order.getPowerBankId());
-        if (powerBank != null) {
-            powerBank.setStatus("可租赁");
-            DatabaseUtil.updatePowerBankStatus(powerBank);
-        }
+        return null;
     }
 
-    public List<Order> getAllOrders() {
-        return DatabaseUtil.getAllOrders();
+
+    public List<Order> getAllOrders(int nameid) {
+        return DatabaseUtil.getAllOrders(nameid);
     }
 
-    private Order mapToOrder(ResultSet rs) throws SQLException {
-        int id = rs.getInt("id");
-        int powerBankId = rs.getInt("power_bank_id");
-        Timestamp startTime = rs.getTimestamp("start_time");
-        Timestamp endTime = rs.getTimestamp("end_time");
-        double totalCost = rs.getDouble("total_cost");
-
-        Order order = new Order(id, powerBankId, startTime);
-        if (endTime != null) {
-            order.setEndTime(endTime);
-        }
-        order.setTotalCost(totalCost);
-        return order;
-    }
 
     //向订单表添加新的订单信息
-    public int addOrder(PowerBankCabinet powerBankCabinet, PowerBank powerBank, int nameid, double price) {
-        String sql = "INSERT INTO orders (power_bank_id, cabinet, cabinet_powerid, nameid, price) VALUES (? , ?, ?, ?, ?)";
-        return DBUpData.update(sql, powerBank.getId(), powerBankCabinet.getId(), powerBank.getPowerID(), nameid, price);
+    public int addOrder(PowerBankCabinet powerBankCabinet, PowerBank powerBank, int nameid, double price, String plan) {
+        String sql = "INSERT INTO orders (power_bank_id, cabinet, cabinet_powerid, nameid, price, plan, status) VALUES (? ,?,?, ?, ?, ?, ?)";
+        return DBUpData.update(sql, powerBank.getId(), powerBankCabinet.getId(), powerBank.getPowerID(), nameid, price,plan , "租借中");
+    }
+
+    //向表单填入结束时间
+    public int addEndTime() {
+        //获得当前系统时间
+        Timestamp now = new Timestamp(new Date().getTime());
+        //填入数据库orders表
+        String sql = "INSERT INTO orders (end_time) VALUES (?)";
+        return DBUpData.update(sql, now);
     }
 }

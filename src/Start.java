@@ -17,15 +17,6 @@ public class Start {
     public static void main(String[] args) {
         logger.info("程序开始运行");
 
-        //连接数据库，检查是否畅通
-        DataBase.DBcheck();
-        logger.info("数据库连接畅通");
-
-        //加载验证配置信息
-        new Global();
-        new CaptchaGlobal();
-        logger.info("验证配置信息加载成功");
-
         //线程加载数据
         LoadDataThead loadFormDataThead = new LoadDataThead();
         Thread loadDataThead = new Thread(loadFormDataThead);

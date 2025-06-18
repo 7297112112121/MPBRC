@@ -106,6 +106,7 @@ public class RentMessagePanel extends FatherJPanel {
                 // 设置当前套餐和价格
                 contextRentPackage.setRentPackage(new ThreeOfHoure());  ///可修改
                 frame.setPrice(contextRentPackage.getPrice());
+                frame.setPlanName(contextRentPackage.getName());
 
                 // 设置当前按钮为黄色并更新选中记录
                 scheme1.setBackground(Color.YELLOW);
@@ -137,6 +138,7 @@ public class RentMessagePanel extends FatherJPanel {
                 // 设置当前套餐和价格
                 contextRentPackage.setRentPackage(new OneOfHoure());  ///可修改
                 frame.setPrice(contextRentPackage.getPrice());
+                frame.setPlanName(contextRentPackage.getName());
 
                 // 设置当前按钮为黄色并更新选中记录
                 scheme2.setBackground(Color.YELLOW);
