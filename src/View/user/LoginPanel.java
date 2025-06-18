@@ -70,9 +70,11 @@ public class LoginPanel extends FatherJPanel {
                 boolean fa = lo.login(nickNameInput, nickName, password, rimind);
                 //登录成功跳转到首页
                 if (fa) {
-                    frame.update(new HomePanel(frame));
                     //储存在线用户对象到窗口中
                     frame.setUser(lo.getUser());
+                    //跳转到主页
+                    frame.update(new HomePanel(frame));
+
                 }
             }
         });

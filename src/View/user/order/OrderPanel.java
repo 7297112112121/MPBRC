@@ -1,143 +1,183 @@
 package View.user.order;
 
-import DAO.powerBank.DatabaseUtil;
 import MyObject.Order;
-import DAO.powerBank.OrderDAO;
+import MyObject.PowerBank;
+import MyObject.PowerBankCabinet;
+import Serve.OrderSever;
 import Util.factory.FactoryPanel;
+import View.FatherFrame;
 import View.FatherJPanel;
-import View.powerBank.OrderService;
-import View.user.HomePanel;
 import View.user.UserFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class OrderPanel extends FatherJPanel {
-    private Logger logger = LogManager.getLogger(OrderPanel.class);
-    private UserFrame frame ;
+    private static Logger logger = LogManager.getLogger(OrderPanel.class);
+    private UserFrame frame;
+    private PowerBank powerBank;
+    private PowerBankCabinet powerBankCabinet;
+    private OrderSever createOrderSever = new OrderSever();
+    private Order orderIng;
+    private LocalDateTime now;
+    private JLabel timeLabel;
+    private JLabel moneyLabel;
+    private ScheduledExecutorService scheduler;
+    private FactoryPanel factoryPanel;
+    private OrderSever orderSever = new OrderSever();
+    private String timeDiff;
 
-    private JTable orderTable;
-    private DefaultTableModel tableModel;
-    private JButton refreshButton;
-    private JButton returnButton;
-    private final OrderService orderService = new OrderDAO(); // 依赖订单服务接口
-
-    public OrderPanel(UserFrame frame) {
+    //用于没有创建订单
+    public OrderPanel(UserFrame frame, PowerBankCabinet powerBankCabinet, PowerBank powerBank) {;
+        logger.info("正在创建订单");
         this.frame = frame;
-        logger.info("加载订单界面");
+        this.powerBank = powerBank;
+        this.powerBankCabinet = powerBankCabinet;
+        initializeUI();
+        initializeOrder();
+        initializeListeners();
+        startTimer();
+        logger.info("创建完成");
+    }
+    //用于已经拥有了订单
+    public OrderPanel(UserFrame frame) {
+        logger.info("正在加载用户订单");
+        this.frame = frame;
+        this.powerBank = powerBank;
+        this.powerBankCabinet = powerBankCabinet;
+        initializeUI();
+        initializeOrder();
+        initializeListeners();
+        startTimer();
+        logger.info("用户订单加载成功");
+    }
 
-        setLayout(new BorderLayout());
-        FactoryPanel factoryPanel = new FactoryPanel();
+    //创建面板组件
+    private void initializeUI() {
+        setLayout(new GridLayout(4,1));
+        factoryPanel = new FactoryPanel();
+        add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.JLABLE, ";time", ";money"));
+        add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.BUTTONS, "售后服务", "归还提醒", "福利中心"));
+        add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.BUTTONS, "不还了，留下充电宝"));
+        add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.BUTTONS, "返回;return", "归还"));
 
-        add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.BUTTONS,"返回;return"),BorderLayout.SOUTH);
+        timeLabel = (JLabel) factoryPanel.getJComponent("time");
+        timeLabel.setFont(new Font("宋体", Font.BOLD, 20));
+        moneyLabel = (JLabel) factoryPanel.getJComponent("money");
+        moneyLabel.setFont(new Font("宋体", Font.BOLD, 20));
+        now = LocalDateTime.now();
+    }
 
-        String[] columnNames = {"订单ID", "电源ID", "开始时间", "结束时间", "费用"};
-        tableModel = new DefaultTableModel(columnNames, 0);
-        orderTable = new JTable(tableModel);
-        JScrollPane scrollPane = new JScrollPane(orderTable);
-
-        refreshButton = new JButton("刷新订单");
-        refreshButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                updateOrderTable();
+    //初始化订单
+    private void initializeOrder() {
+        orderIng = getOrder();
+        if (orderIng == null) {
+            if (createOrder()) {
+                orderIng = getOrder();
+                updateTimeDisplay("0小时0分钟");
+                updateMoneyDisplay("预计 3 元");
+            } else {
+                handleOrderCreationFailure();
             }
+        } else {
+            updateTimeDisplayBasedOnOrder();
+        }
+    }
+
+    //返回订单列表
+    private void initializeListeners() {
+        JButton returnButton = (JButton) factoryPanel.getJComponent("return");
+        returnButton.addActionListener(e -> {
+            stopTimer();
+            frame.update(new OrderListPanel(frame));
         });
-
-        JPanel toolbar = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        toolbar.add(refreshButton);
-
-        add(toolbar, BorderLayout.NORTH);
-        add(scrollPane, BorderLayout.CENTER);
-
-        updateOrderTable();
-
-        // 新增归还按钮
-        returnButton = new JButton("归还电源");
-        returnButton.addActionListener(new ReturnOrderListener());
-
-        JPanel toolbar1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        toolbar1.add(refreshButton);
-        toolbar1.add(returnButton); // 添加到工具条
-        add(toolbar1, BorderLayout.NORTH);
-
-        //返回事件
-        JButton returnHome = (JButton) factoryPanel.getJComponent("return");
-        returnHome.setPreferredSize(new Dimension(getWidth(),100));
-        returnHome.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.update(new HomePanel(frame));
-            }
-        });
-        logger.info("订单界面加载完成");
     }
 
+    //停止计时，移除计时器
+    @Override
+    public void removeNotify() {
+        super.removeNotify();
+        stopTimer();
+    }
 
-    // 独立归还事件监听器
-    private class ReturnOrderListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            int selectedRow = orderTable.getSelectedRow();
-            if (selectedRow == -1) {
-                JOptionPane.showMessageDialog(OrderPanel.this, "请选择要归还的订单", "提示", JOptionPane.WARNING_MESSAGE);
-                return;
+    //开始计时
+    // 启动定时器
+    private void startTimer() {
+
+
+        // 创建一个单线程调度器
+        scheduler = Executors.newSingleThreadScheduledExecutor();
+        // 每隔1分钟执行一次任务
+        scheduler.scheduleAtFixedRate(() -> SwingUtilities.invokeLater(() -> {
+            // 如果订单不为空
+            if (orderIng != null) {
+                // 更新时间显示
+                updateTimeDisplayBasedOnOrder();
+                logger.info("更新订单时间");
+                // 更新金额显示
+                calculateMoney();
+                logger.info("更新订单金额");
             }
+        }), 0, 1, TimeUnit.MINUTES);
+    }
 
-            int orderId = (int) tableModel.getValueAt(selectedRow, 0);
-            Order order = orderService.getOrderById(orderId);
-
-            if (order.getEndTime() != null) {
-                JOptionPane.showMessageDialog(OrderPanel.this, "该订单已结束", "错误", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // 计算实际使用时长（分钟）
-            long durationMinutes = (new Date().getTime() - order.getStartTime().getTime()) / (60 * 1000);
-            double totalCost = calculateCost(durationMinutes); // 调用费用计算逻辑
-
-            // 执行归还逻辑
-            try {
-                orderService.returnOrder(orderId, totalCost);
-                JOptionPane.showMessageDialog(OrderPanel.this,
-                        "归还成功！\n使用时长：" + durationMinutes + "分钟\n费用：" + totalCost + "元",
-                        "成功", JOptionPane.INFORMATION_MESSAGE);
-                updateOrderTable(); // 刷新订单列表
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(OrderPanel.this,
-                        "归还失败：" + ex.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-
-        // 费用计算规则：每小时3.0元，不足一小时按一小时算
-        private double calculateCost(long minutes) {
-            long hours = (minutes + 59)/ 60;
-            return hours*3.0;
+    //停止计时
+    private void stopTimer() {
+        if (scheduler != null && !scheduler.isShutdown()) {
+            // 关闭调度器
+            scheduler.shutdownNow();
         }
     }
 
-    private void updateOrderTable() {
-        tableModel.setRowCount(0);
-        List<Order> orders = DatabaseUtil.getAllOrders();
-        for (Order order : orders) {
-            Object[] row = {
-                    order.getId(),
-                    order.getPowerBankId(),
-                    new Timestamp(order.getStartTime().getTime()),
-                    order.getEndTime() != null? new Timestamp(order.getEndTime().getTime()) : "未结束",
-                    String.format("%.2f元", order.getTotalCost())
-            };
-            tableModel.addRow(row);
-        }
+    //创建订单
+    private boolean createOrder() {
+        return createOrderSever.createOrder(powerBankCabinet, powerBank, frame.getUser().getNameID(), frame.getPrice());
+    }
+
+    //查询订单
+    private Order getOrder() {
+        return createOrderSever.getIngOrder(frame.getUser().getNameID());
+    }
+
+    //更新时间显示
+    private void updateTimeDisplayBasedOnOrder() {
+        LocalDateTime startTime = orderIng.getStartTime().toLocalDateTime();
+        timeDiff = calculateTimeDifference(startTime, LocalDateTime.now());
+        updateTimeDisplay(timeDiff);
     }
 
 
+    //更新时间显示
+    private void updateTimeDisplay(String time) {
+        timeLabel.setText(time);
+    }
+
+    //更新金额显示
+    private void updateMoneyDisplay(String money) {
+        moneyLabel.setText(money + "￥");
+    }
+
+    //失败提示
+    private void handleOrderCreationFailure() {
+        updateTimeDisplay("订单创建失败");
+        updateMoneyDisplay("");
+    }
+
+    //一次性计算时间差
+    private String calculateTimeDifference(LocalDateTime startTime, LocalDateTime endTime) {
+
+        return orderSever.calculateTimeDifference(startTime, endTime);
+    }
+
+    //一次性计费计算
+    private void calculateMoney() {
+        double money = orderSever.orderCost(orderIng, timeDiff, orderIng.getPrice());
+        updateMoneyDisplay(String.valueOf(money));
+    }
 }

@@ -8,7 +8,6 @@ import Util.factory.FactoryPanel;
 import View.FatherJPanel;
 import View.user.UserFrame;
 import View.user.HomePanel;
-import View.user.order.RentDingPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

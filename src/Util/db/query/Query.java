@@ -1,4 +1,4 @@
-package Util.query;
+package Util.db.query;
 
 import java.sql.ResultSet;
 

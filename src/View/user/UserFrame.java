@@ -2,11 +2,13 @@ package View.user;
 
 import MyObject.PowerBankCabinet;
 import MyObject.User;
+import Serve.observer.observer_frame.ObserverOrderPanel;
 import View.FatherFrame;
 import View.FatherJPanel;
 import View.RenderingPanel;
 import Serve.observer.observer_frame.ObserverFrame;
 import Serve.observer.observer_frame.ObserverMessagePanel;
+import View.user.order.OrderPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,11 +18,11 @@ import java.util.List;
 public class UserFrame extends FatherFrame {
     private final JButton news = new JButton("消息");
     private final JLabel title = new JLabel("欢迎使用租凭充电包系统");
-    private final MessagePane messagePane;
-    private final RenderingPanel rp ;
-    private User user;
-    private JPanel address;
-    private double price = 0;                          //   用户选择租借冲电宝的套餐
+    private final MessagePane messagePane;              //消息组件
+    private final RenderingPanel rp ;                   //渲染组件
+    private User user;                                  //登录用户信息
+    private JPanel address;                            //地图面板
+    private double price = 0;                          //用户选择租借冲电宝的套餐
     private List<PowerBankCabinet> powerBankCabinetsOnMap = new ArrayList<>(); //  在地图上显示的充电柜
     private PowerBankCabinet powerBankCabinetDefault;  //   用户选择的充电宝柜台
     private int width = 600;
@@ -63,6 +65,7 @@ public class UserFrame extends FatherFrame {
                 news.setEnabled(false);
 
         });
+
         setVisible(true);
     }
     public void update(FatherJPanel panel) {
@@ -128,4 +131,6 @@ public class UserFrame extends FatherFrame {
     public void setAddress(JPanel address) {
         this.address = address;
     }
+
+
 }

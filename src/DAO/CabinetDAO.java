@@ -1,7 +1,7 @@
 package DAO;
 
 import MyObject.PowerBankCabinet;
-import Util.query.SimplyQueryAllForm;
+import Util.db.query.SimplyQueryAllForm;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

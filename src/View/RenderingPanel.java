@@ -3,7 +3,9 @@ package View;
 
 import Serve.observer.observer_frame.AllObserverOfFrame;
 import Serve.observer.observer_frame.ObserverMessagePanel;
+import Serve.observer.observer_frame.ObserverOrderPanel;
 import View.user.MessagePane;
+import View.user.order.OrderPanel;
 
 import java.awt.*;
 import java.util.List;
@@ -37,19 +39,18 @@ public class RenderingPanel extends FatherJPanel {
             showPanel = messagePane;
         }
 
+        //判断是否是此前创建过的订单面板，是这显示此前创建的消息面板
+        OrderPanel orderPanel = skipSetObserverOrderPanel(showPanel);
+        if (orderPanel != null) {
+            showPanel = orderPanel;
+        }
+
         // 获取showPanel的类名
         String panelName = showPanel.getClass().getName();
 
         // 检查面板是否已存在，如果不存在则添加
         if (getComponentCount() > 0) {
             boolean panelExists = false;
-            //获得容器中创建过的所有组件
-//            for (Component comp : getComponents()) {
-//                if (comp.getClass().getName().equals(panelName)) {
-//                    panelExists = true;
-//                    break;
-//                }
-//            }
             //添加组件
             if (!panelExists) {
                 add(showPanel, panelName);
@@ -103,6 +104,21 @@ public class RenderingPanel extends FatherJPanel {
             }
         }
         //之前没有创建，返回null
+        return null;
+    }
+
+    private OrderPanel skipSetObserverOrderPanel(FatherJPanel showPanel) {
+        //判断是不是订单面板
+        if (!(showPanel instanceof OrderPanel)) {
+            return null;
+            }
+        //转换为OrderPanel
+        OrderPanel orderPanel = (OrderPanel) showPanel;
+        ObserverOrderPanel observerOrderPanel = new ObserverOrderPanel();
+        boolean fa = observerOrderPanel.isOrderPanelAlreadyCreated(frame);
+        if (fa) {
+            return orderPanel;
+        }
         return null;
     }
 }

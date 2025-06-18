@@ -1,7 +1,7 @@
 package Serve.auth;
 
-import Util.insert.ContextInsert;
-import Util.insert.SimplyInsertAllForm;
+import Util.db.insert.ContextInsert;
+import Util.db.insert.SimplyInsertAllForm;
 import View.FatherFrame;
 
 import javax.swing.*;

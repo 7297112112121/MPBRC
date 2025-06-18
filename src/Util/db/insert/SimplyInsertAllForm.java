@@ -1,4 +1,4 @@
-package Util.insert;
+package Util.db.insert;
 
 import Util.db.DBUpData;
 import java.util.ArrayList;
