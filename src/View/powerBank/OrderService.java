@@ -12,7 +12,5 @@ public interface OrderService {
         /** 执行归还操作（更新结束时间和费用） */
         void returnOrder(int orderId, double totalCost) throws Exception;
 
-        /** 获取所有订单 */
-        List<Order> getAllOrders();
 
 }

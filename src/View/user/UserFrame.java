@@ -10,6 +10,8 @@ import Serve.observer.observer_frame.ObserverMessagePanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserFrame extends FatherFrame {
     private final JButton news = new JButton("消息");
@@ -17,9 +19,10 @@ public class UserFrame extends FatherFrame {
     private final MessagePane messagePane;
     private final RenderingPanel rp ;
     private User user;
-    private boolean mapVisible = true;//  控制地图是否还要刷新
-    private double price = 0;//用户选择租借冲电宝的套餐
-    private PowerBankCabinet powerBankCabinetDefault;  //默认选择的充电宝柜台
+    private JPanel address;
+    private double price = 0;                          //   用户选择租借冲电宝的套餐
+    private List<PowerBankCabinet> powerBankCabinetsOnMap = new ArrayList<>(); //  在地图上显示的充电柜
+    private PowerBankCabinet powerBankCabinetDefault;  //   用户选择的充电宝柜台
     private int width = 600;
     private int height = 800;
     public UserFrame() {
@@ -101,13 +104,6 @@ public class UserFrame extends FatherFrame {
         this.price = price;
     }
 
-    public boolean getMapVisible() {
-        return mapVisible;
-    }
-
-    public void setMapVIsible(boolean mapVisible) {
-        this.mapVisible = mapVisible;
-    }
 
     public PowerBankCabinet getPowerBankCabinetDefault() {
         return powerBankCabinetDefault;
@@ -115,5 +111,21 @@ public class UserFrame extends FatherFrame {
 
     public void setPowerBankCabinetDefault(PowerBankCabinet powerBankCabinetDefault) {
         this.powerBankCabinetDefault = powerBankCabinetDefault;
+    }
+
+    public List<PowerBankCabinet> getPowerBankCabinetsOnMap() {
+        return powerBankCabinetsOnMap;
+    }
+
+    public void setPowerBankCabinetsOnMap(List<PowerBankCabinet> powerBankCabinetsOnMap) {
+        this.powerBankCabinetsOnMap = powerBankCabinetsOnMap;
+    }
+
+    public JPanel getAddress() {
+        return address;
+    }
+
+    public void setAddress(JPanel address) {
+        this.address = address;
     }
 }

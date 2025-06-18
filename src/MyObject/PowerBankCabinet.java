@@ -12,6 +12,7 @@ public class PowerBankCabinet {
     private int newPowerBankNum; // 还在充电柜上的充电宝
     private int[] portNumberID;     //充电宝柜的端口id，下标即本机柜端口id，值为充电宝的id
     private String address;
+    private boolean isVisibleMap = false;   //该充电柜是否显示在用户地图上
     private List<PowerBank> powerBanks;
 
     //构造方法
@@ -129,5 +130,15 @@ public class PowerBankCabinet {
     //获得充电柜端口所有id
     public int[] getPortNumberID() {
         return portNumberID;
+    }
+
+    //获得是否在用户地图上显示
+    public boolean isVisibleMap() {
+        return isVisibleMap;
+    }
+
+    //设置是否在用户地图上显示
+    public void setVisibleMap(boolean visibleMap) {
+        isVisibleMap = visibleMap;
     }
 }

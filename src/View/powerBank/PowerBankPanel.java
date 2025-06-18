@@ -4,7 +4,7 @@ import DAO.powerBank.DatabaseUtil;
 import MyObject.Order;
 import MyObject.PowerBank;
 import DAO.powerBank.PowerBankServiceImpl;
-import DAO.powerBank.OrderServiceImpl;
+import DAO.powerBank.OrderDAO;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,7 +25,7 @@ public class PowerBankPanel extends JPanel {
     private JTextField powerField;
     private JTextField brandField;
     private final PowerBankService service = new PowerBankServiceImpl();
-    private final OrderService orderService = new OrderServiceImpl(); // 依赖接口
+    private final OrderService orderService = new OrderDAO(); // 依赖接口
 
     public PowerBankPanel() {
         setLayout(new BorderLayout());

@@ -2,7 +2,12 @@ package DAO.powerBank;
 
 import MyObject.Order;
 import MyObject.PowerBank;
+import MyObject.PowerBankCabinet;
+import Util.db.DBQuary;
+import Util.db.DBUpData;
 import View.powerBank.OrderService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,26 +16,37 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
-public class OrderServiceImpl implements OrderService {
-
-    //获取订单号码
+public class OrderDAO implements OrderService {
+    private static Logger logger = LogManager.getLogger(OrderDAO.class);
     @Override
     public Order getOrderById(int orderId) {
-        String sql = "SELECT id, power_bank_id, start_time, end_time, total_cost " +
-                "FROM orders WHERE id = ?";
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
+        return null;
+    }
+
+    //获取订单号码
+    public Order getOrderIng(int nameid) {
         try {
-            conn = DatabaseUtil.getConnection();
-            stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, orderId);
-            rs = stmt.executeQuery();
-            if (rs.next()) {
-                return mapToOrder(rs);
+            String sql = "SELECT * FROM orders WHERE nameid = ?";
+            ResultSet resultSet = DBQuary.query(sql,nameid );
+            while (resultSet.next()) {
+                Timestamp timestamp = resultSet.getTimestamp("end_time");
+                //核查订单时间是否结束
+                if (timestamp != null) {
+                    //结束了返回null
+                    return null;
+                }
+                //订单没有结束
+                Integer id = resultSet.getInt("id");
+                Integer powerBankId = resultSet.getInt("power_bank_id");
+                Timestamp startTime = resultSet.getTimestamp("start_time");
+                Timestamp endTime = resultSet.getTimestamp("end_time");
+                Double totalCost = resultSet.getDouble("total_cost");
+                Integer cabinet = resultSet.getInt("cabinet");
+                Integer cabinetPowerID = resultSet.getInt("cabinet_powerid");
+                return new Order(id, powerBankId, startTime, endTime, totalCost, cabinet, cabinetPowerID);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("查询订单失败", e);
+            logger.error("查询进行订单失败", e);
         }
         return null;
     }
@@ -68,7 +84,6 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    @Override
     public List<Order> getAllOrders() {
         return DatabaseUtil.getAllOrders();
     }
@@ -86,5 +101,10 @@ public class OrderServiceImpl implements OrderService {
         }
         order.setTotalCost(totalCost);
         return order;
+    }
+
+    public int addOrder(PowerBankCabinet powerBankCabinet, PowerBank powerBank, int nameid) {
+        String sql = "INSERT INTO orders (power_bank_id, cabinet, cabinet_powerid, nameid) VALUES (? , ?, ?, ?)";
+        return DBUpData.update(sql, powerBank.getId(), powerBankCabinet.getId(), powerBank.getPowerID(), nameid);
     }
 }

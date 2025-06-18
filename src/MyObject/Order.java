@@ -1,19 +1,33 @@
 package MyObject;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Order {
     private int id;
     private int powerBankId;
-    private Date startTime;
-    private Date endTime;
+    private Timestamp startTime;
+    private Timestamp endTime;
     private double totalCost;
+    private int cabinet;
+    private int cabinetPowerID;
 
-    public Order(int id, int powerBankId, Date startTime) {
+    public Order(int id, int powerBankId, Timestamp startTime) {
         this.id = id;
         this.powerBankId = powerBankId;
         this.startTime = startTime;
     }
+
+    public Order(int id, int powerBankId, Timestamp startTime, Timestamp endTime, double totalCost, int cabinet, int cabinetPowerID) {
+        this.id = id;
+        this.powerBankId = powerBankId;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.totalCost = totalCost;
+        this.cabinet = cabinet;
+        this.cabinetPowerID = cabinetPowerID;
+    }
+
     public Order() {
 
     }
@@ -26,15 +40,15 @@ public class Order {
         return powerBankId;
     }
 
-    public Date getStartTime() {
+    public Timestamp getStartTime() {
         return startTime;
     }
 
-    public Date getEndTime() {
+    public Timestamp getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(Timestamp endTime) {
         this.endTime = endTime;
     }
 
@@ -54,7 +68,7 @@ public class Order {
         this.powerBankId = powerBankId;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(Timestamp startTime) {
         this.startTime = startTime;
     }
 

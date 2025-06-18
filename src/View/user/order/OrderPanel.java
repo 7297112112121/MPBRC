@@ -2,7 +2,7 @@ package View.user.order;
 
 import DAO.powerBank.DatabaseUtil;
 import MyObject.Order;
-import DAO.powerBank.OrderServiceImpl;
+import DAO.powerBank.OrderDAO;
 import Util.factory.FactoryPanel;
 import View.FatherJPanel;
 import View.powerBank.OrderService;
@@ -28,7 +28,7 @@ public class OrderPanel extends FatherJPanel {
     private DefaultTableModel tableModel;
     private JButton refreshButton;
     private JButton returnButton;
-    private final OrderService orderService = new OrderServiceImpl(); // 依赖订单服务接口
+    private final OrderService orderService = new OrderDAO(); // 依赖订单服务接口
 
     public OrderPanel(UserFrame frame) {
         this.frame = frame;
