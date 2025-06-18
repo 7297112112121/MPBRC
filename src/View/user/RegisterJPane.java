@@ -45,7 +45,7 @@ public class RegisterJPane extends FatherJPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                register1.register(
+                boolean bo =register1.register(
                         (JTextField) factoryPanel.getJComponent( "名称输入框"),
                         (JLabel) factoryPanel.getJComponent("名称提示标签"),
                         (JPasswordField)factoryPanel.getJComponent( "密码输入框"),
@@ -57,6 +57,9 @@ public class RegisterJPane extends FatherJPanel {
                         (JTextField)factoryPanel.getJComponent("验证码输入框"),
                         (JLabel) factoryPanel.getJComponent("验证码提示标签")
                 );
+                if (bo) {
+                    frame.update(new HomePanel((UserFrame) frame));
+                }
             }
         });
         //登录事件

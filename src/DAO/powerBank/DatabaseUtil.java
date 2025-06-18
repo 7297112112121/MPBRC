@@ -7,11 +7,7 @@ import Util.db.DataBase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -154,7 +150,7 @@ public class DatabaseUtil {
             logger.error("创建订单失败", e);
         }
         if (orderId != -1) {
-            return new Order(orderId, powerBankId, new java.util.Date());
+            return new Order(orderId, powerBankId, new Timestamp(System.currentTimeMillis()));
         }
         return null;
     }
@@ -210,7 +206,7 @@ public class DatabaseUtil {
     public static void completeOrder(int orderId) {
         Order order = getOrderById(orderId);
         if (order != null && order.getEndTime() == null) { // 确保订单未结束
-            order.setEndTime(new java.util.Date());
+            order.setEndTime(new Timestamp(System.currentTimeMillis()));
             order.setTotalCost(order.calculateCost()); // 计算费用
 
             String sql = "UPDATE orders SET end_time = ?, total_cost = ? WHERE id = ?";

@@ -166,7 +166,10 @@ public class FactoryPanel{
                     JLabel[] labels = new JLabel[labelCount];
 
                     for (int i = 0; i < labelCount; i++) {
+                        //设置字体
+                        Font font = new Font("宋体", Font.BOLD, 16);
                         labels[i] = new JLabel();
+                        labels[i].setFont(font);
                         //添加组件到面板中
                         labelPanel.add(labels[i]);
                         //设置组件id信息

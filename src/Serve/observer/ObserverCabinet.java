@@ -3,12 +3,10 @@ package Serve.observer;
 import MyObject.PowerBank;
 import MyObject.PowerBankCabinet;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ObserverCabinet extends Observer{
+    //所有充电柜信息
     private static final Map<Integer, PowerBankCabinet> cabinetCache = new HashMap<>();
     private static final Map<String, Integer> nameToID = new HashMap<>();
 
@@ -26,6 +24,31 @@ public class ObserverCabinet extends Observer{
     //获得所有的充电宝柜
     public List<PowerBankCabinet> getCabinets() {
         return new ArrayList<>(cabinetCache.values());
+    }
+    // 随机获取指定数量的充电柜
+    public List<PowerBankCabinet> getCabinets(int num) {
+        List<PowerBankCabinet> allCabinets = new ArrayList<>(cabinetCache.values());
+        int size = allCabinets.size();
+
+        // 处理指定数量超过现有数量的情况
+        if (num >= size) {
+            return allCabinets;
+        }
+
+        // 随机抽取指定数量的元素
+        List<PowerBankCabinet> result = new ArrayList<>(num);
+        Random random = new Random();
+        Set<Integer> selectedIndices = new HashSet<>();
+
+        while (selectedIndices.size() < num) {
+            int randomIndex = random.nextInt(size);
+            if (!selectedIndices.contains(randomIndex)) {
+                result.add(allCabinets.get(randomIndex));
+                selectedIndices.add(randomIndex);
+            }
+        }
+
+        return result;
     }
 
     //添加充电柜实例
