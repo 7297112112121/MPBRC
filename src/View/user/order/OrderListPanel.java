@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class OrderListPanel extends FatherJPanel {
@@ -32,10 +33,21 @@ public class OrderListPanel extends FatherJPanel {
             // 遍历所有订单并添加订单卡片
             for (Order order : orders) {
                 // 计算订单时长
-                long hours = orderSever.returnHours(order.getStartTime().toLocalDateTime(),
-                        order.getEndTime().toLocalDateTime());
-                long minutes = orderSever.returnMinutes(order.getStartTime().toLocalDateTime(),
-                        order.getEndTime().toLocalDateTime());
+                long hours = 0;
+                long minutes = 0;
+                if (order.getEndTime() != null) {
+                    //若订单结束了
+                     hours = orderSever.returnHours(order.getStartTime().toLocalDateTime(),
+                            order.getEndTime().toLocalDateTime());
+                     minutes = orderSever.returnMinutes(order.getStartTime().toLocalDateTime(),
+                            order.getEndTime().toLocalDateTime());
+                }else {
+                    //若订单没有结束
+                     hours = orderSever.returnHours(order.getStartTime().toLocalDateTime(),
+                            LocalDateTime.now());
+                     minutes = orderSever.returnMinutes(order.getStartTime().toLocalDateTime(),
+                            LocalDateTime.now());
+                }
 
                 String durationStr = "";
                 if (hours > 0) {

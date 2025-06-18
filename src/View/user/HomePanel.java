@@ -62,7 +62,7 @@ public class HomePanel extends FatherJPanel {
         order.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                frame.update(new OrderListPanel((UserFrame) frame));
+                frame.update(new OrderListPanel((UserFrame) frame));
             }
         });
         //扫码充电事件
