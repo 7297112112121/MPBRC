@@ -11,6 +11,7 @@ public class Order {
     private double totalCost;
     private int cabinet;
     private int cabinetPowerID;
+    private double price;//记录套餐价格
 
     public Order(int id, int powerBankId, Timestamp startTime) {
         this.id = id;
@@ -26,6 +27,17 @@ public class Order {
         this.totalCost = totalCost;
         this.cabinet = cabinet;
         this.cabinetPowerID = cabinetPowerID;
+    }
+
+    public Order(int id, int powerBankId, Timestamp startTime, Timestamp endTime, double totalCost, int cabinet, int cabinetPowerID, double price) {
+        this.id = id;
+        this.powerBankId = powerBankId;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.totalCost = totalCost;
+        this.cabinet = cabinet;
+        this.cabinetPowerID = cabinetPowerID;
+        this.price = price;
     }
 
     public Order() {
@@ -72,6 +84,30 @@ public class Order {
         this.startTime = startTime;
     }
 
+    public int getCabinet() {
+        return cabinet;
+    }
+
+    public void setCabinet(int cabinet) {
+        this.cabinet = cabinet;
+    }
+
+    public int getCabinetPowerID() {
+        return cabinetPowerID;
+    }
+
+    public void setCabinetPowerID(int cabinetPowerID) {
+        this.cabinetPowerID = cabinetPowerID;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     // 计算使用时长（单位：小时）
     public long calculateDuration() {
         if (endTime != null) {
@@ -80,6 +116,7 @@ public class Order {
         }
         return 0;
     }
+
 
     // 计算租赁费用（示例：1.5元/小时）
     public double calculateCost() {

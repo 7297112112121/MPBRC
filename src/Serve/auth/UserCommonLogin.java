@@ -1,8 +1,8 @@
 package Serve.auth;
 
 import Util.UserFieldEnum;
-import Util.query.ContextQuery;
-import Util.query.SimplyQueryWhere;
+import Util.db.query.ContextQuery;
+import Util.db.query.SimplyQueryWhere;
 import MyObject.User;
 import Util.factory.UserCreationFactory;
 import org.apache.logging.log4j.LogManager;

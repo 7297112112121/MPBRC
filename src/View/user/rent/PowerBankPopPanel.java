@@ -2,11 +2,11 @@ package View.user.rent;
 
 import MyObject.PowerBank;
 import MyObject.PowerBankCabinet;
-import Serve.CreateOrderSever;
+import Serve.OrderSever;
 import Util.factory.FactoryPanel;
 import View.FatherJPanel;
 import View.user.UserFrame;
-import View.user.order.RentDingPanel;
+import View.user.order.OrderPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,7 +28,7 @@ public class PowerBankPopPanel extends FatherJPanel {
     private PowerBankCabinet cabinet;                           //用户选择了的充电宝柜
     private List<JLabel> progressLabels = new ArrayList<>();    //存放进程标签
     private int currentProgressIndex = 0;                       //进行到的标签
-    private CreateOrderSever getPowerSever = new CreateOrderSever();  //获得充电宝服务
+    private OrderSever getPowerSever = new OrderSever();  //获得充电宝服务
     private PowerBank maxPowerRemainingPower;                   //获得最高电量的充电宝
     private int[] portNumberID;                                 //拥有充电宝的端口
     private JLabel[] portLabels;                                //充电宝柜电口显示
@@ -135,7 +135,7 @@ public class PowerBankPopPanel extends FatherJPanel {
                 SwingUtilities.invokeLater(() -> {
                     try {
                         Thread.sleep(500);
-                        frame.update(new RentDingPanel(frame,cabinet ,maxPowerRemainingPower));
+                        frame.update(new OrderPanel(frame,cabinet ,maxPowerRemainingPower));
                     } catch (InterruptedException ex) {
                         logger.error("跳转订单页面时被中断", ex);
                     }

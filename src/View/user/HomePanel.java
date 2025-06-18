@@ -2,15 +2,14 @@ package View.user;
 
 import MyObject.Order;
 import MyObject.PowerBankCabinet;
-import Serve.CreateOrderSever;
+import Serve.OrderSever;
 import Serve.observer.ObserverCabinet;
-import Util.Rand;
+import Serve.observer.observer_frame.ObserverOrderPanel;
 import Util.factory.FactoryPanel;
-import View.FatherFrame;
 import View.FatherJPanel;
-import View.user.order.OrderPanel;
+import View.user.order.OrderListPanel;
 import View.user.my.MyPanel;
-import View.user.order.RentDingPanel;
+import View.user.order.OrderPanel;
 import View.user.rent.RentMessagePanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -63,7 +62,7 @@ public class HomePanel extends FatherJPanel {
         order.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.update(new OrderPanel((UserFrame) frame));
+                frame.update(new OrderListPanel((UserFrame) frame));
             }
         });
         //扫码充电事件
@@ -74,7 +73,7 @@ public class HomePanel extends FatherJPanel {
                 Order order1 = getOrder();
                 if (order1 != null) {
                     //已经租凭了充电宝自动跳转到订单详情
-                    frame.update(new RentDingPanel((UserFrame) frame));
+                    frame.update(new OrderPanel((UserFrame) frame));
                 }else {
                     //没有这跳转到选择套餐服务
                     frame.update(new RentMessagePanel((UserFrame) frame));
@@ -82,6 +81,7 @@ public class HomePanel extends FatherJPanel {
 
             }
         });
+        startOrderPanel();
         logger.info("默认选择的充电柜:{}", frame.getPowerBankCabinetDefault().getName());
         logger.info("首页加载完成");
     }
@@ -173,7 +173,13 @@ public class HomePanel extends FatherJPanel {
         }
 
     private Order getOrder() {
-        CreateOrderSever createOrderSever = new CreateOrderSever();
+        OrderSever createOrderSever = new OrderSever();
         return createOrderSever.getIngOrder(frame.getUser().getNameID());
+    }
+
+    //创建订单面板，添加到观察者中
+    private void startOrderPanel() {
+        ObserverOrderPanel orderPanel = new ObserverOrderPanel();
+        orderPanel.addOrderPanel(frame, new OrderPanel(frame));
     }
 }

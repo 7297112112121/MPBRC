@@ -43,7 +43,8 @@ public class OrderDAO implements OrderService {
                 Double totalCost = resultSet.getDouble("total_cost");
                 Integer cabinet = resultSet.getInt("cabinet");
                 Integer cabinetPowerID = resultSet.getInt("cabinet_powerid");
-                return new Order(id, powerBankId, startTime, endTime, totalCost, cabinet, cabinetPowerID);
+                Double price = resultSet.getDouble("price");
+                return new Order(id, powerBankId, startTime, endTime, totalCost, cabinet, cabinetPowerID, price);
             }
         } catch (SQLException e) {
             logger.error("查询进行订单失败", e);
@@ -103,8 +104,9 @@ public class OrderDAO implements OrderService {
         return order;
     }
 
-    public int addOrder(PowerBankCabinet powerBankCabinet, PowerBank powerBank, int nameid) {
-        String sql = "INSERT INTO orders (power_bank_id, cabinet, cabinet_powerid, nameid) VALUES (? , ?, ?, ?)";
-        return DBUpData.update(sql, powerBank.getId(), powerBankCabinet.getId(), powerBank.getPowerID(), nameid);
+    //向订单表添加新的订单信息
+    public int addOrder(PowerBankCabinet powerBankCabinet, PowerBank powerBank, int nameid, double price) {
+        String sql = "INSERT INTO orders (power_bank_id, cabinet, cabinet_powerid, nameid, price) VALUES (? , ?, ?, ?, ?)";
+        return DBUpData.update(sql, powerBank.getId(), powerBankCabinet.getId(), powerBank.getPowerID(), nameid, price);
     }
 }

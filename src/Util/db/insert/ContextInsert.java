@@ -1,4 +1,4 @@
-package Util.insert;
+package Util.db.insert;
 
 public class ContextInsert {
     private Insert insert;
