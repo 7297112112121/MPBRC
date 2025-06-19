@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ThreeOfHoure implements RentPackage{
+    private String title = "三元套餐";
     //每小时3元，不满一小时按一小时算
     private Double price = 3.00;
     private String name = "3.0元/60分钟";
@@ -20,5 +21,10 @@ public class ThreeOfHoure implements RentPackage{
     @Override
     public double getPriceText() {
         return price;
+    }
+
+    @Override
+    public String getPackageName() {
+        return title;
     }
 }

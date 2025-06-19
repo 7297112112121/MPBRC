@@ -1,5 +1,7 @@
 package View.user;
 
+import MyObject.User;
+import Serve.auth.UserCommonLogin;
 import Serve.auth.UserCommonRegister;
 import View.FatherFrame;
 import View.FatherJPanel;
@@ -16,11 +18,11 @@ import static Util.factory.FactoryPanel.MyJPanelType.*;
 
 public class RegisterJPane extends FatherJPanel {
     private static final Logger logger = LogManager.getLogger(RegisterJPane.class);
-    private FatherFrame frame;//储存索引
+    private UserFrame frame;//储存索引
 
     private boolean checkPassword = false;
     private boolean checkConfirmPassword = false;
-    public RegisterJPane(FatherFrame frame) {
+    public RegisterJPane(UserFrame frame) {
         logger.info("用户注册界面正在加载");
         this.frame = frame;//获得索引
         UserCommonRegister register1 = new UserCommonRegister();
@@ -58,7 +60,11 @@ public class RegisterJPane extends FatherJPanel {
                         (JLabel) factoryPanel.getJComponent("验证码提示标签")
                 );
                 if (bo) {
-                    frame.update(new HomePanel((UserFrame) frame));
+                    JTextField nameText  =  (JTextField) factoryPanel.getJComponent( "名称输入框");
+                    JPasswordField passwordText = (JPasswordField) factoryPanel.getJComponent( "密码输入框");
+                    User user = new UserCommonLogin().loginAndCreateUserOnline(nameText.getText().trim(), passwordText.getText().trim());
+                    frame.setUser(user);
+                    frame.update(new HomePanel(frame));
                 }
             }
         });

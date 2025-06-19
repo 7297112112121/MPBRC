@@ -12,6 +12,8 @@ public class Order {
     private int cabinet;
     private int cabinetPowerID;
     private double price;//记录套餐价格
+    private String plan;//记录套餐
+    private String status;//订单状态
 
     public Order(int id, int powerBankId, Timestamp startTime) {
         this.id = id;
@@ -38,6 +40,31 @@ public class Order {
         this.cabinet = cabinet;
         this.cabinetPowerID = cabinetPowerID;
         this.price = price;
+    }
+
+    public Order(int id, int powerBankId, Timestamp startTime, Timestamp endTime, double totalCost, int cabinet, int cabinetPowerID, double price, String plan) {
+        this.id = id;
+        this.powerBankId = powerBankId;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.totalCost = totalCost;
+        this.cabinet = cabinet;
+        this.cabinetPowerID = cabinetPowerID;
+        this.price = price;
+        this.plan = plan;
+    }
+
+    public Order(int id, int powerBankId, Timestamp startTime, Timestamp endTime, double totalCost, int cabinet, int cabinetPowerID, double price, String plan, String status) {
+        this.id = id;
+        this.powerBankId = powerBankId;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.totalCost = totalCost;
+        this.cabinet = cabinet;
+        this.cabinetPowerID = cabinetPowerID;
+        this.price = price;
+        this.plan = plan;
+        this.status = status;
     }
 
     public Order() {
@@ -106,6 +133,22 @@ public class Order {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getPlan() {
+        return plan;
+    }
+
+    public void setPlan(String plan) {
+        this.plan = plan;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     // 计算使用时长（单位：小时）

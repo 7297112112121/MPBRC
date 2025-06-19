@@ -19,4 +19,10 @@ public class ContextRentPackage {
     public double getPrice() {
         return rentPackage.getPriceText();
     }
+
+    //返回套餐名称
+    public String getName() {
+        return rentPackage.getPackageName();
+    }
+
 }

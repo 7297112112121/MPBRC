@@ -1,19 +1,18 @@
 package Serve;
 
-import DAO.powerBank.OrderDAO;
+import DAO.OrderDAO;
 import MyObject.Order;
 import MyObject.PowerBank;
 import MyObject.PowerBankCabinet;
 import Serve.observer.ObserverCabinet;
 import Util.db.set.SimplySet;
-import com.sun.org.apache.xpath.internal.operations.Or;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 public class OrderSever {
+    private OrderDAO orderDAO = new OrderDAO();
 
     //查找该充电宝柜是否存在
     public Boolean havaPowerBankCabinet(PowerBankCabinet powerBankCabine) {
@@ -32,6 +31,10 @@ public class OrderSever {
     //查找最高电量充电宝
     public PowerBank mainRemainingPower(PowerBankCabinet powerBankCabine) {
         List<PowerBank> powerBanks = powerBankCabine.getPowerBanks();
+        //判断是否为空
+        if (powerBanks.size() == 0) {
+            return null;
+        }
         PowerBank powerBank = powerBanks.get(0);
         for (int i = 1; i < powerBanks.size(); i++) {
             if (powerBanks.get(i).getRemainingPower() > powerBank.getRemainingPower()) {
@@ -42,9 +45,8 @@ public class OrderSever {
     }
 
     //生成订单
-    public boolean createOrder(PowerBankCabinet powerBankCabinet, PowerBank powerBank, int nameid, double price) {
-        OrderDAO orderDAO = new OrderDAO();
-        int num = orderDAO.addOrder(powerBankCabinet, powerBank, nameid, price);
+    public boolean createOrder(PowerBankCabinet powerBankCabinet, PowerBank powerBank, int nameid, double price, String plan) {
+        int num = orderDAO.addOrder(powerBankCabinet, powerBank, nameid, price, plan);
         if (num > 0) {
             return true;
         }
@@ -53,8 +55,23 @@ public class OrderSever {
 
     //查询正在进行的订单
     public Order getIngOrder(int nameid) {
-        OrderDAO orderDAO = new OrderDAO();
         return orderDAO.getOrderIng(nameid);
+    }
+
+    //查询已结束的订单
+    public List<Order> getOverOrder(int nameid) {
+        return orderDAO.getOverOrders(nameid);
+    }
+
+    //查询所有的订单
+    public List<Order> getAllOrders(int nameid) {
+        return orderDAO.getAllOrders(nameid);
+    }
+
+    //结束订单
+    public void endOrder() {
+        //填入结束时间
+        orderDAO.addEndTime();
     }
 
     //计算时间差
@@ -70,6 +87,20 @@ public class OrderSever {
         }
 
         return hours + "小时" + minutes + "分钟";
+    }
+
+    //返回分钟
+    public int returnMinutes(LocalDateTime startTime, LocalDateTime endTime) {
+        Duration duration = Duration.between(startTime, endTime);
+        long minutes = duration.toMinutes();
+        return (int) minutes;
+    }
+
+    //返回小时
+    public int returnHours(LocalDateTime startTime, LocalDateTime endTime) {
+        Duration duration = Duration.between(startTime, endTime);
+        long hours = duration.toHours();
+        return (int) hours;
     }
 
     //计算服务费

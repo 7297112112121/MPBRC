@@ -33,7 +33,7 @@ public class OrderPanel extends FatherJPanel {
     private OrderSever orderSever = new OrderSever();
     private String timeDiff;
 
-    //用于没有创建订单
+    //用于没有创建订单，创建新的订单
     public OrderPanel(UserFrame frame, PowerBankCabinet powerBankCabinet, PowerBank powerBank) {;
         logger.info("正在创建订单");
         this.frame = frame;
@@ -45,14 +45,16 @@ public class OrderPanel extends FatherJPanel {
         startTimer();
         logger.info("创建完成");
     }
-    //用于已经拥有了订单
+    //用于若用户已经拥有了进行的订单，则继续进行计时计费
     public OrderPanel(UserFrame frame) {
         logger.info("正在加载用户订单");
         this.frame = frame;
         this.powerBank = powerBank;
         this.powerBankCabinet = powerBankCabinet;
         initializeUI();
-        initializeOrder();
+        //初始化订单
+        initializeOrder(1);
+        //事件源
         initializeListeners();
         startTimer();
         logger.info("用户订单加载成功");
@@ -81,11 +83,19 @@ public class OrderPanel extends FatherJPanel {
             if (createOrder()) {
                 orderIng = getOrder();
                 updateTimeDisplay("0小时0分钟");
-                updateMoneyDisplay("预计 3 元");
+                updateMoneyDisplay("预计 " + frame.getPrice() + " 元");
             } else {
                 handleOrderCreationFailure();
             }
         } else {
+            updateTimeDisplayBasedOnOrder();
+        }
+    }
+
+    //用于用户已经拥有订单，则继续计时
+    private void initializeOrder(int n) {
+        orderIng = getOrder();
+        if (orderIng != null) {
             updateTimeDisplayBasedOnOrder();
         }
     }
@@ -99,6 +109,12 @@ public class OrderPanel extends FatherJPanel {
         });
     }
 
+    //归还结束订单
+    private void overOrder() {
+        //结束订单
+        orderSever.endOrder();
+    }
+
     //停止计时，移除计时器
     @Override
     public void removeNotify() {
@@ -109,8 +125,6 @@ public class OrderPanel extends FatherJPanel {
     //开始计时
     // 启动定时器
     private void startTimer() {
-
-
         // 创建一个单线程调度器
         scheduler = Executors.newSingleThreadScheduledExecutor();
         // 每隔1分钟执行一次任务
@@ -137,7 +151,7 @@ public class OrderPanel extends FatherJPanel {
 
     //创建订单
     private boolean createOrder() {
-        return createOrderSever.createOrder(powerBankCabinet, powerBank, frame.getUser().getNameID(), frame.getPrice());
+        return createOrderSever.createOrder(powerBankCabinet, powerBank, frame.getUser().getNameID(), frame.getPrice(), frame.getPlanName());
     }
 
     //查询订单

@@ -1,10 +1,10 @@
 package View.powerBank;
 
-import DAO.powerBank.DatabaseUtil;
+import DAO.PowerBankDAO;
 import MyObject.Order;
 import MyObject.PowerBank;
-import DAO.powerBank.PowerBankServiceImpl;
-import DAO.powerBank.OrderDAO;
+import DAO.PowerBankTwoDAO;
+import DAO.OrderDAO;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +24,7 @@ public class PowerBankPanel extends JPanel {
     private JTextField idField;
     private JTextField powerField;
     private JTextField brandField;
-    private final PowerBankService service = new PowerBankServiceImpl();
+    private final PowerBankService service = new PowerBankTwoDAO();
     private final OrderService orderService = new OrderDAO(); // 依赖接口
 
     public PowerBankPanel() {
@@ -43,7 +43,7 @@ public class PowerBankPanel extends JPanel {
                 PowerBank selected = powerBankList.getSelectedValue();
                 if (selected != null && "可租赁".equals(selected.getStatus())) { // 新增状态校验
                     // 1. 创建未结束的订单（end_time为null）
-                    Order order = DatabaseUtil.createOrder(selected.getId());
+                    Order order = PowerBankDAO.createOrder(selected.getId());
                     if (order == null) {
                         JOptionPane.showMessageDialog(null, "创建订单失败", "错误", JOptionPane.ERROR_MESSAGE);
                         return;
@@ -51,7 +51,7 @@ public class PowerBankPanel extends JPanel {
 
                     // 2. 更新电源状态为“租赁中”
                     selected.setStatus("租赁中");
-                    DatabaseUtil.updatePowerBankStatus(selected);
+                    PowerBankDAO.updatePowerBankStatus(selected);
 
                     // 3. 提示用户租赁开始，不提前计算费用
                     JOptionPane.showMessageDialog(null,
@@ -142,7 +142,7 @@ public class PowerBankPanel extends JPanel {
     private void updateAvailablePowerBanks() {
 
         listModel.clear();
-        List<PowerBank> allPowerBanks = DatabaseUtil.getAllPowerBanks();
+        List<PowerBank> allPowerBanks = PowerBankDAO.getAllPowerBanks();
         allPowerBanks.forEach(listModel::addElement);
     }
 

@@ -1,8 +1,7 @@
-package DAO.powerBank;
+package DAO;
 
 import MyObject.Order;
 import MyObject.PowerBank;
-import Util.TimeSystem;
 import Util.db.DataBase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,8 +10,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DatabaseUtil {
-    private static final Logger logger = LogManager.getLogger(DatabaseUtil.class);
+public class PowerBankDAO {
+    private static final Logger logger = LogManager.getLogger(PowerBankDAO.class);
 
     public static Connection getConnection() throws SQLException {
         return DataBase.getConnection();
@@ -172,9 +171,9 @@ public class DatabaseUtil {
     }
 
     // 获取所有订单
-    public static List<Order> getAllOrders() {
+    public static List<Order> getAllOrders(int nameid) {
         List<Order> orders = new ArrayList<>();
-        String sql = "SELECT id, power_bank_id, start_time, end_time, total_cost FROM orders";
+        String sql = "SELECT * FROM orders WHERE `nameid` = " + nameid;
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -183,18 +182,16 @@ public class DatabaseUtil {
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                int id = rs.getInt("id");
-                int powerBankId = rs.getInt("power_bank_id");
-                java.sql.Timestamp startTime = rs.getTimestamp("start_time");
-                java.sql.Timestamp endTime = rs.getTimestamp("end_time");
-                double totalCost = rs.getDouble("total_cost");
-
-                Order order = new Order(id, powerBankId, startTime);
-                if (endTime != null) {
-                    order.setEndTime(endTime);
-                }
-                order.setTotalCost(totalCost);
-                orders.add(order);
+                Integer id = rs.getInt("id");
+                Integer powerBankId = rs.getInt("power_bank_id");
+                Timestamp startTime = rs.getTimestamp("start_time");
+                Timestamp endTime = rs.getTimestamp("end_time");
+                Double totalCost = rs.getDouble("total_cost");
+                Integer cabinet = rs.getInt("cabinet");
+                Integer cabinetPowerID = rs.getInt("cabinet_powerid");
+                Double price = rs.getDouble("price");
+                String plan = rs.getString("plan");
+                orders.add(new Order(id, powerBankId, startTime, endTime, totalCost, cabinet, cabinetPowerID, price, plan));
             }
         } catch (SQLException e) {
             logger.error("获取所有订单失败", e);
