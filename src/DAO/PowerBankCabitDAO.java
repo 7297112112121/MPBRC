@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-public class PowerBankTwoDAO implements PowerBankService {
+public class PowerBankCabitDAO implements PowerBankService {
     // 管理员添加充电宝
     @Override
     public void addPowerBank(PowerBank powerBank) {
@@ -43,11 +43,12 @@ public class PowerBankTwoDAO implements PowerBankService {
     // 获取本机所有充电宝信息
     public List<PowerBank> getAvailablePowerBanks(int id) {
         // 复用DatabaseUtil原有逻辑，或添加新实现
-        return PowerBankDAO.getAllPowerBanks(id);
+        return PowerBankDAO.getAllPowerBanksOfCabint(id);
     }
 
     @Override
     public void updatePowerBankStatus(PowerBank powerBank) {
         PowerBankDAO.updatePowerBankStatus(powerBank);
     }
+
 }

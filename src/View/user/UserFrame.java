@@ -25,7 +25,7 @@ public class UserFrame extends FatherFrame {
     private double price = 0;                          //用户选择租借冲电宝的套餐
     private String planName;                            //用户选择套餐的名称
     private List<PowerBankCabinet> powerBankCabinetsOnMap = new ArrayList<>(); //  在地图上显示的充电柜
-    private PowerBankCabinet powerBankCabinetDefault;  //   用户选择的充电宝柜台
+    private PowerBankCabinet powerBankCabinetDefault;  //   用户选择的充电宝柜台(也是用户所在的位置)
     private int width = 600;
     private int height = 800;
     public UserFrame() {

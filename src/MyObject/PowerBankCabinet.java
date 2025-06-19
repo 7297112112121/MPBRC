@@ -1,6 +1,6 @@
 package MyObject;
 
-import DAO.PowerBankTwoDAO;
+import DAO.PowerBankCabitDAO;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class PowerBankCabinet {
         this.name = name;
         this.capacity = capacity;
         //数据库中获得充电宝数据
-        PowerBankTwoDAO powerBankService = new PowerBankTwoDAO();
+        PowerBankCabitDAO powerBankService = new PowerBankCabitDAO();
         //获得本机的充电宝
         powerBanks = powerBankService.getAvailablePowerBanks(id);
        //根据充电宝powerID的值，充电宝存入与值相等的下标
@@ -39,7 +39,7 @@ public class PowerBankCabinet {
         this.capacity = capacity;
         this.address = address;
         //数据库中获得充电宝数据
-        PowerBankTwoDAO powerBankService = new PowerBankTwoDAO();
+        PowerBankCabitDAO powerBankService = new PowerBankCabitDAO();
         powerBanks = powerBankService.getAvailablePowerBanks();
 
     }

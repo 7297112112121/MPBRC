@@ -1,10 +1,10 @@
 package Serve;
 
-import Config.CaptchaGlobal;
-import Config.Global;
+import Config.AuthCaptchaGlobal;
+import Config.AuthGlobal;
 import MyObject.PowerBankCabinet;
 import Serve.observer.ObserverCabinet;
-import Serve.rent.LoadAllPlanRent;
+import Serve.rentPackage.LoadAllPlanRent;
 import Util.db.DataBase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,8 +30,8 @@ public class LoadDataThead implements Runnable{
             logger.info("数据库连接畅通");
 
             //加载验证配置信息
-            new Global();
-            new CaptchaGlobal();
+            new AuthGlobal();
+            new AuthCaptchaGlobal();
             logger.info("验证配置信息加载成功");
             try {
                 Thread.sleep(5*60*1000);

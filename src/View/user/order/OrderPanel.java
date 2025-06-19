@@ -13,7 +13,10 @@ import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -34,6 +37,7 @@ public class OrderPanel extends FatherJPanel {
     private String timeDiff;
 
     //用于没有创建订单，创建新的订单
+    //用于扫码租凭充电包
     public OrderPanel(UserFrame frame, PowerBankCabinet powerBankCabinet, PowerBank powerBank) {;
         logger.info("正在创建订单");
         this.frame = frame;
@@ -43,9 +47,11 @@ public class OrderPanel extends FatherJPanel {
         initializeOrder();
         initializeListeners();
         startTimer();
+        overOrder();
         logger.info("创建完成");
     }
     //用于若用户已经拥有了进行的订单，则继续进行计时计费
+    //用于主页面
     public OrderPanel(UserFrame frame) {
         logger.info("正在加载用户订单");
         this.frame = frame;
@@ -57,23 +63,93 @@ public class OrderPanel extends FatherJPanel {
         //事件源
         initializeListeners();
         startTimer();
+        overOrder();
         logger.info("用户订单加载成功");
     }
 
     //创建面板组件
     private void initializeUI() {
-        setLayout(new GridLayout(4,1));
+        setLayout(new GridLayout(5,1));
+
+        // 创建下拉菜单
+        List<PowerBankCabinet> powerBankCabinetsOnMap = frame.getPowerBankCabinetsOnMap();
+        //设置默认选项
+        for (PowerBankCabinet powerBankCabinet : powerBankCabinetsOnMap) {
+            if (powerBankCabinet == frame.getPowerBankCabinetDefault())
+                powerBankCabinetsOnMap.remove(powerBankCabinet);
+            powerBankCabinetsOnMap.add(0, powerBankCabinet);
+            break;
+        }
+        //设置菜单
+        String[] nams = new String[powerBankCabinetsOnMap.size()];
+        for (int i = 0; i < powerBankCabinetsOnMap.size(); i++) {
+            nams[i] = powerBankCabinetsOnMap.get(i).getName();
+        }
+        JComboBox<String> institutionComboBox = new JComboBox<>(nams);
+        institutionComboBox.setFont(new Font("宋体", Font.BOLD, 18));
+        institutionComboBox.setPreferredSize(new Dimension(getWidth(), 60));
+        add(institutionComboBox); // 直接添加下拉菜单组件
+
+
         factoryPanel = new FactoryPanel();
         add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.JLABLE, ";time", ";money"));
         add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.BUTTONS, "售后服务", "归还提醒", "福利中心"));
         add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.BUTTONS, "不还了，留下充电宝"));
-        add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.BUTTONS, "返回;return", "归还"));
+        add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.BUTTONS, "返回;return", "归还;returnBank"));
 
         timeLabel = (JLabel) factoryPanel.getJComponent("time");
         timeLabel.setFont(new Font("宋体", Font.BOLD, 20));
         moneyLabel = (JLabel) factoryPanel.getJComponent("money");
         moneyLabel.setFont(new Font("宋体", Font.BOLD, 20));
         now = LocalDateTime.now();
+
+        /**
+         * 下拉框监听
+         * */
+        institutionComboBox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                //获取用户选择的充电柜，若用户没有选择，默认使用系统预选的充电柜
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    String selectedItem = (String) e.getItem();
+                    for (PowerBankCabinet po :powerBankCabinetsOnMap) {
+                        if (po.getName().equals(selectedItem)) {
+                            frame.setPowerBankCabinetDefault(po);
+                        }
+                    }
+                    // 处理选择逻辑...
+                }
+            }
+        });
+    }
+
+    //用于用户已经拥有订单，则继续计时
+    private void initializeOrder(int n) {
+        orderIng = getOrder();
+        if (orderIng != null) {
+            updateTimeDisplayBasedOnOrder();
+        }
+    }
+
+    //返回订单列表事件
+    private void initializeListeners() {
+        JButton returnButton = (JButton) factoryPanel.getJComponent("return");
+        returnButton.addActionListener(e -> {
+            stopTimer();
+            frame.update(new OrderListPanel(frame));
+        });
+    }
+
+    //归还充电宝事件
+    private void overOrder() {
+        JButton returnButton = (JButton) factoryPanel.getJComponent("returnBank");
+        returnButton.addActionListener(e -> {
+            //结束订单
+            orderSever.endOrder(frame.getUser().getNameID(), orderIng.getId(), frame.getPowerBankCabinetDefault(), 1);
+            frame.update(new OrderOverPanel(frame));
+        });
+
+
     }
 
     //初始化订单
@@ -90,29 +166,6 @@ public class OrderPanel extends FatherJPanel {
         } else {
             updateTimeDisplayBasedOnOrder();
         }
-    }
-
-    //用于用户已经拥有订单，则继续计时
-    private void initializeOrder(int n) {
-        orderIng = getOrder();
-        if (orderIng != null) {
-            updateTimeDisplayBasedOnOrder();
-        }
-    }
-
-    //返回订单列表
-    private void initializeListeners() {
-        JButton returnButton = (JButton) factoryPanel.getJComponent("return");
-        returnButton.addActionListener(e -> {
-            stopTimer();
-            frame.update(new OrderListPanel(frame));
-        });
-    }
-
-    //归还结束订单
-    private void overOrder() {
-        //结束订单
-        orderSever.endOrder();
     }
 
     //停止计时，移除计时器

@@ -1,18 +1,27 @@
 package Serve;
 
+import Config.CompanyGlobal;
+import Config.PowerBankGlobal;
 import DAO.OrderDAO;
+import DAO.PayDAO;
+import DAO.PowerBankDAO;
 import MyObject.Order;
 import MyObject.PowerBank;
 import MyObject.PowerBankCabinet;
 import Serve.observer.ObserverCabinet;
 import Util.db.set.SimplySet;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static Serve.Order.ORDER_ED;
+
 public class OrderSever {
-    private OrderDAO orderDAO = new OrderDAO();
+    private static final Logger logger = LogManager.getLogger(OrderSever.class);
+    private static OrderDAO orderDAO = new OrderDAO();
 
     //查找该充电宝柜是否存在
     public Boolean havaPowerBankCabinet(PowerBankCabinet powerBankCabine) {
@@ -58,9 +67,14 @@ public class OrderSever {
         return orderDAO.getOrderIng(nameid);
     }
 
-    //查询已结束的订单
+    //查询已结束的所有订单
     public List<Order> getOverOrder(int nameid) {
         return orderDAO.getOverOrders(nameid);
+    }
+
+    //查询已结束的订单
+    public Order getOverOrder(int nameid, int id) {
+        return orderDAO.getOverOrder(nameid, id);
     }
 
     //查询所有的订单
@@ -69,9 +83,49 @@ public class OrderSever {
     }
 
     //结束订单
-    public void endOrder() {
-        //填入结束时间
+    /**
+     * @param nameID 用户id
+     * @param orderID 归还充电宝的id
+     * @param powerBankCabinet 要归还到的充电宝柜
+     * @param powerID 用户要归还的端口
+     * */
+    public void endOrder(int nameID ,int orderID, PowerBankCabinet powerBankCabinet, int powerID) {
+        //订单填入结束时间,修改订单状态
         orderDAO.addEndTime();
+        orderDAO.updateOrderStatus(nameID, orderID, ORDER_ED.getStatus());
+        //获取订单
+        Order order = orderDAO.getOverOrder(nameID ,orderID);
+        //结算租凭金额，返还押金
+        int minutes = returnMinutes(order.getStartTime().toLocalDateTime(), order.getEndTime().toLocalDateTime());
+        double cost = minutes * order.getPrice();
+        boolean pay = PayDAO.executePaymentTransaction(PayDAO.PaymentType.LOCAL, nameID, CompanyGlobal.getCompanyID(), cost);
+        if (!pay) {
+            logger.error("支付失败");
+            return;
+        }
+        //扫描充电宝所有信息
+        PowerBank powerBank = PowerBankDAO.getNowPowerBank(orderID);
+        //依据电量，判断是否可以继续租凭
+        if (powerBank.getRemainingPower() > PowerBankGlobal.getMinPower()) {
+            //可以继续租凭出去
+            powerBank.setStatus(Serve.PowerBank.POWER_RENTAL_YES.getStatus());
+        }else {
+            //不可以继续租凭出去
+            powerBank.setStatus(Serve.PowerBank.POWER_RENTAL_NO.getStatus());
+        }
+        //判断当前充电柜是否原充电柜
+        if (!(powerBankCabinet.getId() == powerBank.getCabinetID())) {
+            //如果不是原本充电柜,更新所在充电柜的id
+            powerBank.setCabinetID(powerBankCabinet.getId());
+        }
+        //判断当前是否为该端口
+
+        if (!(powerBank.getPowerID() == powerID)){
+            //若果不是修改为新的端口id
+            powerBank.setPowerID(powerID);
+        }
+        //更新该充电宝数据库
+        PowerBankDAO.updatePowerBankAllMessage(powerBank);
     }
 
     //计算时间差

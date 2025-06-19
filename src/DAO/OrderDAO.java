@@ -17,10 +17,10 @@ import java.util.Date;
 import java.util.List;
 
 public class OrderDAO implements OrderService {
-    private static Logger logger = LogManager.getLogger(OrderDAO.class);
+    private static final Logger logger = LogManager.getLogger(OrderDAO.class);
 
     @Override
-    public void returnOrder(int orderId, double totalCost) throws Exception {
+    public void returnOrder(int orderId, double totalCost)  {
 
     }
 
@@ -37,6 +37,30 @@ public class OrderDAO implements OrderService {
                     return null;
                 }
                 //订单没有结束
+                int id = resultSet.getInt("id");
+                int powerBankId = resultSet.getInt("power_bank_id");
+                Timestamp startTime = resultSet.getTimestamp("start_time");
+                Timestamp endTime = resultSet.getTimestamp("end_time");
+                double totalCost = resultSet.getDouble("total_cost");
+                int cabinet = resultSet.getInt("cabinet");
+                int cabinetPowerID = resultSet.getInt("cabinet_powerid");
+                double price = resultSet.getDouble("price");
+                String plan = resultSet.getString("plan");
+                String status = resultSet.getString("status");
+                return new Order(id, powerBankId, startTime, endTime, totalCost, cabinet, cabinetPowerID, price, plan, status);
+            }
+        } catch (SQLException e) {
+            logger.error("查询进行订单失败", e);
+        }
+        return null;
+    }
+
+    //获得已经结束的订单
+    public Order getOverOrder(int nameid, int orderID) {
+        try {
+            String sql =  "SELECT * FROM orders WHERE `nameid` = " + nameid + " AND `id` = " + orderID;
+            ResultSet resultSet = DBQuary.query(sql,nameid);
+            if (resultSet.getTimestamp("end_time") != null || resultSet.getString("status").equals("已结束")) {
                 Integer id = resultSet.getInt("id");
                 Integer powerBankId = resultSet.getInt("power_bank_id");
                 Timestamp startTime = resultSet.getTimestamp("start_time");
@@ -48,14 +72,15 @@ public class OrderDAO implements OrderService {
                 String plan = resultSet.getString("plan");
                 String status = resultSet.getString("status");
                 return new Order(id, powerBankId, startTime, endTime, totalCost, cabinet, cabinetPowerID, price, plan, status);
-            }
+                }
         } catch (SQLException e) {
-            logger.error("查询进行订单失败", e);
+            logger.error("查询结束订单失败", e);
+            return null;
         }
         return null;
     }
 
-    //获取结束的订单
+    //获取已经结束的所有订单
     public List<Order> getOverOrders(int nameid) {
         List<Order> list = new ArrayList<>();
         try {
@@ -103,5 +128,11 @@ public class OrderDAO implements OrderService {
         //填入数据库orders表
         String sql = "INSERT INTO orders (end_time) VALUES (?)";
         return DBUpData.update(sql, now);
+    }
+
+    //向订单更新订单状态
+    public int updateOrderStatus(int nameid, int orderID, String status) {
+        String sql = "UPDATE orders SET status = ? WHERE `nameid` = " + nameid + " AND `id` = " + orderID;
+        return DBUpData.update(sql, status);
     }
 }

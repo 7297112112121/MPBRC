@@ -1,4 +1,4 @@
-package Serve.rent;
+package Serve.rentPackage;
 
 import java.util.ArrayList;
 import java.util.List;

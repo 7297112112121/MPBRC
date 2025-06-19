@@ -22,7 +22,7 @@ public class PayDAO {
 
 
     public enum PaymentType {
-        WECHAT, ALIPAY
+        WECHAT, ALIPAY, LOCAL
     }
     /**
      * 执行支付事务
@@ -42,22 +42,22 @@ public class PayDAO {
 
             // 根据支付方式选择对应的表
             String fromTableName = getTableName(paymentType);
-            String toTableName = getTableName(paymentType);
+            String toTableName = "company";
 
             //检查用户账户余额
-            String checkFromAccountSql = "SELECT balance FROM " + fromTableName + " WHERE nameid =?";
+            String checkFromAccountSql = "SELECT account FROM " + fromTableName + " WHERE nameid =?";
             ResultSet userAccount = DBQuary.query(checkFromAccountSql, fromnameId);
-            double balance = userAccount.getDouble("balance");
+            double balance = userAccount.getDouble("account");
             if (balance < amount) {
                 throw new RuntimeException("账户余额不足");
             }
 
             // 转出账户扣钱
-            String updateFromAccountSql = "UPDATE " + fromTableName + " SET balance = balance -? WHERE nameid =?";
+            String updateFromAccountSql = "UPDATE " + fromTableName + " SET account = account -? WHERE nameid =?";
             int rowsAffectedFrom = DBUpData.update(updateFromAccountSql, amount, fromnameId);
 
             // 转入账户加钱
-            String updateToAccountSql = "UPDATE " + toTableName + " SET balance = balance +? WHERE nameid =?";
+            String updateToAccountSql = "UPDATE " + toTableName + " SET account = account +? WHERE nameid =?";
             int rowsAffectedTo = DBUpData.update(updateToAccountSql, amount, tonameId);
 
             // 判断支付是否成功
@@ -96,6 +96,8 @@ public class PayDAO {
                 return "wechat_accounts"; // 微信账户表名
             case ALIPAY:
                 return "alipay_accounts"; // 支付宝账户表名
+            case LOCAL:
+                return "user";// 用户本地账户表名
             default:
                 throw new IllegalArgumentException("不支持的支付类型: " + paymentType);
         }

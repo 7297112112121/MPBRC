@@ -3,7 +3,7 @@ package View.powerBank;
 import DAO.PowerBankDAO;
 import MyObject.Order;
 import MyObject.PowerBank;
-import DAO.PowerBankTwoDAO;
+import DAO.PowerBankCabitDAO;
 import DAO.OrderDAO;
 
 import javax.swing.*;
@@ -24,7 +24,7 @@ public class PowerBankPanel extends JPanel {
     private JTextField idField;
     private JTextField powerField;
     private JTextField brandField;
-    private final PowerBankService service = new PowerBankTwoDAO();
+    private final PowerBankService service = new PowerBankCabitDAO();
     private final OrderService orderService = new OrderDAO(); // 依赖接口
 
     public PowerBankPanel() {

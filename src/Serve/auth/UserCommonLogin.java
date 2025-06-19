@@ -16,49 +16,37 @@ import java.sql.SQLException;
 public class UserCommonLogin {
     private static Logger logger = LogManager.getLogger(UserCommonLogin.class);
     private ResultSet resultSet ;
-    private User user;
     public UserCommonLogin() {
     }
 
     /**
-     * 传入：
-     * 用户名
-     * 密码
+     * 登录界面生成在线用户对象
      * */
-    public boolean login(JTextField name , JLabel nameRimd , JPasswordField password, JLabel passwordRimd) {
+    public User loginAndCreateUserOnline(JTextField name , JLabel nameRimd , JPasswordField password, JLabel passwordRimd) {
         clear( nameRimd ,   passwordRimd);
         if (!add( name ,  nameRimd ,  password,  passwordRimd)) {
-            return false;
+            return null;
         }
-        //操作数据库
-        ContextQuery query = new ContextQuery();
-        query.setQuery(new SimplyQueryWhere());
-        ResultSet rst = query.query(
-                UserFieldEnum.FORM.getValue(),
-                UserFieldEnum.NAME.getValue(), name.getText().trim(),
-                UserFieldEnum.PASSWORD.getValue(), password.getText().trim()
-        );
-        try {
-            if (!rst.next()) {
-                passwordRimd.setText("用户名或密码错误");
-                return false;
-            }
-            resultSet = rst;
-            User user = UserCreationFactory.createFullUser(
-                    rst.getInt("nameid"),
-                    rst.getString("name"),
-                    rst.getString("sex"),
-                    rst.getString("password"),
-                    rst.getString("phone"),
-                    rst.getDouble("account")
-            );
-            this.user = user;
+        User user1 = createUser(name.getText(), password.getText());
+        if (user1 == null) {
+            passwordRimd.setText("用户名或密码错误");
+        }else {
+            return user1;
+        }
+        return null;
+    }
 
-            //获取用户id
-            return true;
-        } catch (SQLException e) {
-            logger.error(e);
-            return false;
+    /**
+     *
+     * 非登陆界面在线用户对象
+     * */
+    public User loginAndCreateUserOnline(String name, String password) {
+        User user1 = createUser(name, password);
+        if (user1 == null) {
+            logger.error("逻辑错误，这里本应该能生成对象，请检查输入的是否为用户的名字或密码");
+            return null;
+        }else {
+            return user1;
         }
     }
     //展示提示词
@@ -76,14 +64,39 @@ public class UserCommonLogin {
         return true;
     }
 
-    public User getUser() {
-        return user;
-    }
-
     //清空提示词
     private void clear( JLabel nameRimd ,  JLabel passwordRimd) {
         nameRimd.setText("");
         passwordRimd.setText("");
+    }
+
+    private User createUser(String name, String password) {
+        //操作数据库
+        ContextQuery query = new ContextQuery();
+        query.setQuery(new SimplyQueryWhere());
+        ResultSet rst = query.query(
+                "user",
+                "name", name,
+                "password", password
+        );
+        try {
+            if (!rst.next()) {
+                return null;
+            }
+            resultSet = rst;
+            User user = UserCreationFactory.createFullUser(
+                    rst.getInt("nameid"),
+                    rst.getString("name"),
+                    rst.getString("sex"),
+                    rst.getString("password"),
+                    rst.getString("phone"),
+                    rst.getDouble("account")
+            );
+            return user;
+        } catch (SQLException e) {
+            logger.error(e);
+            return null;
+        }
     }
 
 }
