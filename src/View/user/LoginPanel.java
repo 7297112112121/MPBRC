@@ -5,6 +5,7 @@ import Serve.auth.UserCommonLogin;
 import View.FatherFrame;
 import View.FatherJPanel;
 import Util.factory.FactoryPanel;
+import View.admin.AdminFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,6 +33,7 @@ public class LoginPanel extends FatherJPanel {
     private final JButton login = new JButton("登录");
     private final JButton register = new JButton("注册");
     private final UserFrame frame;
+
     public LoginPanel(FatherFrame userFrame) {
         logger.info("用户登陆界面正在加载");
         this.frame = (UserFrame) userFrame;
@@ -101,6 +103,8 @@ public class LoginPanel extends FatherJPanel {
         });
         logger.info("用户登陆界面加载完成");
     }
+
+
 
 
 }
