@@ -1,4 +1,4 @@
-package DAO.powerBank;
+package DAO;
 
 import MyObject.Order;
 import MyObject.PowerBank;
@@ -86,7 +86,7 @@ public class OrderDAO implements OrderService {
 
 
     public List<Order> getAllOrders(int nameid) {
-        return DatabaseUtil.getAllOrders(nameid);
+        return PowerBankDAO.getAllOrders(nameid);
     }
 
 

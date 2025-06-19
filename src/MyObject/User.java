@@ -24,6 +24,11 @@ public class User {
         this.adminID = -1;
         this.account = 0;
     }
+
+    public User(String name) {
+        this.name = name;
+    }
+
     //登陆使用
     public User(String name, String password) {
         this.name = name;

@@ -1,8 +1,7 @@
-package DAO.powerBank;
+package DAO;
 
 import MyObject.Order;
 import MyObject.PowerBank;
-import Util.TimeSystem;
 import Util.db.DataBase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,8 +10,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DatabaseUtil {
-    private static final Logger logger = LogManager.getLogger(DatabaseUtil.class);
+public class PowerBankDAO {
+    private static final Logger logger = LogManager.getLogger(PowerBankDAO.class);
 
     public static Connection getConnection() throws SQLException {
         return DataBase.getConnection();

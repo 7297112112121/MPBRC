@@ -1,6 +1,6 @@
 package Serve;
 
-import DAO.powerBank.OrderDAO;
+import DAO.OrderDAO;
 import MyObject.Order;
 import MyObject.PowerBank;
 import MyObject.PowerBankCabinet;
@@ -31,6 +31,10 @@ public class OrderSever {
     //查找最高电量充电宝
     public PowerBank mainRemainingPower(PowerBankCabinet powerBankCabine) {
         List<PowerBank> powerBanks = powerBankCabine.getPowerBanks();
+        //判断是否为空
+        if (powerBanks.size() == 0) {
+            return null;
+        }
         PowerBank powerBank = powerBanks.get(0);
         for (int i = 1; i < powerBanks.size(); i++) {
             if (powerBanks.get(i).getRemainingPower() > powerBank.getRemainingPower()) {

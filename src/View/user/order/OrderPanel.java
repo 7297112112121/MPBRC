@@ -33,7 +33,7 @@ public class OrderPanel extends FatherJPanel {
     private OrderSever orderSever = new OrderSever();
     private String timeDiff;
 
-    //用于没有创建订单
+    //用于没有创建订单，创建新的订单
     public OrderPanel(UserFrame frame, PowerBankCabinet powerBankCabinet, PowerBank powerBank) {;
         logger.info("正在创建订单");
         this.frame = frame;
@@ -45,7 +45,7 @@ public class OrderPanel extends FatherJPanel {
         startTimer();
         logger.info("创建完成");
     }
-    //用于已经拥有了订单
+    //用于若用户已经拥有了进行的订单，则继续进行计时计费
     public OrderPanel(UserFrame frame) {
         logger.info("正在加载用户订单");
         this.frame = frame;
@@ -53,7 +53,7 @@ public class OrderPanel extends FatherJPanel {
         this.powerBankCabinet = powerBankCabinet;
         initializeUI();
         //初始化订单
-        initializeOrder();
+        initializeOrder(1);
         //事件源
         initializeListeners();
         startTimer();
@@ -83,11 +83,19 @@ public class OrderPanel extends FatherJPanel {
             if (createOrder()) {
                 orderIng = getOrder();
                 updateTimeDisplay("0小时0分钟");
-                updateMoneyDisplay("预计 3 元");
+                updateMoneyDisplay("预计 " + frame.getPrice() + " 元");
             } else {
                 handleOrderCreationFailure();
             }
         } else {
+            updateTimeDisplayBasedOnOrder();
+        }
+    }
+
+    //用于用户已经拥有订单，则继续计时
+    private void initializeOrder(int n) {
+        orderIng = getOrder();
+        if (orderIng != null) {
             updateTimeDisplayBasedOnOrder();
         }
     }
@@ -97,7 +105,7 @@ public class OrderPanel extends FatherJPanel {
         JButton returnButton = (JButton) factoryPanel.getJComponent("return");
         returnButton.addActionListener(e -> {
             stopTimer();
-//            frame.update(new OrderListPanel(frame));
+            frame.update(new OrderListPanel(frame));
         });
     }
 

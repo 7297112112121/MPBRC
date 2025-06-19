@@ -30,8 +30,5 @@ public class Start {
         //用户登陆
         new UserFrame();
         logger.info("用户登陆界面加载完成");
-
-
-
     }
 }

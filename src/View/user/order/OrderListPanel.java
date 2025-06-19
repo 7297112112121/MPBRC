@@ -2,12 +2,16 @@ package View.user.order;
 
 import MyObject.Order;
 import Serve.OrderSever;
+import Util.factory.FactoryPanel;
 import View.FatherJPanel;
+import View.user.HomePanel;
 import View.user.UserFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,12 +23,27 @@ public class OrderListPanel extends FatherJPanel {
 
     public OrderListPanel(UserFrame frame) {
         this.frame = frame;
-        // 获取用户的所有订单
-        orders = orderSever.getAllOrders(frame.getUser().getNameID());
+        loadDate();
 
         // 设置当前面板的布局为垂直流式布局
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        //返回界面
+        JButton returnButton = new JButton("返回");
+        returnButton.setPreferredSize(new Dimension(getWidth(), 40));
+        JPanel buttonJPanel = new JPanel(new GridLayout(1,1));
+        buttonJPanel.setPreferredSize(new Dimension(getWidth(), 40));
+        buttonJPanel.add(returnButton);
+
+
+        returnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.update(new HomePanel(frame));
+            }
+        });
+        add(buttonJPanel);
 
         // 检查订单列表是否为空
         if (orders == null || orders.isEmpty()) {
@@ -63,6 +82,7 @@ public class OrderListPanel extends FatherJPanel {
                         durationStr + " " + order.getTotalCost() + "￥");
             }
         }
+
     }
 
 
@@ -98,7 +118,8 @@ public class OrderListPanel extends FatherJPanel {
         JLabel durationPriceLabel = new JLabel(durationAndPrice);
         durationPriceLabel.setFont(new Font("微软雅黑", Font.BOLD, 14));
         // 模拟删除图标
-        JLabel deleteIcon = new JLabel("删除"); // 实际使用时替换为图标
+        JButton deleteIcon = new JButton("删除"); // 实际使用时替换为图标
+        deleteIcon.setEnabled(false);                   //默认关闭
         deleteIcon.setForeground(Color.BLUE);
         deleteIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         bottomPanel.add(durationPriceLabel, BorderLayout.WEST);
@@ -109,8 +130,33 @@ public class OrderListPanel extends FatherJPanel {
         cardPanel.add(contentPanel, BorderLayout.CENTER);
         cardPanel.add(bottomPanel, BorderLayout.SOUTH);
 
+
         // 添加订单卡片到当前面板，并设置间距
         add(cardPanel);
+
         add(Box.createVerticalStrut(10));
+
+        //添加监听事件
+        deleteIcon.addActionListener(new DeleteIconActionListener(deleteIcon));
     }
+
+    //删除事件
+    class DeleteIconActionListener implements ActionListener {
+        private JButton button;
+        public DeleteIconActionListener(JButton button) {
+            this.button = button;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            List<Order> overOrders = orderSever.getOverOrder(frame.getUser().getNameID());
+
+        }
+    }
+
+    //加载数据
+    private void loadDate() {
+        // 获取用户的所有订单
+        orders = orderSever.getAllOrders(frame.getUser().getNameID());
+    }
+
 }

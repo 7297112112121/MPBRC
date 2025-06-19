@@ -1,4 +1,4 @@
-package DAO.powerBank;
+package DAO;
 
 import MyObject.PowerBank;
 import View.powerBank.PowerBankService;
@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-public class PowerBankServiceImpl implements PowerBankService {
+public class PowerBankTwoDAO implements PowerBankService {
     // 管理员添加充电宝
     @Override
     public void addPowerBank(PowerBank powerBank) {
@@ -18,7 +18,7 @@ public class PowerBankServiceImpl implements PowerBankService {
         Connection conn = null;
         PreparedStatement stmt = null;
         try {
-            conn = DatabaseUtil.getConnection();
+            conn = PowerBankDAO.getConnection();
             stmt = conn.prepareStatement(sql);
             // 设置SQL语句中的参数
             stmt.setInt(1, powerBank.getId());
@@ -37,17 +37,17 @@ public class PowerBankServiceImpl implements PowerBankService {
     @Override
     public List<PowerBank> getAvailablePowerBanks() {
         // 复用DatabaseUtil原有逻辑，或添加新实现
-        return DatabaseUtil.getAllPowerBanks();
+        return PowerBankDAO.getAllPowerBanks();
     }
 
     // 获取本机所有充电宝信息
     public List<PowerBank> getAvailablePowerBanks(int id) {
         // 复用DatabaseUtil原有逻辑，或添加新实现
-        return DatabaseUtil.getAllPowerBanks(id);
+        return PowerBankDAO.getAllPowerBanks(id);
     }
 
     @Override
     public void updatePowerBankStatus(PowerBank powerBank) {
-        DatabaseUtil.updatePowerBankStatus(powerBank);
+        PowerBankDAO.updatePowerBankStatus(powerBank);
     }
 }
