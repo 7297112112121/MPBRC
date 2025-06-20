@@ -6,7 +6,7 @@ import Serve.auth.workID.ContextWorkID;
 import Serve.auth.workID.WorkID_WORK_ID;
 
 
-public class Global {
+public class AuthGlobal {
     /***
      * 设置验证码、密码、手机号码正则表达式
      * */
@@ -21,8 +21,8 @@ public class Global {
     private static String workIDRegular ;//工号正则表达式
     private static String workIDRemindText;//工号提示信息
     //单例
-    private static Global gl = new Global();
-    public Global() {
+    private static AuthGlobal gl = new AuthGlobal();
+    public AuthGlobal() {
         //设置密码正则表达式
         contextPassword.setConfig(new Password_PWD_B());
         passwordRegular = contextPassword.getPasswordRegular();

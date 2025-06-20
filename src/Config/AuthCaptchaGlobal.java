@@ -7,16 +7,16 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 
-public class CaptchaGlobal {
-    private static final Logger logger = LogManager.getLogger(CaptchaGlobal.class);
+public class AuthCaptchaGlobal {
+    private static final Logger logger = LogManager.getLogger(AuthCaptchaGlobal.class);
     //手机号码+验证码
     //当用户重新发送验证码时，若手机号码相同，覆盖原本的验证码
-    private static CaptchaGlobal captchaGlobal = new CaptchaGlobal();
+    private static AuthCaptchaGlobal captchaGlobal = new AuthCaptchaGlobal();
     private static HashMap<String, String> captchaList = new HashMap<>();
     private static ContextCaptcha contextCaptcha = new ContextCaptcha();
     private String capcha;//生成的验证码
 
-    public CaptchaGlobal() {
+    public AuthCaptchaGlobal() {
 
     }
 

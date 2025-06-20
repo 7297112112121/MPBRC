@@ -1,7 +1,7 @@
 package Serve.auth;
 
-import Config.CaptchaGlobal;
-import Config.Global;
+import Config.AuthCaptchaGlobal;
+import Config.AuthGlobal;
 
 
 import Util.CountDown;
@@ -30,12 +30,12 @@ public class Verify {
         if (password.isEmpty()) {
             return false;
         }
-        String chosePassword = Global.getPasswordRegular();
+        String chosePassword = AuthGlobal.getPasswordRegular();
         return password.matches(chosePassword);
     }
 
     public String setPasswordRimd() {
-        return Global.getPasswordRemind();
+        return AuthGlobal.getPasswordRemind();
     }
 
     public boolean isConfirmPassword(String password, String ConfirmPassword) {
@@ -55,12 +55,12 @@ public class Verify {
     }
 
     private void createCaptcha(String phone) {
-        CaptchaGlobal captchaGlobal = new CaptchaGlobal();
+        AuthCaptchaGlobal captchaGlobal = new AuthCaptchaGlobal();
         captchaGlobal.createCaptcha(phone);
     }
 
     public String getCapcha(String phone) {
-        CaptchaGlobal captchaGlobal = new CaptchaGlobal();
+        AuthCaptchaGlobal captchaGlobal = new AuthCaptchaGlobal();
         return captchaGlobal.getCapcha(phone);
     }
 
@@ -79,7 +79,7 @@ public class Verify {
         if (workNumber.isEmpty()) {
             return false;
         }
-        return workNumber.matches(Global.getWorkIDRegular());
+        return workNumber.matches(AuthGlobal.getWorkIDRegular());
     }
 
     public String setWorkNumberRimd() {

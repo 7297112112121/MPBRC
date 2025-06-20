@@ -2,8 +2,8 @@ package View.user.order;
 
 import MyObject.Order;
 import Serve.OrderSever;
-import Serve.rent.LoadAllPlanRent;
-import Serve.rent.RentPackage;
+import Serve.rentPackage.LoadAllPlanRent;
+import Serve.rentPackage.RentPackage;
 import View.FatherJPanel;
 import View.user.UserFrame;
 

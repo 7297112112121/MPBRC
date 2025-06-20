@@ -2,6 +2,8 @@ package DAO;
 
 import MyObject.Order;
 import MyObject.PowerBank;
+import Util.db.DBQuary;
+import Util.db.DBUpData;
 import Util.db.DataBase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,9 +46,9 @@ public class PowerBankDAO {
     }
 
     // 获取本机所有可用移动电源
-    public static List<PowerBank> getAllPowerBanks(int id) {
+    public static List<PowerBank> getAllPowerBanksOfCabint(int id) {
         List<PowerBank> all = new ArrayList<>();
-        String sql = "SELECT id, remaining_power, status, brand,power_bank_cabinet FROM power_banks WHERE power_bank_cabinet =" + id;
+        String sql = "SELECT * FROM power_banks WHERE power_bank_cabinet =" + id;
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -59,9 +61,9 @@ public class PowerBankDAO {
                 double remainingPower = rs.getDouble("remaining_power");
                 String status = rs.getString("status");
                 String brand = rs.getString("brand");
-                String cabinet = rs.getString("power_bank_cabinet");
-                PowerBank pb = new PowerBank(ids, remainingPower, brand, cabinet);
-                pb.setStatus(status);
+                int cabinet = rs.getInt("power_bank_cabinet");
+                int portid = rs.getInt("portid");
+                PowerBank pb = new PowerBank(portid, cabinet, status, remainingPower, brand, ids);
                 all.add(pb);
             }
         } catch (SQLException e) {
@@ -96,37 +98,41 @@ public class PowerBankDAO {
         return null;
     }
 
-    // 更新移动电源状态
-    public static void updatePowerBankStatus(PowerBank powerBank) {
-        String sql = "UPDATE power_banks SET status =? WHERE id =?";
-        Connection conn = null;
-        PreparedStatement stmt = null;
+
+
+    //获得充电宝当前状态
+    public static PowerBank getNowPowerBank(int id) {
         try {
-            conn = getConnection();
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, powerBank.getStatus());
-            stmt.setInt(2, powerBank.getId());
-            stmt.executeUpdate();
+            String sql = "SELECT * FROM power_banks WHERE id =?";
+            ResultSet resultSet = DBQuary.query(sql);
+            PowerBank pb = null;
+            if (resultSet.next()) {
+                int powerBankId = resultSet.getInt("id");
+                double remainingPower = resultSet.getDouble("remaining_power");
+                String status = resultSet.getString("status");
+                String brand = resultSet.getString("brand");
+                pb = new PowerBank(powerBankId, remainingPower, brand);
+            }
+            return pb;
         } catch (SQLException e) {
-            logger.error("更新移动电源状态失败", e);
+            logger.error("获取移动电源详情失败", e);
+            return null;
         }
     }
-
-    public static void addPowerBank(int id, double remainingPower, String brand) {
-        String sql = "INSERT INTO power_banks (id, remaining_power, status, brand) VALUES (?,?,?,?)";
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        try {
-            conn = getConnection();
-            stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, id);
-            stmt.setDouble(2, remainingPower);
-            stmt.setString(3, remainingPower > 50? "可租赁" : "不可租赁");
-            stmt.setString(4, brand);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            logger.error("添加移动电源失败", e);
+    // 更新移动电源租凭状态
+    public static void updatePowerBankStatus(PowerBank powerBank) {
+        String sql = "UPDATE power_banks SET status =? WHERE id =?";
+        int upNum = DBUpData.update(sql,  powerBank.getStatus(), powerBank.getId());
+        if (upNum <= 0) {
+            logger.error("修改充电电源租凭状态失败");
         }
+    }
+    //更新电源全部信息
+    public static void updatePowerBankAllMessage(PowerBank powerBank) {
+        String sql = "UPDATE power_banks SET remaining_power =?, status =?, brand =?, power_bank_cabinet =?, power_id =? WHERE id =?";
+        int upNum = DBUpData.update(sql, powerBank.getRemainingPower(), powerBank.getStatus(), powerBank.getBrand(), powerBank.getCabinetID(), powerBank.getPowerID(), powerBank.getId());
+        if (upNum <= 0)
+            logger.error("修改充电电源租凭状态失败");
     }
 
     // 创建订单

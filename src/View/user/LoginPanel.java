@@ -1,6 +1,7 @@
 package View.user;
 
 
+import MyObject.User;
 import Serve.auth.UserCommonLogin;
 import View.FatherFrame;
 import View.FatherJPanel;
@@ -67,12 +68,11 @@ public class LoginPanel extends FatherJPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 UserCommonLogin lo = new UserCommonLogin();
-                boolean fa = lo.login(nickNameInput, nickName, password, rimind);
+                 User use = lo.loginAndCreateUserOnline(nickNameInput, nickName, password, rimind);
                 //登录成功跳转到首页
-                if (fa) {
-                    //储存在线用户对象到窗口中
-                    frame.setUser(lo.getUser());
+                if (use != null) {
                     //跳转到主页
+                    frame.setUser(use);
                     frame.update(new HomePanel(frame));
 
                 }
