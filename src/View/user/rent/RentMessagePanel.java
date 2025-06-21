@@ -75,11 +75,12 @@ public class RentMessagePanel extends FatherJPanel {
         });
 
 /**
- * 套餐1信息（默认套餐）
+ * 套餐1信息（设置为默认套餐）
  **/
         //设置默认套餐
         contextRentPackage.setRentPackage(new ThreeOfHoure());  ///可修改
         frame.setPrice(contextRentPackage.getPrice());
+        frame.setPlanName(contextRentPackage.getName());
         //获取组件
         JTextArea in = (JTextArea) factoryPanel.getJComponent("套餐介绍1");
         in.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1)); // 设置1px黑色边框
@@ -105,7 +106,9 @@ public class RentMessagePanel extends FatherJPanel {
 
                 // 设置当前套餐和价格
                 contextRentPackage.setRentPackage(new ThreeOfHoure());  ///可修改
+                //设置套餐计费价格，为下一步数据库记录准备数据与计算费用
                 frame.setPrice(contextRentPackage.getPrice());
+                //设置套餐名字，为下一步数据库记录做好数据准备
                 frame.setPlanName(contextRentPackage.getName());
 
                 // 设置当前按钮为黄色并更新选中记录
@@ -122,7 +125,7 @@ public class RentMessagePanel extends FatherJPanel {
         in2.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1)); // 设置1px黑色边框
         Font in2Font = new Font("宋体", Font.BOLD, 16);
         in2.setFont(in2Font);
-//添加套餐2的信息（注意：原代码中误写为套餐1）
+        //展示套餐文本
         for (String s : contextRentPackage.getPackageText()) {
             in2.append(s + "\n");
         }
@@ -137,7 +140,9 @@ public class RentMessagePanel extends FatherJPanel {
 
                 // 设置当前套餐和价格
                 contextRentPackage.setRentPackage(new OneOfHoure());  ///可修改
+                //设置套餐计费价格，为下一步数据库记录准备数据与计算费用
                 frame.setPrice(contextRentPackage.getPrice());
+                //设置套餐名字，为下一步数据库记录做好数据准备
                 frame.setPlanName(contextRentPackage.getName());
 
                 // 设置当前按钮为黄色并更新选中记录

@@ -1,11 +1,9 @@
 package Serve.auth;
 
-import DAO.Regiseter;
+import DAO.UserMessageDAO;
 import MyObject.User;
 import Util.db.insert.ContextInsert;
 import Util.db.insert.SimplyInsertAllForm;
-import Util.db.query.ContextQuery;
-import Util.db.query.SimplyQueryWhere;
 import View.FatherFrame;
 
 import javax.swing.*;
@@ -93,7 +91,7 @@ public class UserCommonRegister {
             return false;
         }
         //相同身份查询
-        if (Regiseter.sameName(new User(nam))) {
+        if (UserMessageDAO.sameName(new User(nam))) {
             nameRimd.setText("用户名已存在");
             return false;
         }

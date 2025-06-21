@@ -47,7 +47,12 @@ public class PayDAO {
             //检查用户账户余额
             String checkFromAccountSql = "SELECT account FROM " + fromTableName + " WHERE nameid =?";
             ResultSet userAccount = DBQuary.query(checkFromAccountSql, fromnameId);
-            double balance = userAccount.getDouble("account");
+            double balance = 0;
+            if (userAccount.next()) {
+                balance = userAccount.getDouble("account");
+            } else {
+                throw new RuntimeException("没有该账户数据");
+            }
             if (balance < amount) {
                 throw new RuntimeException("账户余额不足");
             }
@@ -57,7 +62,7 @@ public class PayDAO {
             int rowsAffectedFrom = DBUpData.update(updateFromAccountSql, amount, fromnameId);
 
             // 转入账户加钱
-            String updateToAccountSql = "UPDATE " + toTableName + " SET account = account +? WHERE nameid =?";
+            String updateToAccountSql = "UPDATE " + toTableName + " SET account = account +? WHERE account_id =?";
             int rowsAffectedTo = DBUpData.update(updateToAccountSql, amount, tonameId);
 
             // 判断支付是否成功

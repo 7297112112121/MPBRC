@@ -1,4 +1,4 @@
-package Serve.charge;
+package Serve.payMethods;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -6,17 +6,18 @@ import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import DAO.PayDAO;
 
-import static DAO.PayDAO.PaymentType.WECHAT;
+import static DAO.PayDAO.PaymentType.ALIPAY;
+
 
 /**
- * 微信支付
+ * 支付宝支付
  * */
-public class WeChatPay implements PaymentStrategy {
+public class AlipayPay implements PaymentStrategy {
     private static final Logger logger = LogManager.getLogger(PayDAO.class);
     private static final Marker USER = MarkerManager.getMarker("USER");
     @Override
     public boolean pay(int userNameID,int bank, double amount) {
-        boolean fals = PayDAO.executePaymentTransaction(WECHAT, userNameID, userNameID, bank);
+        boolean fals = PayDAO.executePaymentTransaction(ALIPAY, userNameID, userNameID, bank);
         if (fals){
             logger.info(USER,"支付宝支付成功");
         }else {

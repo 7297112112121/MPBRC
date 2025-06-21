@@ -13,6 +13,7 @@ public class ThreeOfHoure implements RentPackage{
 
     @Override
     public List<String> getIntroduceText() {
+        list.clear();
         list.add(name);
         list.add(introduce);
         return list;

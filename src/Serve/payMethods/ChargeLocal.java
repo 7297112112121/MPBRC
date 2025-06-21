@@ -1,4 +1,4 @@
-package Serve.charge;
+package Serve.payMethods;
 
 import Util.db.insert.SimplyInsertAllForm;
 import Util.db.query.SimplyQueryWhere;
@@ -33,7 +33,6 @@ public class ChargeLocal {
           nameID
         );
         if (number > 0) {
-
             user.setAccount(sum);
             account_logUpData(user);
             logger.info("充值成功,充值金额：{}", inputManey);
@@ -42,6 +41,30 @@ public class ChargeLocal {
             return false;
         }
     }
+
+    //消费函数
+    public boolean consume(double outputManey, int namID, User user) {
+        String nameID = String.valueOf(namID);
+        double money = outputManey;
+        double OrMoney = user.getAccount();
+        double sum = OrMoney - money;
+        String sumText = String.valueOf(sum);
+        SimplySet set = new SimplySet();
+        int number = set.set(
+                "user",
+                "account", sumText,
+                ";",
+                "nameid",
+                nameID
+        );
+        if (number > 0) {
+            user.setAccount(sum);
+            account_logUpData(user);
+            logger.info("消费成功,消费金额：", outputManey);
+        }
+            return true;
+    }
+
     //获得账户金额变动记录函数
     public List<String> getAccountLogin(int nameID) {
         List<String> logs = new ArrayList<>();

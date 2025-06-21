@@ -8,9 +8,9 @@ import java.util.List;
 public class PowerBankCabinet {
     private int id;
     private String name;
-    private int capacity;//能存放多少个充电宝
-    private int newPowerBankNum; // 还在充电柜上的充电宝
-    private int[] portNumberID;     //充电宝柜的端口id，下标即本机柜端口id，值为充电宝的id
+    private int capacity;               //能存放多少个充电宝
+    private int nowPowerBankNum;        // 还在充电柜上的充电宝
+    private int[] portNumberID;         //充电宝柜的端口id，下标即本机柜端口id
     private String address;
     private boolean isVisibleMap = false;   //该充电柜是否显示在用户地图上
     private List<PowerBank> powerBanks;
@@ -119,12 +119,12 @@ public class PowerBankCabinet {
 
     //获得还在充电柜的充电宝数量
     public int getNewPowerBankNum() {
-        return newPowerBankNum;
+        return nowPowerBankNum;
     }
 
     //设置还在充电柜的充电宝数量
     public void setNewPowerBankNum(int newPowerBankNum) {
-        this.newPowerBankNum = newPowerBankNum;
+        this.nowPowerBankNum = newPowerBankNum;
     }
 
     //获得充电柜端口所有id
