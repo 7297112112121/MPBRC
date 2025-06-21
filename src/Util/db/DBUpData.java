@@ -1,11 +1,15 @@
 package Util.db;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
 public class DBUpData extends DataBase {
+    private static final Logger logger = LogManager.getLogger(DBUpData.class);
 
     /**
      * 更新数据库
@@ -39,7 +43,8 @@ public class DBUpData extends DataBase {
             //返回影响数(处理了多少条数据)
             return s ;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            logger.error(e);
+            return 0;
         }
     }
 

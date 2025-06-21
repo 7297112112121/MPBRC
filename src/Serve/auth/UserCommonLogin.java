@@ -1,5 +1,6 @@
 package Serve.auth;
 
+import DAO.UserMessageDAO;
 import Util.UserFieldEnum;
 import Util.db.query.ContextQuery;
 import Util.db.query.SimplyQueryWhere;
@@ -24,10 +25,10 @@ public class UserCommonLogin {
      * */
     public User loginAndCreateUserOnline(JTextField name , JLabel nameRimd , JPasswordField password, JLabel passwordRimd) {
         clear( nameRimd ,   passwordRimd);
-        if (!add( name ,  nameRimd ,  password,  passwordRimd)) {
+        if (!verify( name ,  nameRimd ,  password,  passwordRimd)) {
             return null;
         }
-        User user1 = createUser(name.getText(), password.getText());
+        User user1 = createUser(name.getText().trim(), password.getText().trim());
         if (user1 == null) {
             passwordRimd.setText("用户名或密码错误");
         }else {
@@ -38,7 +39,7 @@ public class UserCommonLogin {
 
     /**
      *
-     * 非登陆界面在线用户对象
+     * 非登陆界面在线用户对象(一般用于注册后直接登陆)
      * */
     public User loginAndCreateUserOnline(String name, String password) {
         User user1 = createUser(name, password);
@@ -49,10 +50,14 @@ public class UserCommonLogin {
             return user1;
         }
     }
+
+    //更新用户数据
+    public User upDataUserMessage(int nameid) {
+        return UserMessageDAO.updataUserMessage(nameid);
+    }
     //展示提示词
-    private boolean add(JTextField name , JLabel nameRimd , JPasswordField password, JLabel passwordRimd) {
+    private boolean verify(JTextField name , JLabel nameRimd , JPasswordField password, JLabel passwordRimd) {
         String nam = name.getText().trim();
-        String passwor = password.getText().trim();
         Verify is = new Verify();
         if(!is.isName(nam)){
             nameRimd.setText("用户名不能为空");

@@ -104,7 +104,7 @@ public class PowerBankDAO {
     public static PowerBank getNowPowerBank(int id) {
         try {
             String sql = "SELECT * FROM power_banks WHERE id =?";
-            ResultSet resultSet = DBQuary.query(sql);
+            ResultSet resultSet = DBQuary.query(sql, id);
             PowerBank pb = null;
             if (resultSet.next()) {
                 int powerBankId = resultSet.getInt("id");
@@ -129,7 +129,7 @@ public class PowerBankDAO {
     }
     //更新电源全部信息
     public static void updatePowerBankAllMessage(PowerBank powerBank) {
-        String sql = "UPDATE power_banks SET remaining_power =?, status =?, brand =?, power_bank_cabinet =?, power_id =? WHERE id =?";
+        String sql = "UPDATE power_banks SET remaining_power =?, status =?, brand =?, power_bank_cabinet =?, id =? WHERE id =?";
         int upNum = DBUpData.update(sql, powerBank.getRemainingPower(), powerBank.getStatus(), powerBank.getBrand(), powerBank.getCabinetID(), powerBank.getPowerID(), powerBank.getId());
         if (upNum <= 0)
             logger.error("修改充电电源租凭状态失败");

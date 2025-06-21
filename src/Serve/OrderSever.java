@@ -8,7 +8,9 @@ import DAO.PowerBankDAO;
 import MyObject.Order;
 import MyObject.PowerBank;
 import MyObject.PowerBankCabinet;
+import MyObject.User;
 import Serve.observer.ObserverCabinet;
+import Serve.payMethods.ChargeLocal;
 import Util.db.set.SimplySet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static Serve.Order.ORDER_ED;
+import static Serve.Order.ORDER_ING;
 
 public class OrderSever {
     private static final Logger logger = LogManager.getLogger(OrderSever.class);
@@ -63,8 +66,8 @@ public class OrderSever {
     }
 
     //查询正在进行的订单
-    public Order getIngOrder(int nameid) {
-        return orderDAO.getOrderIng(nameid);
+    public List<Order> getIngOrder(int nameid, String status) {
+        return orderDAO.getOrder(nameid, status);
     }
 
     //查询已结束的所有订单
@@ -84,27 +87,31 @@ public class OrderSever {
 
     //结束订单
     /**
-     * @param nameID 用户id
+     * @param user 在线用户对象
      * @param orderID 归还充电宝的id
      * @param powerBankCabinet 要归还到的充电宝柜
      * @param powerID 用户要归还的端口
      * */
-    public void endOrder(int nameID ,int orderID, PowerBankCabinet powerBankCabinet, int powerID) {
+    public Order endOrder(User user ,int orderID, PowerBankCabinet powerBankCabinet, int powerID) {
+        int nameID = user.getNameID();
         //订单填入结束时间,修改订单状态
-        orderDAO.addEndTime();
+        orderDAO.addEndTime(orderID);
         orderDAO.updateOrderStatus(nameID, orderID, ORDER_ED.getStatus());
         //获取订单
         Order order = orderDAO.getOverOrder(nameID ,orderID);
         //结算租凭金额，返还押金
         int minutes = returnMinutes(order.getStartTime().toLocalDateTime(), order.getEndTime().toLocalDateTime());
-        double cost = minutes * order.getPrice();
+        double cost = (minutes / 60 + 1 ) * order.getPrice();
         boolean pay = PayDAO.executePaymentTransaction(PayDAO.PaymentType.LOCAL, nameID, CompanyGlobal.getCompanyID(), cost);
         if (!pay) {
             logger.error("支付失败");
-            return;
+            orderDAO.updateOrderStatus(nameID, orderID, ORDER_ING.getStatus());
+            return null;
         }
+        //添加消费记录
+        new ChargeLocal().consume(cost, nameID, user);
         //扫描充电宝所有信息
-        PowerBank powerBank = PowerBankDAO.getNowPowerBank(orderID);
+        PowerBank powerBank = PowerBankDAO.getNowPowerBank(order.getPowerBankId());
         //依据电量，判断是否可以继续租凭
         if (powerBank.getRemainingPower() > PowerBankGlobal.getMinPower()) {
             //可以继续租凭出去
@@ -126,6 +133,7 @@ public class OrderSever {
         }
         //更新该充电宝数据库
         PowerBankDAO.updatePowerBankAllMessage(powerBank);
+        return order;
     }
 
     //计算时间差

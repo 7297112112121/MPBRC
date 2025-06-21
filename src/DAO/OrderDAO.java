@@ -24,17 +24,17 @@ public class OrderDAO implements OrderService {
 
     }
 
-    //获取订单号码
-    public Order getOrderIng(int nameid) {
+    //获取对应状态的订单对象的订单对象
+    public List<Order> getOrder(int nameid, String statusFrom) {
+        List<Order> list = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM orders WHERE nameid = ?";
-            ResultSet resultSet = DBQuary.query(sql,nameid );
-            if (resultSet.next()) {
-                Timestamp timestamp = resultSet.getTimestamp("end_time");
-                //核查订单时间是否结束
-                if (timestamp != null) {
-                    //结束了返回null
-                    return null;
+            String sql = "SELECT * FROM orders WHERE nameid = ? AND status = ?";
+            ResultSet resultSet = DBQuary.query(sql,nameid ,statusFrom);
+            while (resultSet.next()) {
+                String status = resultSet.getString("status");
+                //若是需要获取的状态则转换该记录为Order对象，否则跳过该条记录
+                if (!status.equals(statusFrom)) {
+                    continue;
                 }
                 //订单没有结束
                 int id = resultSet.getInt("id");
@@ -46,13 +46,14 @@ public class OrderDAO implements OrderService {
                 int cabinetPowerID = resultSet.getInt("cabinet_powerid");
                 double price = resultSet.getDouble("price");
                 String plan = resultSet.getString("plan");
-                String status = resultSet.getString("status");
-                return new Order(id, powerBankId, startTime, endTime, totalCost, cabinet, cabinetPowerID, price, plan, status);
+                String status1 = resultSet.getString("status");
+                list.add(new Order(id, powerBankId, startTime, endTime, totalCost, cabinet, cabinetPowerID, price, plan, status1));
             }
+            return list;
         } catch (SQLException e) {
             logger.error("查询进行订单失败", e);
+            return null;
         }
-        return null;
     }
 
     //获得已经结束的订单
@@ -60,7 +61,9 @@ public class OrderDAO implements OrderService {
         try {
             String sql =  "SELECT * FROM orders WHERE `nameid` = " + nameid + " AND `id` = " + orderID;
             ResultSet resultSet = DBQuary.query(sql,nameid);
+            resultSet.next();
             if (resultSet.getTimestamp("end_time") != null || resultSet.getString("status").equals("已结束")) {
+
                 Integer id = resultSet.getInt("id");
                 Integer powerBankId = resultSet.getInt("power_bank_id");
                 Timestamp startTime = resultSet.getTimestamp("start_time");
@@ -70,8 +73,8 @@ public class OrderDAO implements OrderService {
                 Integer cabinetPowerID = resultSet.getInt("cabinet_powerid");
                 Double price = resultSet.getDouble("price");
                 String plan = resultSet.getString("plan");
-                String status = resultSet.getString("status");
-                return new Order(id, powerBankId, startTime, endTime, totalCost, cabinet, cabinetPowerID, price, plan, status);
+                String status1 = resultSet.getString("status");
+                return new Order(id, powerBankId, startTime, endTime, totalCost, cabinet, cabinetPowerID, price, plan, status1);
                 }
         } catch (SQLException e) {
             logger.error("查询结束订单失败", e);
@@ -122,12 +125,14 @@ public class OrderDAO implements OrderService {
     }
 
     //向表单填入结束时间
-    public int addEndTime() {
+    public int addEndTime(int orderID) {
         //获得当前系统时间
         Timestamp now = new Timestamp(new Date().getTime());
         //填入数据库orders表
-        String sql = "INSERT INTO orders (end_time) VALUES (?)";
-        return DBUpData.update(sql, now);
+        String sql = "UPDATE orders \n" +
+                     "SET end_time = ? \n" +
+                     "WHERE id = ?";
+        return DBUpData.update(sql, now, orderID);
     }
 
     //向订单更新订单状态

@@ -14,7 +14,7 @@ public class LoadAllPlanRent {
         return list;
     }
 
-    //返回对象
+    //返回对应名字套餐的对象
     public static RentPackage getPackageName(String name) {
         for (RentPackage rentPackage : list) {
             if (rentPackage.getPackageName().equals(name)) {

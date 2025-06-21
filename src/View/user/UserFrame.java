@@ -36,8 +36,8 @@ public class UserFrame extends FatherFrame {
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //添加该窗口到窗口观察者的列表中（ObserverFrame）
-        ObserverFrame.addFrame("面相用户窗口",this);
+//        //添加该窗口到窗口观察者的列表中（ObserverFrame）
+//        ObserverFrame.addFrame("面相用户窗口",this);
 
         //顶部（持久存在）
         JPanel top = new JPanel(new BorderLayout());
@@ -61,10 +61,8 @@ public class UserFrame extends FatherFrame {
 
         //消息事件
         news.addActionListener(e -> {
-
                 rp.update(messagePane);
                 news.setEnabled(false);
-
         });
 
         setVisible(true);

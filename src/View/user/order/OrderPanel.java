@@ -16,12 +16,16 @@ import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class OrderPanel extends FatherJPanel {
+    /**
+     * 订单详情页
+     * */
     private static Logger logger = LogManager.getLogger(OrderPanel.class);
     private UserFrame frame;
     private PowerBank powerBank;
@@ -38,7 +42,7 @@ public class OrderPanel extends FatherJPanel {
 
     //用于没有创建订单，创建新的订单
     //用于扫码租凭充电包
-    public OrderPanel(UserFrame frame, PowerBankCabinet powerBankCabinet, PowerBank powerBank) {;
+    public OrderPanel(UserFrame frame, PowerBankCabinet powerBankCabinet, PowerBank powerBank) {
         logger.info("正在创建订单");
         this.frame = frame;
         this.powerBank = powerBank;
@@ -125,7 +129,7 @@ public class OrderPanel extends FatherJPanel {
 
     //用于用户已经拥有订单，则继续计时
     private void initializeOrder(int n) {
-        orderIng = getOrder();
+        orderIng = getIngOrder();
         if (orderIng != null) {
             updateTimeDisplayBasedOnOrder();
         }
@@ -145,8 +149,12 @@ public class OrderPanel extends FatherJPanel {
         JButton returnButton = (JButton) factoryPanel.getJComponent("returnBank");
         returnButton.addActionListener(e -> {
             //结束订单
-            orderSever.endOrder(frame.getUser().getNameID(), orderIng.getId(), frame.getPowerBankCabinetDefault(), 1);
-            frame.update(new OrderOverPanel(frame));
+            Order overOrder = orderSever.endOrder(frame.getUser(), orderIng.getId(), frame.getPowerBankCabinetDefault(), 1);
+            if (overOrder != null) {
+                frame.update(new OrderOverPanel(frame, overOrder));
+            } else {
+                logger.error("订单结束失败！");
+            }
         });
 
 
@@ -154,10 +162,10 @@ public class OrderPanel extends FatherJPanel {
 
     //初始化订单
     private void initializeOrder() {
-        orderIng = getOrder();
+        orderIng = getIngOrder();
         if (orderIng == null) {
             if (createOrder()) {
-                orderIng = getOrder();
+                orderIng = getIngOrder();
                 updateTimeDisplay("0小时0分钟");
                 updateMoneyDisplay("预计 " + frame.getPrice() + " 元");
             } else {
@@ -208,8 +216,13 @@ public class OrderPanel extends FatherJPanel {
     }
 
     //查询订单
-    private Order getOrder() {
-        return createOrderSever.getIngOrder(frame.getUser().getNameID());
+    private Order getIngOrder() {
+        List<Order> list = createOrderSever.getIngOrder(frame.getUser().getNameID(), Serve.Order.ORDER_ING.getStatus());
+        if (list != null && !list.isEmpty()) {
+            return list.get(0);
+        } else {
+            return null;
+        }
     }
 
     //更新时间显示
