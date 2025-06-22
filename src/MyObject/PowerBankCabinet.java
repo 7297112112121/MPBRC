@@ -9,7 +9,7 @@ public class PowerBankCabinet {
     private int id;
     private String name;
     private int capacity;               //能存放多少个充电宝
-    private int nowPowerBankNum;        // 还在充电柜上的充电宝
+    private int nowPowerBankNum;        // 还在充电柜上的充电宝的数量
     private int[] portNumberID;         //充电宝柜的端口id，下标即本机柜端口id
     private String address;
     private boolean isVisibleMap = false;   //该充电柜是否显示在用户地图上
@@ -24,10 +24,14 @@ public class PowerBankCabinet {
         PowerBankCabitDAO powerBankService = new PowerBankCabitDAO();
         //获得本机的充电宝
         powerBanks = powerBankService.getAvailablePowerBanks(id);
-       //根据充电宝powerID的值，充电宝存入与值相等的下标
         portNumberID = new int[capacity];
+        //初始化端口id
+        for (int i = 0; i < portNumberID.length; i++) {
+            portNumberID[i] = -1;
+        }
+        //修改有充电宝端口的id
         for (int i = 0; i < powerBanks.size(); i++) {
-            portNumberID[powerBanks.get(i).getPowerID()] = powerBanks.get(i).getId();
+            portNumberID[powerBanks.get(i).getPowerID()] = powerBanks.get(i).getPowerID();
         }
 
     }
@@ -118,12 +122,12 @@ public class PowerBankCabinet {
     }
 
     //获得还在充电柜的充电宝数量
-    public int getNewPowerBankNum() {
+    public int getNowPowerBankNum() {
         return nowPowerBankNum;
     }
 
     //设置还在充电柜的充电宝数量
-    public void setNewPowerBankNum(int newPowerBankNum) {
+    public void setNowPowerBankNum(int newPowerBankNum) {
         this.nowPowerBankNum = newPowerBankNum;
     }
 

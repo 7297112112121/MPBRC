@@ -15,8 +15,7 @@ public class Start {
         logger.info("程序开始运行");
 
         //线程加载数据
-        LoadDataThead loadFormDataThead = new LoadDataThead();
-        Thread loadDataThead = new Thread(loadFormDataThead);
+        Thread loadDataThead = new Thread(LoadDataThead.getInstance());
         loadDataThead.start();
         logger.info("线程加载数据启动");
 

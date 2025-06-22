@@ -39,6 +39,10 @@ public class OrderPanel extends FatherJPanel {
     private FactoryPanel factoryPanel;
     private OrderSever orderSever = new OrderSever();
     private String timeDiff;
+    private int[] nowPowerBanksPowerID;
+    private int PortDefault = -1;
+    private JPanel menu;
+    private JComboBox<String> portComboBox;
 
     //用于没有创建订单，创建新的订单
     //用于扫码租凭充电包
@@ -75,11 +79,13 @@ public class OrderPanel extends FatherJPanel {
     private void initializeUI() {
         setLayout(new GridLayout(5,1));
 
-        // 创建下拉菜单
+        menu = new JPanel(new GridLayout(1,2));
+        PowerBankCabinet powerBankCabinetDefault = frame.getPowerBankCabinetDefault();
+        // 创建充电柜下拉菜单
         List<PowerBankCabinet> powerBankCabinetsOnMap = frame.getPowerBankCabinetsOnMap();
         //设置默认选项
         for (PowerBankCabinet powerBankCabinet : powerBankCabinetsOnMap) {
-            if (powerBankCabinet == frame.getPowerBankCabinetDefault())
+            if (powerBankCabinet == powerBankCabinetDefault)
                 powerBankCabinetsOnMap.remove(powerBankCabinet);
             powerBankCabinetsOnMap.add(0, powerBankCabinet);
             break;
@@ -92,13 +98,16 @@ public class OrderPanel extends FatherJPanel {
         JComboBox<String> institutionComboBox = new JComboBox<>(nams);
         institutionComboBox.setFont(new Font("宋体", Font.BOLD, 18));
         institutionComboBox.setPreferredSize(new Dimension(getWidth(), 60));
-        add(institutionComboBox); // 直接添加下拉菜单组件
+        menu.add(institutionComboBox); // 直接添加下拉菜单组件
+        //创建充电柜端口下拉菜单
+        menu();
+        add(menu);
 
 
         factoryPanel = new FactoryPanel();
         add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.JLABLE, ";time", ";money"));
-        add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.BUTTONS, "售后服务", "归还提醒", "福利中心"));
-        add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.BUTTONS, "不还了，留下充电宝"));
+//        add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.BUTTONS, "售后服务", "归还提醒", "福利中心"));
+//        add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.BUTTONS, "不还了，留下充电宝"));
         add(factoryPanel.createPanel(FactoryPanel.MyJPanelType.BUTTONS, "返回;return", "归还;returnBank"));
 
         timeLabel = (JLabel) factoryPanel.getJComponent("time");
@@ -108,23 +117,23 @@ public class OrderPanel extends FatherJPanel {
         now = LocalDateTime.now();
 
         /**
-         * 下拉框监听
+         * 充电柜菜单下拉框监听
          * */
-        institutionComboBox.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                //获取用户选择的充电柜，若用户没有选择，默认使用系统预选的充电柜
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    String selectedItem = (String) e.getItem();
-                    for (PowerBankCabinet po :powerBankCabinetsOnMap) {
-                        if (po.getName().equals(selectedItem)) {
-                            frame.setPowerBankCabinetDefault(po);
-                        }
+        institutionComboBox.addItemListener(e -> {
+            // 获取用户选择的充电柜，若用户没有选择，默认使用系统预选的充电柜
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                String selectedItem = (String) e.getItem();
+                for (PowerBankCabinet po : powerBankCabinetsOnMap) {
+                    if (po.getName().equals(selectedItem)) {
+                        //重新设置用户默认选择的充电柜
+                        frame.setPowerBankCabinetDefault(po);
+                        //更新端口状态
+                        menu();
                     }
-                    // 处理选择逻辑...
                 }
             }
         });
+
     }
 
     //用于用户已经拥有订单，则继续计时
@@ -149,7 +158,7 @@ public class OrderPanel extends FatherJPanel {
         JButton returnButton = (JButton) factoryPanel.getJComponent("returnBank");
         returnButton.addActionListener(e -> {
             //结束订单
-            Order overOrder = orderSever.endOrder(frame.getUser(), orderIng.getId(), frame.getPowerBankCabinetDefault(), 1);
+            Order overOrder = orderSever.endOrder(frame.getUser(), orderIng.getId(), frame.getPowerBankCabinetDefault(), PortDefault);
             if (overOrder != null) {
                 frame.update(new OrderOverPanel(frame, overOrder));
             } else {
@@ -174,6 +183,73 @@ public class OrderPanel extends FatherJPanel {
         } else {
             updateTimeDisplayBasedOnOrder();
         }
+    }
+
+    private void menu() {
+        //准备下拉字段
+        PowerBankCabinet powerBankCabinetDefault = frame.getPowerBankCabinetDefault();
+        int captity = powerBankCabinetDefault.getCapacity();    //充电柜的容量
+        nowPowerBanksPowerID = powerBankCabinetDefault.getPortNumberID();
+
+        // 创建端口选项列表，只包含可用端口
+        List<String> availablePorts = new ArrayList<>();
+        for (int i = 0; i < captity; i++) {
+            if (nowPowerBanksPowerID[i] == -1) {
+                availablePorts.add("端口" + (i + 1));
+            }
+        }
+
+        // 如果没有可用端口，添加提示信息
+        if (availablePorts.isEmpty()) {
+            availablePorts.add("无可用端口");
+            PortDefault = -1;
+        } else {
+            // 设置默认端口为第一个可用端口
+            PortDefault = Integer.parseInt(availablePorts.get(0).substring(2));
+        }
+
+        // 将列表转换为数组
+        String[] portsArray = availablePorts.toArray(new String[0]);
+
+        // 移除之前的下拉框组件
+        if (portComboBox != null) {
+            // 移除旧的事件监听器
+            ItemListener[] listeners = portComboBox.getItemListeners();
+            for (ItemListener listener : listeners) {
+                portComboBox.removeItemListener(listener);
+            }
+            menu.remove(portComboBox);
+        }
+
+        // 创建新的下拉菜单
+        portComboBox = new JComboBox<>(portsArray);
+        portComboBox.setFont(new Font("宋体", Font.BOLD, 18));
+        portComboBox.setPreferredSize(new Dimension(getWidth(), 60));
+        menu.add(portComboBox);
+
+        // 添加端口选择事件监听器
+        portComboBox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                String selectedItem = (String) e.getItem();
+                if ("无可用端口".equals(selectedItem)) {
+                    PortDefault = -1;
+                    return;
+                }
+
+                try {
+                    // 提取端口号
+                    String numberPart = selectedItem.substring(selectedItem.indexOf("端口") + 2);
+                    PortDefault = Integer.parseInt(numberPart) - 1;
+                } catch (NumberFormatException ex) {
+                    logger.error("端口号解析失败: " + selectedItem, ex);
+                    PortDefault = -1;
+                }
+            }
+        });
+
+        // 刷新面板
+        menu.revalidate();
+        menu.repaint();
     }
 
     //停止计时，移除计时器
@@ -212,7 +288,7 @@ public class OrderPanel extends FatherJPanel {
 
     //创建订单
     private boolean createOrder() {
-        return createOrderSever.createOrder(powerBankCabinet, powerBank, frame.getUser().getNameID(), frame.getPrice(), frame.getPlanName());
+        return createOrderSever.createOrder(powerBankCabinet, powerBank.getPowerID(), frame.getUser().getNameID(), frame.getPrice(), frame.getPlanName());
     }
 
     //查询订单
