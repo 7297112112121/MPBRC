@@ -22,7 +22,7 @@ public class Start {
         loadDataThead.start();
         logger.info("线程加载数据启动");
 
-        //初始化观察者对象
+        //初始化观察者对象（开启缓存）
         new ObserverFrame();
         new AllObserverOfFrame();
 

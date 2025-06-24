@@ -6,7 +6,7 @@ import MyObject.PowerBankCabinet;
 import java.util.*;
 
 public class ObserverCabinet extends Observer{
-    //所有充电柜信息
+    //所有充电柜信息(缓存)
     private static final Map<Integer, PowerBankCabinet> cabinetCache = new HashMap<>();
     private static final Map<String, Integer> nameToID = new HashMap<>();
 
