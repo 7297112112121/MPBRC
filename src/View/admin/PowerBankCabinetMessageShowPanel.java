@@ -45,6 +45,7 @@ public class PowerBankCabinetMessageShowPanel extends FatherJPanel {
         JLabel titleJLable = new JLabel(cabinet.getName());
         titleJLable.setFont(new Font("宋体", Font.BOLD, 20));
         titleJLable.setHorizontalAlignment(JLabel.CENTER);
+        contentPanel.add(titleJLable, BorderLayout.NORTH);
         contentPanel.add(cabinetPanel, BorderLayout.CENTER);
 
         int capacity = cabinet.getCapacity();

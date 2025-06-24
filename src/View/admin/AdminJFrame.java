@@ -71,7 +71,7 @@ public class AdminJFrame extends FatherFrame {
         });
 
         //充电柜显示
-        JButton cabinetButton = new JButton("订单信息管理");
+        JButton cabinetButton = new JButton("充电柜图像反馈");
         cabinetButton.setPreferredSize(dimension);
         buttonPanel.add(cabinetButton);
         cabinetButton.setPreferredSize(new Dimension(getWidth(),height));
