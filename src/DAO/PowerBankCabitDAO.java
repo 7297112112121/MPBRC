@@ -8,6 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
+import static Serve.PowerBank.POWER_RENTAL_ING;
+import static Serve.PowerBank.POWER_RENTAL_NO;
+
 public class PowerBankCabitDAO implements PowerBankService {
     // 管理员添加充电宝
     @Override
@@ -43,7 +46,14 @@ public class PowerBankCabitDAO implements PowerBankService {
     // 获取本机所有充电宝信息
     public List<PowerBank> getAvailablePowerBanks(int id) {
         // 复用DatabaseUtil原有逻辑，或添加新实现
-        return PowerBankDAO.getAllPowerBanksOfCabint(id);
+        List<PowerBank> list =  PowerBankDAO.getAllPowerBanksOfCabint(id);
+        // 过滤掉不可租凭与租凭中的充电宝
+        for (PowerBank powerBank : list) {
+            if (powerBank.getStatus().equals(POWER_RENTAL_NO) || powerBank.getStatus().equals(POWER_RENTAL_ING)) {
+                list.remove(powerBank);
+            }
+        }
+        return list;
     }
 
     @Override

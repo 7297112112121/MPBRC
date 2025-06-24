@@ -56,12 +56,10 @@ public class LoadDataThead implements Runnable {
         while (true) {
             try {
                 performUpdate();
-
-                // 等待更新触发或定时时间到达
                 staticLock.lock();
                 try {
                     if (!staticUpdateRequested) {
-                        staticUpdateCondition.awaitNanos(5 * 60 * 1000 * 1000000L); // 5分钟
+                        staticUpdateCondition.awaitNanos(30 * 1000 * 1000000L); // 5分钟
                     }
                     staticUpdateRequested = false; // 重置更新请求标志
                 } finally {

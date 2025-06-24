@@ -1,5 +1,6 @@
 package View.admin;
 
+import DAO.CompanyAccountDAO;
 import Serve.OrderModelDataServer;
 import Serve.PowerBankModelDataSever;
 import Serve.UserModelDataSever;
@@ -53,8 +54,18 @@ public class OrderMessageMangerPanel extends FatherJPanel {
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
         //创建北部总面板，用于放置北部所有组件
-        JPanel northPanel = new JPanel(new GridLayout(2,1));
+        JPanel northPanel = new JPanel(new GridLayout(3,1));
         add(northPanel, BorderLayout.NORTH);
+
+        //添加公司收益面板
+        JPanel companyProfitPanel = new JPanel(new GridLayout(2,1));
+        northPanel.add(companyProfitPanel);
+        JLabel companyProfit = new JLabel("收益：");
+        companyProfitPanel.add(companyProfit);
+        companyProfit.setFont(new Font("宋体", Font.BOLD, 20));
+        JLabel accountLabel = new JLabel(getAccount() + "￥");
+        companyProfitPanel.add(accountLabel);
+        accountLabel.setFont(new Font("宋体", Font.BOLD, 20));
 
 
         // 添加数据输入面板
@@ -64,6 +75,10 @@ public class OrderMessageMangerPanel extends FatherJPanel {
         // 添加删除按钮面板
         JPanel deletePanel = createDeletePanel();
         northPanel.add(deletePanel);
+    }
+
+    private double getAccount() {
+       return CompanyAccountDAO.getAccount();
     }
 
     // 创建输入面板

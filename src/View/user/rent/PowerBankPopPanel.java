@@ -65,12 +65,13 @@ public class PowerBankPopPanel extends FatherJPanel {
         //显示存在有的充电宝
         for (int i = 0; i < capacity; i++) {
             if (portNumberID[i] != 0) {
-                portLabels[i].setForeground(Color.BLACK);
-                portLabels[i].setBackground(Color.white);
+                portLabels[i].setForeground(Color.ORANGE);
+                portLabels[i].setBackground(Color.BLACK);
             }
         }
     }
 
+    //进度条创建
     private void initProgressPanel() {
         FactoryPanel factoryPanel = new FactoryPanel();
         // 先获取 factoryPanel 创建的面板，再遍历筛选 JLabel
@@ -102,6 +103,7 @@ public class PowerBankPopPanel extends FatherJPanel {
     private void animateProgress(ScheduledExecutorService executor) {
         try {
             //动画进行
+            //currentProgressIndex执行步骤下标
             if (currentProgressIndex < progressLabels.size()) {
                 if (currentProgressIndex == 0) {
                     //等待回复
@@ -109,6 +111,15 @@ public class PowerBankPopPanel extends FatherJPanel {
                 } else if (currentProgressIndex == 1) {
                     //查找最高电量的充电宝
                     maxPowerRemainingPower = getPowerSever.mainRemainingPower(cabinet);
+                    //若没有符合要求的充电宝
+                    if (maxPowerRemainingPower == null) {
+                        //打断动画 并跳转页面
+                        executor.shutdown();
+                        frame.update(new RentMessagePanel(frame));
+                        //弹出消息窗口
+                        JOptionPane.showMessageDialog(frame, "没有符合要求的充电宝,请更换另一台主机", "提示", JOptionPane.INFORMATION_MESSAGE);
+                        logger.info("没有找到符合要求的充电宝，返回充电宝柜台选择界面。");
+                    }
                 } else if (currentProgressIndex == 2) {
                     //弹出充电宝
                     int powerID = maxPowerRemainingPower.getPowerID();
@@ -117,6 +128,7 @@ public class PowerBankPopPanel extends FatherJPanel {
                             startFlashAnimation(portLabels[i]);
                         }
                     }
+                    JOptionPane.showMessageDialog(frame, "弹出成功，请查收", "提示", JOptionPane.INFORMATION_MESSAGE);
                 }
                 //使用SwingUtilities.invokeLater()方法在事件分派线程中更新UI
                 SwingUtilities.invokeLater(() -> {
@@ -148,7 +160,7 @@ public class PowerBankPopPanel extends FatherJPanel {
 
     //闪亮动画
     private void startFlashAnimation(JLabel label) {
-        final int FLASH_DURATION = 1500; // 总闪烁时长(毫秒)
+        final int FLASH_DURATION = 3000; // 总闪烁时长(毫秒)
         final int FLASH_INTERVAL = 200; // 闪烁间隔(毫秒)
         Color originalColor = label.getForeground();
         Timer timer = new Timer(FLASH_INTERVAL, null);
