@@ -109,6 +109,10 @@ public class PowerBankPopPanel extends FatherJPanel {
                 } else if (currentProgressIndex == 1) {
                     //查找最高电量的充电宝
                     maxPowerRemainingPower = getPowerSever.mainRemainingPower(cabinet);
+                    //没有符合要求的充电宝
+                    if (maxPowerRemainingPower == null) {
+
+                    }
                 } else if (currentProgressIndex == 2) {
                     //弹出充电宝
                     int powerID = maxPowerRemainingPower.getPowerID();

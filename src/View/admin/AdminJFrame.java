@@ -34,6 +34,8 @@ public class AdminJFrame extends FatherFrame {
         add(buttonPanel, BorderLayout.WEST);
         add(rp, BorderLayout.CENTER);
 
+        rp.update(new UserMessageMangerPanel(this));
+
         Font font = new Font("宋体", Font.BOLD, 16);
         int height = 80;
 
@@ -66,7 +68,6 @@ public class AdminJFrame extends FatherFrame {
 
         setVisible(true);
     }
-
 
     @Override
     public void update(FatherJPanel panel) {

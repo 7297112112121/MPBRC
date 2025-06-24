@@ -54,7 +54,12 @@ public class OrderSever {
                 powerBank = powerBanks.get(i);
             }
         }
-        return powerBank;
+        //判断充电宝 电量 是否大于或等于50%
+        if (powerBank.getRemainingPower() >= PowerBankGlobal.getMinPower()) {
+            return powerBank;
+        } else {
+            return null;
+        }
     }
 
     //生成订单

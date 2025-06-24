@@ -32,5 +32,6 @@ public class Start {
 
         //管理员界面
         new AdminLoginFrame();
+
     }
 }
