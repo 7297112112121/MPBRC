@@ -8,8 +8,8 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModelDataSever {
-    private static Logger logger = LogManager.getLogger(ModelDataSever.class);
+public class PowerBankModelDataSever {
+    private static Logger logger = LogManager.getLogger(PowerBankModelDataSever.class);
 
     //生成充电包信息数据模型
     public Object[][] powerBankModel() {
@@ -89,4 +89,6 @@ public class ModelDataSever {
     public void deletePowerBankModelRow(int powerID) {
         PowerBankDAO.deletePowerBank(powerID);
     }
+
+
 }

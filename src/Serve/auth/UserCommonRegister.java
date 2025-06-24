@@ -100,9 +100,9 @@ public class UserCommonRegister {
         contextInsert.setInsert(new SimplyInsertAllForm());
         contextInsert.insert(
                 //要插入的表
-                "user", "name", "password", "phone",
+                "user", "name", "password", "phone", "sex",
                 //要写入的字段
-                ";", nam, passwor, phon
+                ";", nam, passwor, phon, "保密"
         );
 
         //符合验证码返回true

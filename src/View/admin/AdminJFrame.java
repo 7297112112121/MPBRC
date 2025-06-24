@@ -37,6 +37,15 @@ public class AdminJFrame extends FatherFrame {
         Font font = new Font("宋体", Font.BOLD, 16);
         int height = 80;
 
+        //用户信息管理按钮
+        JButton UserMessageButton = new JButton("用户信息管理");
+        buttonPanel.add(UserMessageButton);
+        UserMessageButton.setPreferredSize(new Dimension(getWidth(),height));
+        UserMessageButton.setFont(font);
+        UserMessageButton.addActionListener(e -> {
+            rp.update(new UserMessageMangerPanel(this));
+        });
+
         //充电宝信息管理按钮
         JButton powerBanksButton = new JButton("充电宝信息管理");
         buttonPanel.add(powerBanksButton);
@@ -45,6 +54,16 @@ public class AdminJFrame extends FatherFrame {
         powerBanksButton.addActionListener(e -> {
             rp.update(new PowerBankMangerPanel(this));
         });
+
+        //订单管理按钮
+        JButton ordersButton = new JButton("订单信息管理");
+        buttonPanel.add(ordersButton);
+        ordersButton.setPreferredSize(new Dimension(getWidth(),height));
+        ordersButton.setFont(font);
+        ordersButton.addActionListener(e -> {
+            rp.update(new OrderMessageMangerPanel(this));
+        });
+
         setVisible(true);
     }
 

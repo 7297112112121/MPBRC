@@ -1,6 +1,8 @@
 package View.admin;
 
+import Serve.OrderModelDataServer;
 import Serve.PowerBankModelDataSever;
+import Serve.UserModelDataSever;
 import View.FatherFrame;
 import View.FatherJPanel;
 
@@ -14,35 +16,23 @@ import javax.swing.table.JTableHeader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PowerBankMangerPanel extends FatherJPanel {
+public class OrderMessageMangerPanel extends FatherJPanel {
     private FatherFrame frame;
     private List<List<String>> fieldText = new ArrayList<>(); //储存管理员输入的信息
     private List<JTextField> textFields;
     private JTable table;
     private DefaultTableModel tableModel;
-    private PowerBankModelDataSever modelDataSever = new PowerBankModelDataSever();
+    private OrderModelDataServer modelDataSever = new OrderModelDataServer();
     private String[] columnNamess;
 
-    public PowerBankMangerPanel(FatherFrame frame) {
+    public OrderMessageMangerPanel(FatherFrame frame) {
         this.frame = frame;
         setLayout(new BorderLayout());
 
-        //创建北部总面板，用于放置北部所有组件
-        JPanel northPanel = new JPanel(new GridLayout(2,1));
-        add(northPanel, BorderLayout.NORTH);
-
-        // 添加数据输入面板
-        JPanel inputPanel = createInputPanel();
-        northPanel.add(inputPanel);
-
-        // 添加删除按钮面板
-        JPanel deletePanel = createDeletePanel();
-        northPanel.add(deletePanel);
-
         //生成表格
-        String[] columnNames = {"充电宝编号", "剩余电量", "出租状态", "品牌", "所在充电柜", "所在充电柜端口", "上下架状态"};
+        String[] columnNames = {"订单编号", "充电宝编号", "开始时间", "结束时间", "支付金额", "充电柜编号", "充电宝所在端口", "用户ID", "套餐价格", "套餐类型", "租借状态"};
         columnNamess = columnNames;
-        Object[][] data = new PowerBankModelDataSever().powerBankModel();
+        Object[][] data = new OrderModelDataServer().orderModel();
 
         tableModel = new DefaultTableModel(data, columnNames);
         table = new JTable(tableModel);
@@ -62,23 +52,29 @@ public class PowerBankMangerPanel extends FatherJPanel {
 
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
+        //创建北部总面板，用于放置北部所有组件
+        JPanel northPanel = new JPanel(new GridLayout(2,1));
+        add(northPanel, BorderLayout.NORTH);
+
+
+        // 添加数据输入面板
+        JPanel inputPanel = createInputPanel();
+        northPanel.add(inputPanel);
+
+        // 添加删除按钮面板
+        JPanel deletePanel = createDeletePanel();
+        northPanel.add(deletePanel);
     }
 
     // 创建输入面板
     private JPanel createInputPanel() {
         JPanel inputPanel = new JPanel(new GridLayout(1,8));
         inputPanel.setPreferredSize(new Dimension(getWidth(), 80));
-        String[] input = new String[] {
-                "剩余电量:",
-                "出租状态:",
-                "品牌:",
-                "所在充电柜:",
-                "所在充电柜端口:",
-                "上下架状态:"
-        };
+        String[] input = { "充电宝编号", "开始时间", "结束时间", "支付金额", "充电柜编号", "充电宝所在端口", "用户ID", "套餐价格", "套餐类型", "租借状态"};
         Font font = new Font("宋体", Font.BOLD, 16);
         textFields = new ArrayList<>(); // 存储所有文本框
 
+        //生成输入文本列表
         for(String s : input) {
             JLabel text = new JLabel(s);
             text.setFont(font);
@@ -125,7 +121,7 @@ public class PowerBankMangerPanel extends FatherJPanel {
                     rowData[i] = tableModel.getValueAt(row, i);
                 }
                 // 更新数据库
-                modelDataSever.setPowerBank(rowData);
+                modelDataSever.setOrder(rowData);
             }
         });
     }
@@ -156,7 +152,7 @@ public class PowerBankMangerPanel extends FatherJPanel {
                     int row = selectedRows[i];
                     // 同时,获得充电宝的id信息，删除数据库相对应的数据
                     int powerID = (int) tableModel.getValueAt(row, 0);
-                    modelDataSever.deletePowerBankModelRow(powerID);
+                    modelDataSever.deleteOrderModelRow(powerID);
                     tableModel.removeRow(row);
                 }
             } else {
@@ -180,6 +176,6 @@ public class PowerBankMangerPanel extends FatherJPanel {
             String text = field.getText().trim();
             lit.add(text);
         }
-        return modelDataSever.addPowerBankModel(lit);
+        return modelDataSever.addOrder(lit);
     }
 }
