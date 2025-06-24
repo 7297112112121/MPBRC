@@ -72,31 +72,31 @@ public class PowerBankDAO {
         return all;
     }
 
-    // 获取移动电源详情
-    public static PowerBank getPowerBankById(int id) {
-        String sql = "SELECT id, remaining_power, status, brand FROM power_banks WHERE id =?";
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
+    // 获取所有移动电源详情
+    public static List<PowerBank> getPowerBanksList() {
         try {
-            conn = getConnection();
-            stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, id);
-            rs = stmt.executeQuery();
-            if (rs.next()) {
-                int powerBankId = rs.getInt("id");
-                double remainingPower = rs.getDouble("remaining_power");
-                String status = rs.getString("status");
-                String brand = rs.getString("brand");
-                PowerBank pb = new PowerBank(id, remainingPower, brand);
-                pb.setStatus(status);
-                return pb;
+            List<PowerBank> all = new ArrayList<>();
+            String sql = "SELECT * FROM power_banks";
+            ResultSet resultSet = DBQuary.query(sql);
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                double remainingPower = resultSet.getDouble("remaining_power");
+                String status = resultSet.getString("status");
+                String brand = resultSet.getString("brand");
+                int cabinet = resultSet.getInt("power_bank_cabinet");
+                int portid = resultSet.getInt("portid");
+                String shelf = resultSet.getString("shelf");
+                PowerBank pb = new PowerBank(id, brand, remainingPower, status, cabinet, portid, shelf);
+                all.add(pb);
             }
+            return all;
         } catch (SQLException e) {
-            logger.error("获取移动电源详情失败", e);
+            logger.error("获取所有移动电源详情失败",e);
+            return null;
         }
-        return null;
     }
+
+
 
 
 
@@ -133,6 +133,32 @@ public class PowerBankDAO {
         int upNum = DBUpData.update(sql, powerBank.getRemainingPower(), powerBank.getStatus(), powerBank.getBrand(), powerBank.getCabinetID(), powerBank.getPowerID(), powerBank.getId());
         if (upNum <= 0)
             logger.error("修改充电电源租凭状态失败");
+        else logger.info("修改充电电源租凭状态成功");
+    }
+
+    //添加新的电源信息
+    public static void addPowerBank(List<PowerBank> powerBank) {
+        List<PowerBank> all = new ArrayList<>();
+        String insert = "INSERT INTO power_banks (remaining_power, status, brand, power_bank_cabinet, portid, shelf) VALUES (?,?,?,?,?,?)";
+        for (PowerBank pb : powerBank) {
+            int upNum = DBUpData.update(insert, pb.getRemainingPower(), pb.getStatus(), pb.getBrand(), pb.getCabinetID(), pb.getPowerID(), pb.getShelf());
+            if (upNum <= 0) {
+                logger.warn("添加充电宝失败");
+            } else {
+                logger.info("添加充电宝成功");
+            }
+        }
+    }
+
+    //删除电源信息
+    public static void deletePowerBank(int id) {
+        String sql = "DELETE FROM power_banks WHERE id = ?";
+        int upNum = DBUpData.update(sql, id);
+        if (upNum <= 0) {
+            logger.error("删除充电宝失败");
+        } else {
+            logger.info("删除充电宝成功");
+        }
     }
 
     // 创建订单

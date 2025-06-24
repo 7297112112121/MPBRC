@@ -1,6 +1,7 @@
 import Serve.LoadDataThead;
 import Serve.observer.observer_frame.AllObserverOfFrame;
 import Serve.observer.observer_frame.ObserverFrame;
+import View.admin.AdminJFrame;
 import View.user.UserFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,5 +27,8 @@ public class Start {
         //用户登陆
         new UserFrame();
         logger.info("用户登陆界面加载完成");
+
+        //管理员界面
+        new AdminJFrame();
     }
 }
