@@ -288,7 +288,7 @@ public class OrderPanel extends FatherJPanel {
 
     //创建订单
     private boolean createOrder() {
-        return createOrderSever.createOrder(powerBankCabinet, powerBank.getPowerID(), frame.getUser().getNameID(), frame.getPrice(), frame.getPlanName());
+        return createOrderSever.createOrder(powerBankCabinet, powerBank.getId(), frame.getUser().getNameID(), frame.getPrice(), frame.getPlanName());
     }
 
     //查询订单

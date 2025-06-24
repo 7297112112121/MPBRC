@@ -1,9 +1,8 @@
 import Serve.LoadDataThead;
 import Serve.observer.observer_frame.AllObserverOfFrame;
 import Serve.observer.observer_frame.ObserverFrame;
-import View.admin.AdminJFrame;
+
 import View.admin.AdminLoginFrame;
-import View.admin.AdminLoginPanel;
 import View.user.UserFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

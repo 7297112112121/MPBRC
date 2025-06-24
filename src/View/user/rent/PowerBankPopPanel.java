@@ -64,9 +64,9 @@ public class PowerBankPopPanel extends FatherJPanel {
         }
         //显示存在有的充电宝
         for (int i = 0; i < capacity; i++) {
-            if (portNumberID[i] != 0) {
+            if (portNumberID[i] != -1) {
                 portLabels[i].setForeground(Color.ORANGE);
-                portLabels[i].setBackground(Color.BLACK);
+                portLabels[i].setBackground(Color.GREEN);
             }
         }
     }
@@ -128,8 +128,7 @@ public class PowerBankPopPanel extends FatherJPanel {
                             startFlashAnimation(portLabels[i]);
                         }
                     }
-                    JOptionPane.showMessageDialog(frame, "弹出成功，请查收", "提示", JOptionPane.INFORMATION_MESSAGE);
-                }
+              }
                 //使用SwingUtilities.invokeLater()方法在事件分派线程中更新UI
                 SwingUtilities.invokeLater(() -> {
                     //将当前进度标签的前景色设置为红色

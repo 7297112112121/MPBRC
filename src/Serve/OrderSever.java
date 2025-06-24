@@ -63,8 +63,8 @@ public class OrderSever {
     }
 
     //生成订单
-    public boolean createOrder(PowerBankCabinet powerBankCabinet ,int powerBankID, int nameid, double price, String plan) {
-        PowerBank powerBank = PowerBankDAO.getNowPowerBank(powerBankID);
+    public boolean createOrder(PowerBankCabinet powerBankCabinet ,int id, int nameid, double price, String plan) {
+        PowerBank powerBank = PowerBankDAO.getNowPowerBank(id);
         int num = orderDAO.addOrder(powerBankCabinet, powerBank, nameid, price, plan);
         if (num > 0) {
             return true;
