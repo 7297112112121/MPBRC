@@ -1,5 +1,6 @@
 package Serve.auth;
 
+
 import DAO.UserMessageDAO;
 import MyObject.User;
 import Util.db.insert.ContextInsert;
@@ -8,14 +9,7 @@ import View.FatherFrame;
 
 import javax.swing.*;
 
-/**
- * 名字输入框、提示标签
- * 密码输入框、密码提示标签
- * 确认密码输入框、确认密码提示标签
- * 手机号输入框，手机号提示标签
- * 手机验证码，手机号提标签
- * */
-public class UserCommonRegister {
+public class AdminCommonRegisetr  {
     private Verify verify = new Verify();
 
     public boolean register(
@@ -23,10 +17,11 @@ public class UserCommonRegister {
             JPasswordField password, JLabel passwordRimd,
             JPasswordField comfirmPassword, JLabel comfirPasswordRimd,
             JTextField phone, JLabel phoneRimd,
-            JTextField captcha, JLabel captchaRimd) {
+            JTextField workI, JLabel workIDRimd
+    ) {
 
         //清理提示标签
-        clear(nameRimd, passwordRimd, comfirPasswordRimd, phoneRimd, captchaRimd);
+        clear(nameRimd, passwordRimd, comfirPasswordRimd, phoneRimd);
 
         //输入的名字
         String nam = name.getText().trim();
@@ -36,9 +31,8 @@ public class UserCommonRegister {
         String comfirPasswor = comfirmPassword.getText().trim();
         //输入的手机号
         String phon = phone.getText().trim();
-        //输入的验证码
-        String ca = captcha.getText().trim();
-
+        //输入的工号
+        String workID = workI.getText().trim();
         boolean fals = true;    //验证开关
         int count = 0;          //记录验证不通过次数
         // 验证用户名
@@ -73,17 +67,10 @@ public class UserCommonRegister {
             count++;
         }
 
-        // 验证验证码
-        try {
-            if (!verify.isCaptcha(phon, ca)) {
-                // 如果验证码验证失败，设置错误提示信息
-                captchaRimd.setText(verify.setCaptchaRimd());
-                // 返回false，表示验证失败
-                count++;
-            }
-        } catch (RuntimeException e) {
-            // 如果验证码验证没有生成，设置错误提示信息
-            captchaRimd.setText(e.getMessage());
+        // 验证工号
+        if (!verify.isWorkNumber(workID)) {
+            workIDRimd.setText(verify.setWorkNumberRimd());
+            count++;
         }
 
         //如果验证不通过，则返回false
@@ -100,36 +87,24 @@ public class UserCommonRegister {
         contextInsert.setInsert(new SimplyInsertAllForm());
         contextInsert.insert(
                 //要插入的表
-                "user", "name", "password", "phone", "sex",
+                "admin", "name", "password", "phone", "workid",
                 //要写入的字段
-                ";", nam, passwor, phon, "保密"
+                ";", nam, passwor, phon, workID
         );
 
         //符合验证码返回true
         return true;
     }
-
     //密码提示信息
     public String setPasswordRemind() {
         return verify.setPasswordRimd();
     }
 
-    //生成验证码
-    public void createCaptcha(String phone,JButton phoneButton , JLabel phoneRimd, FatherFrame frame) {
-        verify.createCaptchaWithUI(phone, phoneButton, phoneRimd, frame);
-    }
-
-    //获得验证码
-    public String getCaptcha(String phone) {
-        return verify.getCapcha(phone);
-    }
-
     //清理标签
-    private void clear(JLabel nameRimd, JLabel passwordRimd, JLabel comfirPasswordRimd, JLabel phoneRimd, JLabel captchaRimd) {
+    private void clear(JLabel nameRimd, JLabel passwordRimd, JLabel comfirPasswordRimd, JLabel phoneRimd) {
         nameRimd.setText("");
         passwordRimd.setText("");
         comfirPasswordRimd.setText("");
         phoneRimd.setText("");
-        captchaRimd.setText("");
     }
 }

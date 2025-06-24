@@ -1,6 +1,9 @@
 import Serve.LoadDataThead;
 import Serve.observer.observer_frame.AllObserverOfFrame;
 import Serve.observer.observer_frame.ObserverFrame;
+import View.admin.AdminJFrame;
+import View.admin.AdminLoginFrame;
+import View.admin.AdminLoginPanel;
 import View.user.UserFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,8 +18,7 @@ public class Start {
         logger.info("程序开始运行");
 
         //线程加载数据
-        LoadDataThead loadFormDataThead = new LoadDataThead();
-        Thread loadDataThead = new Thread(loadFormDataThead);
+        Thread loadDataThead = new Thread(LoadDataThead.getInstance());
         loadDataThead.start();
         logger.info("线程加载数据启动");
 
@@ -27,5 +29,8 @@ public class Start {
         //用户登陆
         new UserFrame();
         logger.info("用户登陆界面加载完成");
+
+        //管理员界面
+        new AdminLoginFrame();
     }
 }

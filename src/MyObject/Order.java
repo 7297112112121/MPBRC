@@ -14,6 +14,7 @@ public class Order {
     private double price;//记录套餐价格
     private String plan;//记录套餐
     private String status;//订单状态
+    private int nameid;
 
     public Order(int id, int powerBankId, Timestamp startTime) {
         this.id = id;
@@ -165,5 +166,13 @@ public class Order {
     public double calculateCost() {
         long duration = calculateDuration(); // 获取使用时长（小时）
         return duration * 1.5;
+    }
+
+    public int getNameid() {
+        return nameid;
+    }
+
+    public void setNameid(int nameid) {
+        this.nameid = nameid;
     }
 }

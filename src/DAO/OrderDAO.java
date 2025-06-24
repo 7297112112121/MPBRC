@@ -3,6 +3,7 @@ package DAO;
 import MyObject.Order;
 import MyObject.PowerBank;
 import MyObject.PowerBankCabinet;
+import MyObject.User;
 import Util.db.DBQuary;
 import Util.db.DBUpData;
 import View.powerBank.OrderService;
@@ -140,4 +141,72 @@ public class OrderDAO implements OrderService {
         String sql = "UPDATE orders SET status = ? WHERE `nameid` = " + nameid + " AND `id` = " + orderID;
         return DBUpData.update(sql, status);
     }
+
+    /**
+     * 管理员操作数据库更新
+     * */
+
+    //获得所有订单信息
+    public static List<Order> getOrderList() {
+        try {
+            List<Order> all = new ArrayList<>();
+            String sql = "SELECT * FROM orders";
+            ResultSet resultSet = DBQuary.query(sql);
+            while (resultSet.next()) {
+                Order order = new Order();
+                order.setId(resultSet.getInt("id"));
+                order.setPowerBankId(resultSet.getInt("power_bank_id"));
+                order.setStartTime(resultSet.getTimestamp("start_time"));
+                order.setEndTime(resultSet.getTimestamp("end_time"));
+                order.setTotalCost(resultSet.getDouble("total_cost"));
+                order.setCabinet(resultSet.getInt("cabinet"));
+                order.setCabinetPowerID(resultSet.getInt("cabinet_powerid"));
+                order.setNameid(resultSet.getInt("nameid"));
+                order.setPrice(resultSet.getDouble("price"));
+                order.setPlan(resultSet.getString("plan"));
+                order.setStatus(resultSet.getString("status"));
+                all.add(order);
+            }
+            return all;
+        } catch (SQLException e) {
+            logger.error("获取所有充电包详情失败",e);
+            return null;
+        }
+    }
+
+    //管理员添加新的信息
+    public static void addOrderMessage(List<Order> order) {
+        List<Order> all = new ArrayList<>();
+        String insert = "INSERT INTO orders (power_bank_id, start_time, end_time, total_cost, cabinet, cabinet_powerid, nameid, price, plan, status) VALUES (?,?,?,?,?,?,?,?,?,?)";
+        for (Order or : order) {
+            int upNum = DBUpData.update(insert, or.getPowerBankId(), or.getStartTime(), or.getEndTime(), or.getTotalCost(), or.getCabinet(), or.getCabinetPowerID(), or.getNameid(), or.getPrice(), or.getPlan(), or.getStatus());
+            if (upNum <= 0) {
+                logger.warn("添加订单信息失败");
+            } else {
+                logger.info("添加订单信息成功");
+            }
+        }
+    }
+
+
+    //管理员更新订单数据
+    public static void updateOrderMessage(Order or) {
+        String sql = "UPDATE orders SET power_bank_id =?, start_time =?, end_time =?, total_cost =?, cabinet = ?,cabinet_powerid = ?,nameid = ?,price = ?, plan = ?, status = ?  WHERE id =?";
+        int upNum = DBUpData.update(sql, or.getPowerBankId(), or.getStartTime(), or.getEndTime(), or.getTotalCost(), or.getCabinet(), or.getCabinetPowerID(), or.getNameid(), or.getPrice(), or.getPlan(), or.getStatus(), or.getId());
+        if (upNum <= 0)
+            logger.error("修改用户信息失败");
+        else logger.info("修改用户信息成功");
+    }
+
+    //删除用户数据
+    public static void deleteOrder(int id) {
+        String sql = "DELETE FROM orders WHERE id = ?";
+        int upNum = DBUpData.update(sql, id);
+        if (upNum <= 0) {
+            logger.error("删除订单失败");
+        } else {
+            logger.info("删除订单成功");
+        }
+    }
+
 }

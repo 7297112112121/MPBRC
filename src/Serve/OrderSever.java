@@ -11,6 +11,7 @@ import MyObject.PowerBankCabinet;
 import MyObject.User;
 import Serve.observer.ObserverCabinet;
 import Serve.payMethods.ChargeLocal;
+import Util.db.DBQuary;
 import Util.db.set.SimplySet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -57,7 +58,8 @@ public class OrderSever {
     }
 
     //生成订单
-    public boolean createOrder(PowerBankCabinet powerBankCabinet, PowerBank powerBank, int nameid, double price, String plan) {
+    public boolean createOrder(PowerBankCabinet powerBankCabinet ,int powerBankID, int nameid, double price, String plan) {
+        PowerBank powerBank = PowerBankDAO.getNowPowerBank(powerBankID);
         int num = orderDAO.addOrder(powerBankCabinet, powerBank, nameid, price, plan);
         if (num > 0) {
             return true;
